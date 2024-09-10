@@ -1,46 +1,36 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState, useEffect, useMemo, createContext } from 'react';
+import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom';
+import 'rsuite/dist/rsuite.min.css';
+import './App.css';
 
-function App() {
-  const [count, setCount] = useState(0)
+import { MainPage } from './pages/MainPage';
+import { Intro } from './components/main/Intro';
+import { Developer } from './components/main/Developer';
+import { Mentor } from './components/main/Mentor';
+import { Activist } from './components/main/Activist';
 
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path='/' element={<MainPage />}>
+      <Route index element={<Intro />} />
+      <Route path='developer' element={<Developer />} />
+      <Route path='mentor' element={<Mentor />} />
+      <Route path='activist' element={<Activist />} />
+    </Route>
+  )
+);
+
+function App({ routes }) {
   return (
     <>
-      <div>
-        <a href='https://vitejs.dev' target='_blank'>
-          <img src={viteLogo} className='logo' alt='Vite logo' />
-        </a>
-        <a href='https://react.dev' target='_blank'>
-          <img src={reactLogo} className='logo react' alt='React logo' />
-        </a>
+      <div className='w-full absolute z-10 top-4 md:top-0 flex items-center justify-center'>
+        <h5 className='major-mono-display text-5xl pl-6 pt-3'>
+          <span className='text-white'>sARAH</span> <span className='text-white md:text-black bg-white'>MuRRAy</span>
+        </h5>
       </div>
-      <h1>Vite + React</h1>
-      <div className='card'>
-        <button onClick={() => setCount((count) => count + 1)}>count is {count}</button>
-        <button className='btn' onClick={() => document.getElementById('my_modal_5').showModal()}>
-          open modal
-        </button>
-        <dialog id='my_modal_5' className='modal'>
-          <div className='modal-box'>
-            <h3 className='font-bold text-lg'>Hello!</h3>
-            <p className='py-4'>Press ESC key or click the button below to close</p>
-            <div className='modal-action'>
-              <form method='dialog'>
-                {/* if there is a button in form, it will close the modal */}
-                <button className='btn'>Close</button>
-              </form>
-            </div>
-          </div>
-        </dialog>
-        <p className='text-red-800'>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className='read-the-docs'>Click on the Vite and React logos to learn more</p>
+      <RouterProvider router={router} />
     </>
   );
 }
 
-export default App
+export default App;
