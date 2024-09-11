@@ -5,7 +5,7 @@ import Cookies from 'js-cookie';
 import API from '../../api';
 // import { login } from './apiCalls';
 
-const Login = ({ isOpen, handleClose }) => {
+export const Login = ({ isOpen, handleClose }) => {
   const userContext = useContext(UserContext);
   const form = useRef();
   const [formValue, setFormValue] = useState({
@@ -48,7 +48,7 @@ const Login = ({ isOpen, handleClose }) => {
   return (
     <Modal size='sm' open={isOpen} onClose={handleClose} className='jetbrains-mono'>
       <Modal.Header>
-        <h4 className='font-bold'>Log In</h4>
+        <h4 className='font-bold text-xl mb-3'>Log In</h4>
       </Modal.Header>
       <Modal.Body>
         <Form fluid ref={form} model={model} onChange={setFormValue} formValue={formValue} className='flex flex-col'>
@@ -74,5 +74,3 @@ const Login = ({ isOpen, handleClose }) => {
     </Modal>
   );
 };
-
-export default Login;

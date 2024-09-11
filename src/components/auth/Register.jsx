@@ -1,10 +1,10 @@
 import React, { useContext, useState, useRef } from 'react';
-import { Button, ButtonToolbar, Modal, Form, Schema } from 'rsuite';
+import { Modal, Form, Schema } from 'rsuite';
 import API from '../../api';
 import Cookies from 'js-cookie';
 import { UserContext } from '../../App';
 
-const Register = ({ isOpen, handleClose }) => {
+export const Register = ({ isOpen, handleClose }) => {
   const form = useRef();
   const userContext = useContext(UserContext);
   const [formValue, setFormValue] = useState({
@@ -77,54 +77,50 @@ const Register = ({ isOpen, handleClose }) => {
   return (
     <Modal size='sm' open={isOpen} onClose={handleClose} className='jetbrains-mono'>
       <Modal.Header>
-        <h4 className='font-bold'>Sign Up</h4>
+        <h4 className='text-xl font-bold'>Sign Up</h4>
       </Modal.Header>
-      <Modal.Body>
-        <p className='text-xs mb-3'>
-          I will never send you any annoying emails (except for an email update when I've answered your question) and
-          your data will only be used for stalking purposes.
-        </p>
-        <Form fluid ref={form} model={model} onChange={setFormValue} formValue={formValue} className='flex flex-col'>
-          <div className='md:flex md:flex-row md:justify-between'>
-            <Form.Group controlId='first-name'>
-              <Form.ControlLabel>First Name</Form.ControlLabel>
-              <Form.Control name='first_name' />
-              <Form.HelpText>This field is required</Form.HelpText>
-            </Form.Group>
-
-            <Form.Group controlId='last-name'>
-              <Form.ControlLabel>Last Name</Form.ControlLabel>
-              <Form.Control name='last_name' />
-            </Form.Group>
-          </div>
-
-          <Form.Group controlId='email'>
-            <Form.ControlLabel>Email</Form.ControlLabel>
-            <Form.Control name='email' />
+      <p className='text-xs mt-2 mb-3'>
+        I will never send you any annoying emails (except for an email update when I've answered your question) and
+        your data will only be used for my personal stalking purposes.
+      </p>
+      <Form fluid ref={form} model={model} onChange={setFormValue} formValue={formValue} className='flex flex-col'>
+        <div className='md:flex md:flex-row md:justify-between'>
+          <Form.Group controlId='first-name'>
+            <Form.ControlLabel>First Name</Form.ControlLabel>
+            <Form.Control name='first_name' />
             <Form.HelpText>This field is required</Form.HelpText>
           </Form.Group>
 
-          <Form.Group controlId='password1'>
-            <Form.ControlLabel>Password</Form.ControlLabel>
-            <Form.Control name='password1' type='password' autoComplete='off' />
+          <Form.Group controlId='last-name'>
+            <Form.ControlLabel>Last Name</Form.ControlLabel>
+            <Form.Control name='last_name' />
           </Form.Group>
+        </div>
 
-          <Form.Group controlId='password2'>
-            <Form.ControlLabel>Confirm Password</Form.ControlLabel>
-            <Form.Control name='password2' type='password' autoComplete='off' />
-          </Form.Group>
+        <Form.Group controlId='email'>
+          <Form.ControlLabel>Email</Form.ControlLabel>
+          <Form.Control name='email' />
+          <Form.HelpText>This field is required</Form.HelpText>
+        </Form.Group>
 
-          <button
-            className='text-center button-shadow-black hover:font-bold border-2 border-black px-4 py-2 uppercase mt-2 place-self-center'
-            onClick={handleSubmit}
-            type='submit'
-          >
-            Submit
-          </button>
-        </Form>
-      </Modal.Body>
+        <Form.Group controlId='password1'>
+          <Form.ControlLabel>Password</Form.ControlLabel>
+          <Form.Control name='password1' type='password' autoComplete='off' />
+        </Form.Group>
+
+        <Form.Group controlId='password2'>
+          <Form.ControlLabel>Confirm Password</Form.ControlLabel>
+          <Form.Control name='password2' type='password' autoComplete='off' />
+        </Form.Group>
+
+        <button
+          className='text-center button-shadow-black hover:font-bold border-2 border-black px-4 py-2 uppercase mt-2 place-self-center'
+          onClick={handleSubmit}
+          type='submit'
+        >
+          Submit
+        </button>
+      </Form>
     </Modal>
   );
 };
-
-export default Register;

@@ -68,7 +68,7 @@ export const Navigation = ({ toggleOpen }) => {
     },
     {
       title: 'Bookshelf',
-      link: '/bookshelf',
+      link: '/shelf',
     },
   ];
 

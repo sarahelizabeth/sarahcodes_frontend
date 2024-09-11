@@ -14,16 +14,16 @@ export const BookshelfPage = () => {
     <>
       <section className='w-screen h-screen grid grid-rows-4 md:grid-cols-2'>
         <span
-          className={`triangle z-100 top-[13.5rem] ${selected === '/bookshelf/books' ? 'md:block' : 'hidden'}`}
+          className={`triangle z-100 top-[13.5rem] ${selected === '/shelf/books' ? 'md:block' : 'hidden'}`}
         ></span>
         <span
-          className={`triangle z-100 top-[18.5rem] ${selected === '/bookshelf/apps' ? 'md:block' : 'hidden'}`}
+          className={`triangle z-100 top-[18.5rem] ${selected === '/shelf/apps' ? 'md:block' : 'hidden'}`}
         ></span>
         <span
-          className={`triangle z-100 top-[23.5rem] ${selected === '/bookshelf/films' ? 'md:block' : 'hidden'}`}
+          className={`triangle z-100 top-[23.5rem] ${selected === '/shelf/films' ? 'md:block' : 'hidden'}`}
         ></span>
         <span
-          className={`triangle z-100 top-[28rem] ${selected === '/bookshelf/articles' ? 'md:block' : 'hidden'}`}
+          className={`triangle z-100 top-[28rem] ${selected === '/shelf/articles' ? 'md:block' : 'hidden'}`}
         ></span>
         <div
           id='bookshelf-nav'
@@ -31,7 +31,7 @@ export const BookshelfPage = () => {
         >
           <NavLink
             id='books'
-            to='/bookshelf/books'
+            to='/shelf/books'
             className={({ isActive }) =>
               [isActive ? 'abril-fatface-shadow' : 'abril-fatface', 'text-6xl my-3'].join(' ')
             }
@@ -40,7 +40,7 @@ export const BookshelfPage = () => {
           </NavLink>
           <NavLink
             id='apps'
-            to='/bookshelf/apps'
+            to='/shelf/apps'
             className={({ isActive }) =>
               [isActive ? 'outfit-extrabold tracking-wider' : 'train-one', 'text-5xl my-3'].join(' ')
             }
@@ -49,7 +49,7 @@ export const BookshelfPage = () => {
           </NavLink>
           <NavLink
             id='films'
-            to='/bookshelf/films'
+            to='/shelf/films'
             className={({ isActive }) =>
               [isActive ? 'bangers-selected' : 'bangers', 'text-6xl tracking-wideset my-3'].join(' ')
             }
@@ -58,7 +58,7 @@ export const BookshelfPage = () => {
           </NavLink>
           <NavLink
             id='articles'
-            to='/bookshelf/articles'
+            to='/shelf/articles'
             className={({ isActive }) => [isActive ? 'nova-mono-selected' : 'nova-mono', 'text-4xl my-3'].join(' ')}
           >
             LINKS & STUFF
