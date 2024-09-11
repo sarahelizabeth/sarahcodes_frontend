@@ -14,6 +14,8 @@ import { Developer } from './components/main/Developer';
 import { Mentor } from './components/main/Mentor';
 import { Activist } from './components/main/Activist';
 
+import { AMAPage } from './pages/AMAPage';
+
 import { BookshelfPage } from './pages/BookshelfPage';
 import { Landing } from './components/bookshelf/Landing';
 import { Articles } from './components/bookshelf/Articles';
@@ -50,6 +52,10 @@ const router = createBrowserRouter([
     ],
   },
   {
+    path: '/ama',
+    element: <AMAPage />,
+  },
+  {
     path: '/shelf',
     element: <BookshelfPage />,
     children: [
@@ -59,30 +65,40 @@ const router = createBrowserRouter([
       },
       {
         path: 'articles',
-        element: <Articles />
+        element: <Articles />,
       },
       {
         path: 'books',
-        element: <Books />
+        element: <Books />,
       },
       {
         path: 'apps',
-        element: <CoolApps />
+        element: <CoolApps />,
       },
       {
         path: 'films',
-        element: <Films />
+        element: <Films />,
       },
     ],
-  }
+  },
 ]);
 
 function App() {
+  const [user, setUser] = useState(null);
+  const userContext = useMemo(() => ({ user, setUser }), [user]);
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user) {
+      setUser(user);
+    } else {
+      setUser(null);
+    }
+  }, []);
+  
   const [openRegister, setOpenRegister] = useState(false);
   const [openLogin, setOpenLogin] = useState(false);
   const [openContact, setOpenContact] = useState(false);
-  const [user, setUser] = useState(null);
-  const userContext = useMemo(() => ({ user, setUser }), [user]);
 
   const closeModal = () => {
     setOpenLogin(false);
@@ -96,15 +112,16 @@ function App() {
         <LoginContext.Provider value={{ openLogin, setOpenLogin }}>
           <ContactContext.Provider value={{ openContact, setOpenContact }}>
             <NavSidebar />
+            <div className='w-full absolute z-10 top-4 md:top-0 flex items-center justify-center'>
+              <h5 className='major-mono-display text-5xl pl-6 pt-3'>
+                <span className='text-white'>sARAH</span>{' '}
+                <span className='text-white md:text-black md:bg-white'>MuRRAy</span>
+              </h5>
+            </div>
+            <RouterProvider router={router} />
           </ContactContext.Provider>
         </LoginContext.Provider>
       </RegisterContext.Provider>
-      <div className='w-full absolute z-10 top-4 md:top-0 flex items-center justify-center'>
-        <h5 className='major-mono-display text-5xl pl-6 pt-3'>
-          <span className='text-white'>sARAH</span> <span className='text-white md:text-black md:bg-white'>MuRRAy</span>
-        </h5>
-      </div>
-      <RouterProvider router={router} />
       <Register isOpen={openRegister} handleClose={closeModal} />
       <Login isOpen={openLogin} handleClose={closeModal} />
       <Contact isOpen={openContact} handleClose={closeModal} />
