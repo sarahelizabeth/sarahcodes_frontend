@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext, createContext } from 'react';
-import API from '../api';
+import { API } from '../api';
 import { UserContext, LoginContext, RegisterContext } from '../App';
 import { QuestionForm } from '../components/blog/QuestionForm';
 import { Questions } from '../components/blog/Questions';
@@ -32,15 +32,15 @@ export const AMAPage = () => {
 
   return (
     <>
-      <section className='w-screen h-screen grid grid-rows-4 md:grid-cols-2'>
-        <div className='w-full h-full md:h-screen row-span-2 centered flex-row md:flex-col sticky top-0 overflow-hidden bg-black text-white'>
+      <section className='w-screen h-screen grid grid-rows-5 md:grid-cols-2'>
+        <div className='w-full h-full md:h-screen row-span-2 centered flex-row md:flex-col sticky top-0 pb-8 overflow-hidden bg-black text-white'>
           <div className='w-3/4 md:w-2/3'>
             <h1 id='ask' className='knewave text-white text-center'>
               Ask Me Anything!
             </h1>
             {userContext.user == null ? (
               <>
-                <p className='py-2'>Sign up or log in to ask me a question or leave a comment!</p>
+                <p className='py-2 text-center'>Sign up or log in to ask me a question or leave a comment!</p>
                 <div className='flex justify-center gap-6 mt-3'>
                   <button
                     className='button-shadow-white border-2 border-white px-4 py-2 uppercase'

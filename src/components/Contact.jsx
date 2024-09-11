@@ -1,7 +1,7 @@
 import React, { useState, useRef, useContext, useEffect } from 'react';
 import { Form, Modal, Input, Schema } from 'rsuite';
 import { UserContext } from '../App';
-import API from '../api';
+import { API } from '../api';
 
 const Textarea = React.forwardRef((props, ref) => <Input {...props} as='textarea' ref={ref} />);
 
@@ -51,7 +51,7 @@ export const Contact = ({ isOpen, handleClose }) => {
   return (
     <Modal open={isOpen} onClose={handleClose} className='jetbrains-mono'>
       <Modal.Header>
-        <h4 className='font-bold'>Contact Me!</h4>
+        <h4 className='font-bold text-xl'>Contact Me!</h4>
       </Modal.Header>
       <Modal.Body>
         <Form fluid ref={form} model={model} onChange={setFormValue} formValue={formValue} className='flex flex-col'>

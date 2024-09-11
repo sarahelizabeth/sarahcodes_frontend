@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { UserContext } from '../../App';
 import { Input } from 'rsuite';
-import API from '../../api';
+import { API } from '../../api';
 
 export const QuestionForm = ({ submitQuestion }) => {
   const userContext = useContext(UserContext);

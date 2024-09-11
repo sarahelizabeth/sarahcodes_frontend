@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { UserContext, ContactContext, LoginContext, RegisterContext } from '../../App';
 import { useContext } from 'react';
-import API from '../../api';
+import { API } from '../../api';
 import Cookies from 'js-cookie';
 
 const ulVariants = {

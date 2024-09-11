@@ -1,6 +1,6 @@
 import React, { useContext, useState, useRef } from 'react';
 import { Modal, Form, Schema } from 'rsuite';
-import API from '../../api';
+import { API } from '../../api';
 import Cookies from 'js-cookie';
 import { UserContext } from '../../App';
 
@@ -77,9 +77,9 @@ export const Register = ({ isOpen, handleClose }) => {
   return (
     <Modal size='sm' open={isOpen} onClose={handleClose} className='jetbrains-mono'>
       <Modal.Header>
-        <h4 className='text-xl font-bold'>Sign Up</h4>
+        <h4 className='text-2xl dosis font-extrabold'>SIGN UP</h4>
       </Modal.Header>
-      <p className='text-xs mt-2 mb-3'>
+      <p className='text-xs mt-3 mb-3'>
         I will never send you any annoying emails (except for an email update when I've answered your question) and
         your data will only be used for my personal stalking purposes.
       </p>

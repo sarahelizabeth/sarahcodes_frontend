@@ -4,7 +4,7 @@ export const Intro = () => {
   return (
     <div className='h-full flex  items-center'>
       <p>
-        <span className='mb-3'>WELCOME TO MY BRAIN</span>
+        <span className='mb-3 dosis font-extrabold text-xl'>WELCOME TO MY BRAIN</span>
         <br />
         <br />
         Hi! I’m Sarah, and I invite you to poke around my super awesome website. Explore my portfolio, read about my

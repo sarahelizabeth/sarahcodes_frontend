@@ -33,7 +33,7 @@ export const BookshelfPage = () => {
             id='books'
             to='/shelf/books'
             className={({ isActive }) =>
-              [isActive ? 'abril-fatface-shadow' : 'abril-fatface', 'text-6xl my-3'].join(' ')
+              [isActive ? 'abril-fatface-shadow' : 'abril-fatface', 'my-3'].join(' ')
             }
           >
             BOOKS
@@ -42,7 +42,7 @@ export const BookshelfPage = () => {
             id='apps'
             to='/shelf/apps'
             className={({ isActive }) =>
-              [isActive ? 'outfit-extrabold tracking-wider' : 'train-one', 'text-5xl my-3'].join(' ')
+              [isActive ? 'outfit-extrabold tracking-wider' : 'train-one', 'my-3'].join(' ')
             }
           >
             COOL APPS
@@ -51,7 +51,7 @@ export const BookshelfPage = () => {
             id='films'
             to='/shelf/films'
             className={({ isActive }) =>
-              [isActive ? 'bangers-selected' : 'bangers', 'text-6xl tracking-wideset my-3'].join(' ')
+              [isActive ? 'bangers-selected' : 'bangers', 'tracking-wideset my-3'].join(' ')
             }
           >
             FILMS & SHOWS
@@ -59,9 +59,9 @@ export const BookshelfPage = () => {
           <NavLink
             id='articles'
             to='/shelf/articles'
-            className={({ isActive }) => [isActive ? 'nova-mono-selected' : 'nova-mono', 'text-4xl my-3'].join(' ')}
+            className={({ isActive }) => [isActive ? 'nova-mono-selected' : 'nova-mono', 'my-3 px-1'].join(' ')}
           >
-            LINKS & STUFF
+            ARTICLES
           </NavLink>
         </div>
         <div className='w-full h-full md:h-screen row-span-3 overflow-y-scroll p-6 md:p-20'>

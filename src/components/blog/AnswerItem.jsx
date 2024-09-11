@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import API from '../../api';
+import { API } from '../../api';
 
 export const AnswerItem = ({ answerId }) => {
   const [answerData, setAnswerData] = useState({

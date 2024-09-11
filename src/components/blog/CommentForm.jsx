@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { Input } from 'rsuite';
-import API from '../../api';
+import { API } from '../../api';
 import { UserContext } from '../../App';
 
 export const CommentForm = ({ questionId, submitComment }) => {

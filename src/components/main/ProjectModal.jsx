@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import API from '../../api';
+import { API } from '../../api';
 import { Button, Carousel, Modal } from 'rsuite';
 import { LiaExternalLinkSquareAltSolid } from 'react-icons/lia';
 
@@ -19,7 +19,7 @@ const ProjectModal = ({ project, isOpen, handleClose }) => {
         </div>
         <p className='py-3'>{project.description}</p>
         {project.tools?.map((tool, index) => (
-          <span key={index} className='bg-gray-100 rounded-full px-3 py-1 text-sm font-semibold text-gray-600'>
+          <span key={index} className='bg-gray-100 rounded-full mx-1 px-3 py-1 text-sm font-semibold text-gray-600'>
             {tool}
           </span>
         ))}

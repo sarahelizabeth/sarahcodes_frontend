@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ProjectList from './ProjectList';
-import API from '../../api';
+import { API } from '../../api';
 
 import { FaAws, FaDocker, FaGithub, FaHtml5, FaNode, FaPython, FaReact, FaSass, FaVuejs } from 'react-icons/fa';
 import { SiDjango, SiTailwindcss, SiNextdotjs, SiTypescript } from 'react-icons/si';
@@ -10,9 +10,10 @@ import StackTooltip from './StackTooltip';
 
 export const Developer = () => {
   const [projects, setProjects] = useState([]);
+  const url = 'http://localhost:8000/api/portfolio/projects/?project_type=developer';
 
   useEffect(() => {
-    API.get(`/api/portfolio/projects/?project_type=developer`)
+    API.get(url)
       .then((res) => {
         setProjects(res.data);
       })
@@ -22,7 +23,7 @@ export const Developer = () => {
   return (
     <>
       <div className='mt-1 md:mt-4 mb-8'>
-        <h6 className='mb-2'>PERSONAL STATEMENT</h6>
+        <h6 className='mb-2 dosis font-extrabold text-lg'>PERSONAL STATEMENT</h6>
         <p>
           With 8 years of professional experience in full-stack development and 10+ years of writing code, I have a
           strong foundation in creating sophisticated, robust, user-centric applications. I have a deep respect for the
@@ -30,7 +31,7 @@ export const Developer = () => {
         </p>
       </div>
       <div className='mb-8'>
-        <h6 className='mb-3'>STACK</h6>
+        <h6 className='mb-3 dosis font-extrabold text-lg'>STACK</h6>
         <div className='stack-grid grid grid-cols-5 w-full gap-2'>
           <StackTooltip placement='left' text='React' icon={<FaReact size={35} />} />
           <StackTooltip placement='topStart' text='VueJS' icon={<FaVuejs size={35} />} />
@@ -49,7 +50,7 @@ export const Developer = () => {
           <StackTooltip placement='right' text='MongoDB' icon={<DiMongodb size={35} />} />
         </div>
       </div>
-      <h6 className='mb-3'>PROJECTS</h6>
+      <h6 className='mb-3 dosis font-extrabold text-lg'>PROJECTS</h6>
       <ProjectList projects={projects} />
     </>
   );

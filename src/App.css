@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Contrail+One&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Knewave&family=Major+Mono+Display&family=Press+Start+2P&family=Rubik+Glitch&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Bangers&family=Nova+Mono&family=Outfit:wght@100..900&family=Train+One&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Bangers&family=Nova+Mono&family=Outfit:wght@100..900&family=Train+One&display=swap&family=Dosis:wght@200..800');
 
 .centered {
   display: flex;
@@ -16,6 +15,10 @@
   border-left: 30px solid black;
   position: absolute;
   left: 50%;
+}
+
+.main-link {
+  text-decoration: none !important;
 }
 
 #main-nav > a {
@@ -134,13 +137,22 @@
   object-fit: cover;
 }
 
-
-/* FONTS */
+/***
+  **
+   * FONTS 
+  **
+ ***/
 
 .jetbrains-mono {
   font-family: 'JetBrains Mono', monospace;
   font-optical-sizing: auto;
   font-weight: 400;
+  font-style: normal;
+}
+
+.dosis {
+  font-family: "Dosis", sans-serif;
+  font-optical-sizing: auto;
   font-style: normal;
 }
 
@@ -209,12 +221,14 @@
   font-family: "Train One", system-ui;
   font-weight: 400;
   font-style: normal;
+  font-size: 48px;
 }
 
 .nova-mono {
   font-family: "Nova Mono", monospace;
   font-weight: 400;
   font-style: normal;
+  font-size: 36px;
 }
 
 .nova-mono-selected {
@@ -223,12 +237,14 @@
   font-style: normal;
   background-color: white;
   color: black !important;
+  font-size: 36px;
 }
 
 .bangers {
   font-family: "Bangers", system-ui;
   font-weight: 400;
   font-style: normal;
+  font-size: 60px;
 }
 
 .bangers-selected {
@@ -237,12 +253,14 @@
   -webkit-text-stroke-width: 1px;
   -webkit-text-stroke-color: white;
   color: black !important;
+  font-size: 60px;
 }
 
 .abril-fatface {
   font-family: "Abril Fatface", serif;
   font-weight: 400;
   font-style: normal;
+  font-size: 60px;
 }
 
 .abril-fatface-shadow {
@@ -250,6 +268,7 @@
   font-weight: 400;
   font-style: normal;
   text-shadow: 8px 6px rgba(255, 255, 255, 0.4);
+  font-size: 60px;
 }
 
 .outfit-extrabold {
@@ -257,11 +276,17 @@
   font-optical-sizing: auto;
   font-weight: 900;
   font-style: normal;
+  font-size: 48px;
 }
 
 
+/***
+  **
+   * MEDIA QUERIES 
+  **
+ ***/
 
-/* MEDIA QUERIES */
+
 @media (max-width: 767px) {
   .triangle {
     display: none !important;
@@ -307,6 +332,39 @@
     line-height: 12px;
   }
 
+  .nova-mono {
+    font-size: 14px;
+  }
+
+  .nova-mono-selected {
+    font-size: 14px;
+  }
+
+  .bangers {
+    font-size: 14px;
+  }
+
+  .bangers-selected {
+    font-size: 14px;
+  }
+
+  .abril-fatface {
+    font-size: 13px;
+  }
+
+  .abril-fatface-shadow {
+    font-size: 12px;
+    text-shadow: 6px 4px rgba(255, 255, 255, 0.4);
+  }
+
+  .outfit-extrabold {
+    font-size: 12px;
+  }
+
+  .train-one {
+    font-size: 12px;
+  }
+
   #main-nav > a#developer:hover {
     font-family: 'Corrupted File', sans-serif;
     font-size: 16px;
@@ -327,6 +385,38 @@
     font-weight: 400;
     font-style: normal;
     font-size: 14px;
+  }
+
+  #bookshelf-nav > a#books:hover {
+    font-family: "Abril Fatface", serif;
+    font-weight: 400;
+    font-style: normal;
+    text-shadow: 6px 4px rgba(255, 255, 255, 0.4);
+    font-size: 14px;
+  }
+
+  #bookshelf-nav > a#apps:hover {
+    font-family: "Outfit", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 900;
+    font-style: normal;
+    letter-spacing: 0.05em;
+  }
+
+  #bookshelf-nav > a#films:hover {
+    font-family: "Bangers", system-ui;
+    font-weight: 400;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: white;
+    color: black !important;
+  }
+
+  #bookshelf-nav > a#articles:hover {
+    font-family: "Nova Mono", monospace;
+    font-weight: 400;
+    font-style: normal;
+    background-color: white;
+    color: black !important;
   }
 
   .question-box {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, createContext } from 'react';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider, Link } from 'react-router-dom';
 import 'rsuite/dist/rsuite.min.css';
 import './App.css';
 
@@ -95,7 +95,7 @@ function App() {
       setUser(null);
     }
   }, []);
-  
+
   const [openRegister, setOpenRegister] = useState(false);
   const [openLogin, setOpenLogin] = useState(false);
   const [openContact, setOpenContact] = useState(false);
@@ -113,10 +113,10 @@ function App() {
           <ContactContext.Provider value={{ openContact, setOpenContact }}>
             <NavSidebar />
             <div className='w-full absolute z-10 top-4 md:top-0 flex items-center justify-center'>
-              <h5 className='major-mono-display text-5xl pl-6 pt-3'>
+              <a href='/' className='main-link'> <h5 className='major-mono-display text-5xl pl-6 pt-3'>
                 <span className='text-white'>sARAH</span>{' '}
                 <span className='text-white md:text-black md:bg-white'>MuRRAy</span>
-              </h5>
+              </h5> </a>
             </div>
             <RouterProvider router={router} />
           </ContactContext.Provider>

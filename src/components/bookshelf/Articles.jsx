@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { MediaItem } from './MediaItem';
-import API from '../../api';
+import { API } from '../../api';
 import { Divider } from 'rsuite';
 
 export const Articles = () => {
