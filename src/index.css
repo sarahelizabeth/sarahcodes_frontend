@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Contrail+One&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Knewave&family=Major+Mono+Display&family=Press+Start+2P&family=Rubik+Glitch&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Bangers&family=Nova+Mono&family=Outfit:wght@100..900&family=Train+One&display=swap');
+
 :root {
   font-family: 'JetBrains Mono', monospace;
   font-optical-sizing: auto;
@@ -21,5 +24,131 @@ body {
   font-family: 'JetBrains Mono', monospace;
   font-optical-sizing: auto;
   font-weight: 400;
+  font-style: normal;
+}
+
+
+
+/* FONTS */
+
+.jetbrains-mono {
+  font-family: 'JetBrains Mono', monospace;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.major-mono-display {
+  font-family: "Major Mono Display", monospace;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.rubik {
+  font-family: "Rubik", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-size: 40px;
+}
+
+.rubik-glitch {
+  font-family: "Rubik Glitch", system-ui;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 40px;
+}
+
+.press-start-2p {
+  font-family: "Press Start 2P", system-ui;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 30px;
+  line-height: 38px;
+}
+
+.knewave {
+  font-family: "Knewave", system-ui;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 40px;
+}
+
+.knewave-selected {
+  font-family: "Knewave", system-ui;
+  font-weight: 400;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: white;
+  color: black;
+  font-size: 40px;
+}
+
+.contrail-one {
+  font-family: "Contrail One", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Corrupted File';
+  src: url('./assets/Corrupted_File.ttf');
+}
+
+.corrupted-file {
+  font-family: 'Corrupted File', sans-serif;
+  font-size: 38px;
+  line-height: 38px;
+}
+
+.train-one {
+  font-family: "Train One", system-ui;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.nova-mono {
+  font-family: "Nova Mono", monospace;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.nova-mono-selected {
+  font-family: "Nova Mono", monospace;
+  font-weight: 400;
+  font-style: normal;
+  background-color: white;
+  color: black !important;
+}
+
+.bangers {
+  font-family: "Bangers", system-ui;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.bangers-selected {
+  font-family: "Bangers", system-ui;
+  font-weight: 400;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: white;
+  color: black !important;
+}
+
+.abril-fatface {
+  font-family: "Abril Fatface", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.abril-fatface-shadow {
+  font-family: "Abril Fatface", serif;
+  font-weight: 400;
+  font-style: normal;
+  text-shadow: 8px 6px rgba(255, 255, 255, 0.4);
+}
+
+.outfit-extrabold {
+  font-family: "Outfit", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 900;
   font-style: normal;
 }
