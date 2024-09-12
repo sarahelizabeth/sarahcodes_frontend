@@ -2,9 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Contrail+One&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Knewave&family=Major+Mono+Display&family=Press+Start+2P&family=Rubik+Glitch&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Bangers&family=Nova+Mono&family=Outfit:wght@100..900&family=Train+One&display=swap');
-
 :root {
   font-family: 'JetBrains Mono', monospace;
   font-optical-sizing: auto;

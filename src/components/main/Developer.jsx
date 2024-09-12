@@ -10,10 +10,9 @@ import StackTooltip from './StackTooltip';
 
 export const Developer = () => {
   const [projects, setProjects] = useState([]);
-  const url = 'http://localhost:8000/api/portfolio/projects/?project_type=developer';
 
   useEffect(() => {
-    API.get(url)
+    API.get(`api/portfolio/projects?project_type=developer`)
       .then((res) => {
         setProjects(res.data);
       })

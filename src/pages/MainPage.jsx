@@ -44,7 +44,7 @@ export const MainPage = () => {
           <NavLink
             id='mentor'
             to='/mentor'
-            className={({ isActive }) => [isActive ? 'knewave-selected' : 'knewave', 'my-3'].join(' ')}
+            className={({ isActive }) => [isActive ? 'knewave-selected' : 'knewave text-[14px] md:text-[40px]', 'my-3'].join(' ')}
           >
             MENTOR
           </NavLink>

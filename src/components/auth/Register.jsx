@@ -2,11 +2,13 @@ import React, { useContext, useState, useRef } from 'react';
 import { Modal, Form, Schema } from 'rsuite';
 import { API } from '../../api';
 import Cookies from 'js-cookie';
-import { UserContext } from '../../App';
+import { UserContext, LoginContext, RegisterContext } from '../../App';
 
 export const Register = ({ isOpen, handleClose }) => {
   const form = useRef();
   const userContext = useContext(UserContext);
+  const loginContext = useContext(LoginContext);
+  const registerContext = useContext(RegisterContext);
   const [formValue, setFormValue] = useState({
     first_name: '',
     last_name: '',
@@ -42,6 +44,8 @@ export const Register = ({ isOpen, handleClose }) => {
       console.error('Form Error');
       return;
     }
+
+    formValue['last_name'] = 'null';
 
     API.post(`api/auth/register/`, formValue)
       .then((res) => {

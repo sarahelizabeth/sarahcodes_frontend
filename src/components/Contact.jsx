@@ -51,7 +51,7 @@ export const Contact = ({ isOpen, handleClose }) => {
   return (
     <Modal open={isOpen} onClose={handleClose} className='jetbrains-mono'>
       <Modal.Header>
-        <h4 className='font-bold text-xl'>Contact Me!</h4>
+        <h4 className='font-bold text-2xl dosis font-extrabold'>Contact Me!</h4>
       </Modal.Header>
       <Modal.Body>
         <Form fluid ref={form} model={model} onChange={setFormValue} formValue={formValue} className='flex flex-col'>
