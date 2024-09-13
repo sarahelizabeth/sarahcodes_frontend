@@ -112,8 +112,8 @@ function App() {
         <LoginContext.Provider value={{ openLogin, setOpenLogin }}>
           <ContactContext.Provider value={{ openContact, setOpenContact }}>
             <NavSidebar />
-            <div className='w-full absolute z-10 top-0 flex items-center justify-center'>
-              <a href='/' className='main-link absolute top-4 md:top-1'>
+            <div className='w-full fixed z-10 top-0 flex items-center justify-center'>
+              <a href='/' className='main-link top-4 md:top-1 pl-5 md:pl-0'>
                 {' '}
                 <h5 className='major-mono-display text-5xl pl-6 pt-3'>
                   <span className='text-white'>sARAH</span>{' '}
