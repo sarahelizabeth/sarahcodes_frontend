@@ -9,7 +9,7 @@ const MentorList = ({ projects }) => {
             <img className='w-32 h-32' src={project.logo} />
             <div className='pl-5 flex flex-col h-32'>
               <p>{project.title}</p>
-              <p className='grow'>{project.description}</p>
+              <p className='grow truncate text-sm pt-1'>{project.description}</p>
             </div>
           </div>
           <div className='quote-container text-justify flex flex-col'>
