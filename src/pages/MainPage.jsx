@@ -26,7 +26,7 @@ export const MainPage = () => {
 
   return (
     <>
-      <section className='w-screen h-screen grid grid-rows-5 md:grid-cols-2'>
+      <section className='w-screen h-screen grid grid-rows-4 md:grid-cols-2'>
         <span className={`triangle z-100 top-60 ${selected === '/developer' ? 'md:block' : 'hidden'}`}></span>
         <span className={`triangle z-100 top-80 ${selected === '/mentor' ? 'md:block' : 'hidden'}`}></span>
         <span className={`triangle z-100 top-[25rem] ${selected === '/activist' ? 'md:block' : 'hidden'}`}></span>
@@ -64,7 +64,7 @@ export const MainPage = () => {
             <span className='pl-2'>Resume</span>
           </button>
         </div>
-        <div className='w-full h-full md:h-screen row-span-4 overflow-y-scroll p-6 md:p-20'>
+        <div className='w-full h-full md:h-screen row-span-3 overflow-y-scroll p-6 md:p-20'>
           <Outlet />
         </div>
       </section>
