@@ -7,16 +7,15 @@ export const CoolApps = () => {
   const [apps, setApps] = useState([]);
 
   useEffect(() => {
-    API.get(`/api/bookshelf/media`)
+    API.get(`/api/bookshelf/media/?media_type=app&visible=true`)
       .then((res) => {
-        console.log(res.data);
         setApps(res.data);
       })
       .catch((error) => console.error('apps list error: ', error));
   }, []);
 
   return (
-    <div className='right-container'>
+    <div className='right-container mt-4'>
       {apps.map((app, index) => (
         <React.Fragment key={index}>
           <MediaItem item={app} action='used' />

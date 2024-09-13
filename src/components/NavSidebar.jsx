@@ -37,7 +37,7 @@ export const NavSidebar = () => {
 
   return (
     <motion.nav initial={false} animate={isOpen ? 'open' : 'closed'} custom={height} ref={containerRef}>
-      <motion.div className='background sticky' variants={sidebar} />
+      <motion.div className='background fixed' variants={sidebar} />
       <Navigation toggleOpen={toggleOpen} />
       <NavToggle toggle={() => toggleOpen()} />
     </motion.nav>

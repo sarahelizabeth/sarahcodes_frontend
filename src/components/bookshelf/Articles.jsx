@@ -15,7 +15,7 @@ export const Articles = () => {
   }, []);
 
   return (
-    <div className='right-container'>
+    <div className='right-container mt-4'>
       {articles.map((article, index) => (
         <React.Fragment key={index}>
           <MediaItem item={article} action='read' />

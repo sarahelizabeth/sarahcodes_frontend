@@ -15,7 +15,7 @@ export const Films = () => {
   }, []);
 
   return (
-    <div className='right-container'>
+    <div className='right-container mt-4'>
       {films.map((film, index) => (
         <React.Fragment key={index}>
           <MediaItem item={film} action='watched' />
