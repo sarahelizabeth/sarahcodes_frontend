@@ -115,7 +115,7 @@ function App() {
             <div className='w-full fixed z-10 top-0 flex items-center justify-end md:justify-center'>
               <a href='/' className='main-link top-4 md:top-1 text-right md:text-center w-2/3 md:pl-6'>
                 {' '}
-                <h5 className='major-mono-display text-[2.5rem] leading-[2.8rem] md:text-5xl md:pl-0 pt-3'>
+                <h5 className='major-mono-display text-[2.5rem] leading-[2.7rem] md:text-5xl md:pl-0 pt-1 md:pt-3'>
                   <span className='text-white'>sARAH</span>{' '}
                   <span className='text-white md:text-black md:bg-white'>MuRRAy</span>
                 </h5>{' '}
