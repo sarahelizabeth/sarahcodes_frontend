@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { API } from '../../api';
-import { Button, Carousel, Modal } from 'rsuite';
+import { Button, Modal } from 'rsuite';
 import { LiaExternalLinkSquareAltSolid } from 'react-icons/lia';
 
 const ProjectModal = ({ project, isOpen, handleClose }) => {
@@ -10,12 +10,10 @@ const ProjectModal = ({ project, isOpen, handleClose }) => {
         <h3 className='rubik font-semibold'>{project.title}</h3>
       </Modal.Header>
       <Modal.Body>
-        <div className='w-full'>
-          <Carousel autoplay shape='bar'>
-            {project.images?.map((i, index) => (
-              <img key={index} id={index} src={API.defaults.baseURL + i.image} />
-            ))}
-          </Carousel>
+        <div className='flex flex-row gap-2 overflow-x-scroll h-64'>
+          {project.images?.map((i, index) => (
+            <img key={index} id={index} src={API.defaults.baseURL + i.image} alt={i.alt_text} />
+          ))}
         </div>
         <p className='py-3'>{project.description}</p>
         {project.tools?.map((tool, index) => (
@@ -25,7 +23,7 @@ const ProjectModal = ({ project, isOpen, handleClose }) => {
         ))}
       </Modal.Body>
       <Modal.Footer>
-        <Button href={project.link} appearance='primary' startIcon={<LiaExternalLinkSquareAltSolid />}>
+        <Button href={project.link} appearance='default' startIcon={<LiaExternalLinkSquareAltSolid />}>
           Go to site
         </Button>
         <Button onClick={handleClose} appearance='ghost' color='red'>
