@@ -34,7 +34,7 @@ export const AMAPage = () => {
     <>
       <section className='w-screen h-screen grid grid-rows-7 md:grid-cols-2'>
         <div className='w-full h-full md:h-screen row-span-3 centered flex-row md:flex-col sticky top-0 overflow-hidden bg-black text-white'>
-          <div className='w-3/4 md:w-2/3 p-1'>
+          <div className='w-4/5 md:w-3/4 lg:w-2/3 p-1'>
             <h1 id='ask' className='knewave text-white text-center text-2xl md:text-5xl pb-2'>
               Ask Me Anything!
             </h1>

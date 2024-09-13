@@ -24,7 +24,7 @@ button.toggle {
   -moz-user-select: none;
   -ms-user-select: none;
   cursor: pointer;
-  position: absolute;
+  position: fixed;
   top: 31px;
   left: 29px;
   border-radius: 50%;
