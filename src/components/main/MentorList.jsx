@@ -1,3 +1,4 @@
+import React from 'react';
 import { Divider } from 'rsuite';
 
 const MentorList = ({ projects }) => {
@@ -6,10 +7,10 @@ const MentorList = ({ projects }) => {
       {projects.map((project, index) => (
         <div key={index}>
           <div className='flex mb-6'>
-            <img className='w-32 h-32' src={project.logo} />
-            <div className='pl-5 flex flex-col h-32'>
-              <p>{project.title}</p>
-              <p className='grow truncate text-sm pt-1'>{project.description}</p>
+            <img className='w-32 h-32 pt-1' src={project.logo} />
+            <div className='pl-4 flex flex-col'>
+              <p className='underline'>{project.title}</p>
+              <p className='grow text-xs'>{project.description}</p>
             </div>
           </div>
           <div className='quote-container text-justify flex flex-col'>

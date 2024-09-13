@@ -39,7 +39,7 @@ li {
 
 ul.navlist {
   padding: 25px;
-  position: absolute;
+  position: fixed;
   top: 100px;
   width: 230px;
 }

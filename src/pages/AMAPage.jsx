@@ -66,7 +66,7 @@ export const AMAPage = () => {
             )}
           </div>
         </div>
-        <div className='w-full h-full md:h-screen row-span-3 overflow-y-scroll p-8 md:p-20'>
+        <div className='w-full h-full md:h-screen row-span-4 overflow-y-scroll p-8 md:p-20'>
           <QuestionsContext.Provider value={questions}>
             <Questions submitComment={() => setCommentSubmitted(!commentSubmitted)} />
           </QuestionsContext.Provider>
