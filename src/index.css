@@ -27,3 +27,7 @@ body {
 .rs-modal-content {
   border-radius: 0;
 }
+
+.rs-btn {
+  border-radius: 0;
+}

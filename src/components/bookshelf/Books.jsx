@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { API } from '../../api';
 import { MediaItem } from './MediaItem';
+import { Divider } from 'rsuite';
 
 export const Books = () => {
   const [books, setBooks] = useState([]);
@@ -15,9 +16,11 @@ export const Books = () => {
 
   return (
     <div className='right-container'>
-      <h6 className='mb-3'>BOOKS</h6>
       {books.map((book, index) => (
-        <MediaItem key={index} item={book} action='read' />
+        <React.Fragment key={index}>
+          <MediaItem item={book} action='read' />
+          <Divider />
+        </React.Fragment>
       ))}
     </div>
   );

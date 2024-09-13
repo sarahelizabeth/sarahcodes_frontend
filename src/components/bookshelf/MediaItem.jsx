@@ -4,14 +4,15 @@ import { Button, useToaster } from 'rsuite';
 import { UserContext } from '../../App';
 import { IoCheckboxSharp } from 'react-icons/io5';
 import { LiaPlusSquareSolid } from 'react-icons/lia';
-import { DescriptionTooltip } from './DescriptionTooltip';
-import { BsChatLeftTextFill } from 'react-icons/bs';
+import { MediaModal } from './MediaModal';
 
 export const MediaItem = ({ item, action }) => {
   const userContext = useContext(UserContext);
   const user = userContext.user;
+
   const [hasLiked, setHasLiked] = useState(false);
-  const toaster = useToaster();
+  const [hover, setHover] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const handleLike = (item) => {
     if (user === null) {
@@ -65,8 +66,13 @@ export const MediaItem = ({ item, action }) => {
 
   return (
     <div className='item-container grid grid-cols-4 gap-4'>
-      <div className='media-img-container relative'>
-        <img src={item.image} className='object-cover media-img' />
+      <div className='media-image-container relative' onMouseOver={() => setHover(true)} onMouseLeave={() => setHover(false)}>
+        <img className='object-cover' src={item.image} />
+        {hover && (
+          <button onClick={() => setOpen(true)} className='project-btn absolute top-0 left-0 w-full h-full'>
+            <span className='text-black font-bold'>View More</span>
+          </button>
+        )}
       </div>
       <div className='col-span-3 text'>
         <div className='flex items-start'>
@@ -77,16 +83,18 @@ export const MediaItem = ({ item, action }) => {
           >
             {item.title}
           </a>
-          <span className='pt-1'>
-            <DescriptionTooltip placement='left' text={item.description} icon={<BsChatLeftTextFill size={20} />} />
-          </span>
         </div>
         <p className='pt-1 mb-2'>
           {'>'} {item.creator}
         </p>
         <div className='flex justify-between gap-2 items-center'>
           {hasLiked ? (
-            <IoCheckboxSharp size={23} />
+            <>
+              <IoCheckboxSharp size={23} />
+              <p className='text-xs'>
+                {item.likes.length} other people have also {action} this
+              </p>
+            </>
           ) : (
             <div className='flex justify-start items-start w-full'>
               <LiaPlusSquareSolid size={28} className='pt-1' />
@@ -95,11 +103,9 @@ export const MediaItem = ({ item, action }) => {
               </Button>
             </div>
           )}
-          <p className='text-xs'>
-            {item.likes.length} other people have also {action} this
-          </p>
         </div>
       </div>
+      <MediaModal media={item} isOpen={open} handleClose={() => setOpen(false)} />
     </div>
   );
 };

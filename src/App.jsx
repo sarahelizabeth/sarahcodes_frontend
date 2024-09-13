@@ -112,11 +112,14 @@ function App() {
         <LoginContext.Provider value={{ openLogin, setOpenLogin }}>
           <ContactContext.Provider value={{ openContact, setOpenContact }}>
             <NavSidebar />
-            <div className='w-full absolute z-10 top-4 md:top-0 flex items-center justify-center'>
-              <a href='/' className='main-link'> <h5 className='major-mono-display text-5xl pl-6 pt-3'>
-                <span className='text-white'>sARAH</span>{' '}
-                <span className='text-white md:text-black md:bg-white'>MuRRAy</span>
-              </h5> </a>
+            <div className='w-full absolute z-10 mt-4 top-0 flex items-center justify-center'>
+              <a href='/' className='main-link'>
+                {' '}
+                <h5 className='major-mono-display text-5xl pl-6 pt-3 sticky'>
+                  <span className='text-white'>sARAH</span>{' '}
+                  <span className='text-white md:text-black md:bg-white'>MuRRAy</span>
+                </h5>{' '}
+              </a>
             </div>
             <RouterProvider router={router} />
           </ContactContext.Provider>
