@@ -17,6 +17,12 @@
   left: 50%;
 }
 
+.description-mask {
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: bottom;
+}
+
 .main-link {
   text-decoration: none !important;
 }

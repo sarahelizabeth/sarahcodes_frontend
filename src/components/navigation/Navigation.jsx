@@ -1,8 +1,9 @@
+import React, { useContext } from 'react';
 import { motion } from 'framer-motion';
 import { UserContext, ContactContext, LoginContext, RegisterContext } from '../../App';
-import { useContext } from 'react';
 import { API } from '../../api';
 import Cookies from 'js-cookie';
+import { FaGithub, FaLinkedinIn } from 'react-icons/fa';
 
 const ulVariants = {
   open: {
@@ -114,6 +115,28 @@ export const Navigation = ({ toggleOpen }) => {
         >
           Contact
         </button>
+      </motion.li>
+      <motion.li variants={liVariants}>
+        <div className='flex gap-5 pt-3'>
+          <motion.a
+            href='https://github.com/sarahelizabeth?tab=repositories'
+            target='_blank'
+            className='hover:text-black focus:text-black'
+            whileHover={{ scale: 1.2 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <FaGithub size={36} />
+          </motion.a>
+          <motion.a
+            href='https://www.linkedin.com/in/semurray1/'
+            target='_blank'
+            className='hover:text-black focus:text-black'
+            whileHover={{ scale: 1.2 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <FaLinkedinIn size={36} />
+          </motion.a>
+        </div>
       </motion.li>
     </motion.ul>
   );
