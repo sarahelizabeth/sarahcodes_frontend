@@ -11,7 +11,6 @@ export const QuestionForm = ({ submitQuestion }) => {
 
   useEffect(() => {
     const windowWidth = window.innerWidth;
-    console.log(windowWidth)
     if (windowWidth <= 438) {
       setRows(2);
     }

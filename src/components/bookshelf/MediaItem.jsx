@@ -74,12 +74,12 @@ export const MediaItem = ({ item, action }) => {
           </button>
         )}
       </div>
-      <div className='col-span-3 text'>
+      <div className='col-span-3'>
         <div className='flex items-start'>
           <a
             href={item.link}
             target='_blank'
-            className='uppercase hover:underline text-black hover:text-black hover:italic font-bold grow'
+            className='uppercase hover:underline text-black text-base hover:text-black hover:italic font-bold grow'
           >
             {item.title}
           </a>

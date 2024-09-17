@@ -89,7 +89,6 @@ function App() {
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem('user'));
-    console.log(import.meta.env.VITE_API_URL);
     if (user) {
       setUser(user);
     } else {

@@ -26,12 +26,14 @@ const ProjectList = ({ projects }) => {
               >
                 {project.title}
               </button>
-              <p className='grow truncate text-sm pt-1'>{project.description}</p>
+              <div className='grow'>
+                <p className='line-clamp-2 text-xs pt-1'>{project.description}</p>
+              </div>
               <div className='tag-container hidden md:flex flex-wrap gap-2 w-full'>
                 {project.tools.slice(0, 4).map((tool, index) => (
                   <span
                     key={index}
-                    className='bg-gray-100 text-xs rounded-full px-3 py-1 text-sm font-semibold text-gray-600'
+                    className='bg-gray-100 text-xs rounded-full px-3 py-1 font-semibold text-gray-600'
                   >
                     {tool}
                   </span>

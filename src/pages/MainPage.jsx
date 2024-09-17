@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import { PiDownloadSimpleBold } from 'react-icons/pi';
+import { UserContext } from '../App';
+import { API } from '../api';
 
 export const MainPage = () => {
   const [selected, setSelected] = useState(null);
+  const userContext = useContext(UserContext);
 
   const handleResumeDownload = () => {
     fetch('Sarah_Murray_CV_2024.pdf').then((response) => {
@@ -17,6 +20,18 @@ export const MainPage = () => {
       });
     });
   };
+
+  const handleProjectsDownload = () => {
+    API.get(`api/portfolio/projects/`)
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch(error => console.error('download all projects err: ', error));
+  }
+
+  const handleProjectsUpload = () => {
+    console.log('upload')
+  }
 
   let location = useLocation();
 
@@ -44,7 +59,9 @@ export const MainPage = () => {
           <NavLink
             id='mentor'
             to='/mentor'
-            className={({ isActive }) => [isActive ? 'knewave-selected' : 'knewave text-[14px] md:text-[40px]', 'my-3'].join(' ')}
+            className={({ isActive }) =>
+              [isActive ? 'knewave-selected' : 'knewave text-[14px] md:text-[40px]', 'my-3'].join(' ')
+            }
           >
             MENTOR
           </NavLink>
@@ -63,6 +80,24 @@ export const MainPage = () => {
             <PiDownloadSimpleBold size={18} />
             <span className='pl-2'>Resume</span>
           </button>
+          {userContext?.user?.email === 'sarah-admin@test.com' && (
+            <>
+              <button
+                className='button-shadow-white absolute bottom-12 left-12 border-2 border-white text-white px-4 py-2 absolute bottom-10 uppercase mt-2 mb-4 hover:font-bold z-20'
+                onClick={handleProjectsDownload}
+                type='submit'
+              >
+                Download Projects
+              </button>
+              <button
+                className='button-shadow-white absolute bottom-24 left-12 border-2 border-white text-white px-4 py-2 absolute bottom-10 uppercase mt-2 mb-4 hover:font-bold z-20'
+                onClick={handleProjectsUpload}
+                type='submit'
+              >
+                Upload Projects
+              </button>
+            </>
+          )}
         </div>
         <div className='w-full h-full md:h-screen row-span-3 overflow-y-scroll p-6 md:p-20'>
           <Outlet />
