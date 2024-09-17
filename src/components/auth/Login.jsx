@@ -8,6 +8,7 @@ import { API } from '../../api';
 export const Login = ({ isOpen, handleClose }) => {
   const userContext = useContext(UserContext);
   const [showError, setShowError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('Unable to log in with these credentials. Please sign up or try again.');
   const form = useRef();
   const [formValue, setFormValue] = useState({
     email: '',
@@ -42,12 +43,15 @@ export const Login = ({ isOpen, handleClose }) => {
       })
       .catch((error) => {
         console.error('login error: ', error);
-        setShowError(true);
+        if (error.status === 400) {
+          console.log(error.response.data.non_field_errors[0]);
+          setShowError(true);
+        };
       });
   };
 
   return (
-    <Modal size='sm' open={isOpen} onClose={handleClose} className='jetbrains-mono'>
+    <Modal size='xs' open={isOpen} onClose={handleClose} className='jetbrains-mono'>
       <Modal.Header>
         <h4 className='font-bold text-2xl dosis font-extrabold'>LOG IN</h4>
       </Modal.Header>
@@ -65,7 +69,7 @@ export const Login = ({ isOpen, handleClose }) => {
 
           {showError && (
             <div className='p-3'>
-              <p className='text-red-900'></p>
+              <p className='text-red-900'>{errorMessage}</p>
             </div>
           )}
 

@@ -79,7 +79,7 @@ export const Register = ({ isOpen, handleClose }) => {
   };
 
   return (
-    <Modal size='sm' open={isOpen} onClose={handleClose} className='jetbrains-mono'>
+    <Modal size='xs' open={isOpen} onClose={handleClose} className='jetbrains-mono'>
       <Modal.Header>
         <h4 className='text-2xl dosis font-extrabold'>SIGN UP</h4>
       </Modal.Header>

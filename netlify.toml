@@ -4,8 +4,7 @@
   functions = "netlify/functions"
   publish = "dist"
 
-## Uncomment to use this redirect for Single Page Applications like create-react-app.
-## Not needed for static site generators.
+## Needed for react-router-dom to work in production
 [[redirects]]
   from = "/*"
   to = "/index.html"
