@@ -7,6 +7,7 @@ import { UserContext, LoginContext, RegisterContext } from '../../App';
 export const Register = ({ isOpen, handleClose }) => {
   const form = useRef();
   const userContext = useContext(UserContext);
+  const [showError, setShowError] = useState(false);
   const loginContext = useContext(LoginContext);
   const registerContext = useContext(RegisterContext);
   const [formValue, setFormValue] = useState({
@@ -70,6 +71,7 @@ export const Register = ({ isOpen, handleClose }) => {
           })
           .catch((error) => {
             console.error('login error: ', error);
+            setShowError(true);
             return error;
           });
       })
@@ -84,8 +86,8 @@ export const Register = ({ isOpen, handleClose }) => {
         <h4 className='text-2xl dosis font-extrabold'>SIGN UP</h4>
       </Modal.Header>
       <p className='text-xs mt-3 mb-3'>
-        I will never send you any annoying emails (except for an email update when I've answered your question) and
-        your data will only be used for my personal stalking purposes.
+        I will never send you any annoying emails (except for an email update when I've answered your question) and your
+        data will only be used for my personal stalking purposes.
       </p>
       <Form fluid ref={form} model={model} onChange={setFormValue} formValue={formValue} className='flex flex-col'>
         <div className='md:flex md:flex-row md:justify-between'>
@@ -116,6 +118,12 @@ export const Register = ({ isOpen, handleClose }) => {
           <Form.ControlLabel>Confirm Password</Form.ControlLabel>
           <Form.Control name='password2' type='password' autoComplete='off' />
         </Form.Group>
+
+        {showError && (
+          <div className='p-3'>
+            <p className='text-red-900'>Something went wrong {':('} Please try again later.</p>
+          </div>
+        )}
 
         <button
           className='text-center button-shadow-black hover:font-bold border-2 border-black px-4 py-2 uppercase mt-2 place-self-center'

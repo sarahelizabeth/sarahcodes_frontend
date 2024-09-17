@@ -67,7 +67,7 @@ export const MediaItem = ({ item, action }) => {
   return (
     <div className='item-container grid grid-cols-4 gap-4'>
       <div className='media-image-container relative' onMouseOver={() => setHover(true)} onMouseLeave={() => setHover(false)}>
-        <img className='object-cover' src={item.image} />
+        <img className='object-cover h-full max-w-full' src={item.image} />
         {hover && (
           <button onClick={() => setOpen(true)} className='project-btn absolute top-0 left-0 w-full h-full'>
             <span className='text-black font-bold'>View More</span>
