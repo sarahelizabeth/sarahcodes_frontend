@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Divider } from 'rsuite';
+import { Divider } from 'rsuite';
 import ProjectModal from './ProjectModal';
 
 const ProjectList = ({ projects }) => {

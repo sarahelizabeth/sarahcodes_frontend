@@ -14,6 +14,8 @@ export const MediaItem = ({ item, action }) => {
   const [hover, setHover] = useState(false);
   const [open, setOpen] = useState(false);
 
+  const toaster = useToaster();
+
   const handleLike = (item) => {
     if (user === null) {
       handleShowWarning();
@@ -41,14 +43,19 @@ export const MediaItem = ({ item, action }) => {
   };
 
   const handleShowWarning = () => {
-    toaster.push(warning, { placement: 'bottomStart', duration: 3000 });
+    let mediaPlacement = 'bottomStart';
+    const windowWidth = window.innerWidth;
+    if (windowWidth <= 438) {
+      mediaPlacement = 'topCenter';
+    }
+    toaster.push(warning, { placement: mediaPlacement, duration: 3000 });
     setTimeout(() => {
       toaster.clear();
     }, 5000);
   };
 
   const warning = (
-    <div className='w-300 h-100 border-2 border-white text-white px-3 py-2 mt-4 toaster-shadow-white'>
+    <div className='w-300 h-100 border-2 border-white text-white bg-black px-3 py-2 mt-4 toaster-shadow-white'>
       <p className='jetbrains-mono'>
         Please log in or sign up to interact <br></br> with my bookshelf!
       </p>
@@ -65,9 +72,9 @@ export const MediaItem = ({ item, action }) => {
   }, []);
 
   return (
-    <div className='item-container grid grid-cols-4 gap-4'>
-      <div className='media-image-container relative' onMouseOver={() => setHover(true)} onMouseLeave={() => setHover(false)}>
-        <img className='object-cover h-full max-w-full' src={item.image} />
+    <div className='grid grid-cols-5 gap-4'>
+      <div className='relative col-span-2' onMouseOver={() => setHover(true)} onMouseLeave={() => setHover(false)}>
+        <img className='object-cover' src={item.image} />
         {hover && (
           <button onClick={() => setOpen(true)} className='project-btn absolute top-0 left-0 w-full h-full'>
             <span className='text-black font-bold'>View More</span>
@@ -79,7 +86,7 @@ export const MediaItem = ({ item, action }) => {
           <a
             href={item.link}
             target='_blank'
-            className='uppercase hover:underline text-black text-base hover:text-black hover:italic font-bold grow'
+            className='uppercase hover:underline text-black text-sm hover:text-black hover:italic font-bold grow'
           >
             {item.title}
           </a>

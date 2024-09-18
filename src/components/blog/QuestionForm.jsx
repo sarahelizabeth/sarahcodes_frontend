@@ -6,7 +6,6 @@ import { API } from '../../api';
 export const QuestionForm = ({ submitQuestion }) => {
   const userContext = useContext(UserContext);
   const [input, setInput] = useState('');
-  const [screenWidth, setScreenWidth] = useState(null);
   const [rows, setRows] = useState(4);
 
   useEffect(() => {

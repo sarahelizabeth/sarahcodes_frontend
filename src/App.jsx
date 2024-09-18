@@ -23,67 +23,76 @@ import { Books } from './components/bookshelf/Books';
 import { CoolApps } from './components/bookshelf/CoolApps';
 import { Films } from './components/bookshelf/Films';
 
+import { PetPicsPage } from './pages/PetPicsPage';
+
 export const UserContext = createContext();
 export const RegisterContext = createContext();
 export const LoginContext = createContext();
 export const ContactContext = createContext();
 
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <MainPage />,
-    children: [
-      {
-        index: true,
-        element: <Intro />,
-      },
-      {
-        path: 'developer',
-        element: <Developer />,
-      },
-      {
-        path: 'mentor',
-        element: <Mentor />,
-      },
-      {
-        path: 'activist',
-        element: <Activist />,
-      },
-    ],
-  },
-  {
-    path: '/ama',
-    element: <AMAPage />,
-  },
-  {
-    path: '/shelf',
-    element: <BookshelfPage />,
-    children: [
-      {
-        index: true,
-        element: <Landing />,
-      },
-      {
-        path: 'articles',
-        element: <Articles />,
-      },
-      {
-        path: 'books',
-        element: <Books />,
-      },
-      {
-        path: 'apps',
-        element: <CoolApps />,
-      },
-      {
-        path: 'films',
-        element: <Films />,
-      },
-    ],
-  },
-]);
+
 
 function App() {
+  const [title, setTitle] = useState(' ');
+  const router = createBrowserRouter([
+    {
+      path: '/',
+      element: <MainPage />,
+      children: [
+        {
+          index: true,
+          element: <Intro />,
+        },
+        {
+          path: 'developer',
+          element: <Developer />,
+        },
+        {
+          path: 'mentor',
+          element: <Mentor />,
+        },
+        {
+          path: 'activist',
+          element: <Activist />,
+        },
+      ],
+    },
+    {
+      path: '/ama',
+      element: <AMAPage />,
+    },
+    {
+      path: '/shelf',
+      element: <BookshelfPage />,
+      children: [
+        {
+          index: true,
+          element: <Landing />,
+        },
+        {
+          path: 'articles',
+          element: <Articles />,
+        },
+        {
+          path: 'books',
+          element: <Books />,
+        },
+        {
+          path: 'apps',
+          element: <CoolApps />,
+        },
+        {
+          path: 'films',
+          element: <Films />,
+        },
+      ],
+    },
+    {
+      path: '/cuties',
+      element: <PetPicsPage handleTitleChange={() => setTitle('x')} />,
+    },
+  ]);
+
   const [user, setUser] = useState(null);
   const userContext = useMemo(() => ({ user, setUser }), [user]);
 
@@ -112,12 +121,14 @@ function App() {
         <LoginContext.Provider value={{ openLogin, setOpenLogin }}>
           <ContactContext.Provider value={{ openContact, setOpenContact }}>
             <NavSidebar />
-            <div className='w-full fixed z-10 top-0 flex items-center justify-end md:justify-center'>
+            <div
+              className={`${title === 'x' ? 'w-full fixed z-10 top-0 flex items-center justify-end md:justify-center bg-black pb-5' : 'w-full fixed z-10 top-0 flex items-center justify-end md:justify-center'}`}
+            >
               <a href='/' className='main-link top-4 md:top-1 text-center w-2/3 md:pl-6'>
                 {' '}
                 <h5 className='major-mono-display text-[2.5rem] leading-[2.7rem] md:text-5xl md:pl-0 pt-1 md:pt-3'>
                   <span className='text-white'>sARAH</span>{' '}
-                  <span className='text-white md:text-black md:bg-white'>MuRRAy</span>
+                  <span className={`${title === 'x' ? 'text-white' : 'text-white md:text-black md:bg-white'}`}>MuRRAy</span>
                 </h5>{' '}
               </a>
             </div>

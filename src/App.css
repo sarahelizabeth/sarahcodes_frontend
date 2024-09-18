@@ -1,5 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Contrail+One&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Knewave&family=Major+Mono+Display&family=Press+Start+2P&family=Rubik+Glitch&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Bangers&family=Nova+Mono&family=Outfit:wght@100..900&family=Train+One&display=swap&family=Dosis:wght@200..800');
+/* bungee shade */
+@import url('https://fonts.googleapis.com/css2?family=Bungee+Shade&display=swap');
+/* bungee inline */
+@import url('https://fonts.googleapis.com/css2?family=Bungee+Inline&display=swap');
+/* bungee hairline */
+@import url('https://fonts.googleapis.com/css2?family=Bungee+Hairline&display=swap');
+/* bungee outline */
+@import url('https://fonts.googleapis.com/css2?family=Bungee+Outline&display=swap');
+
 
 .centered {
   display: flex;
@@ -135,6 +144,48 @@
   height: 100%;
   object-fit: cover;
 }
+
+.gallery-container {
+  column-count: auto;
+  column-width: 18em;
+  column-gap: 2em;
+}
+
+.gallery-img-btn {
+  border: none;
+  background: none;
+  margin: 0;
+  padding: 0;
+}
+
+.gallery-img-container {
+  margin: 0 0 20px;
+  position: relative;
+}
+
+.gallery-img {
+  display: block;
+  width: 100%;
+  cursor: pointer;
+}
+
+.gallery-img-caption {
+  opacity: 0;
+  transition: "opacity 1s ease-in-out";
+  position: absolute;
+  bottom: 0;
+  z-index: 1000;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  background:
+    linear-gradient(180deg, rgba(25, 27, 38, 0), rgba(25, 27, 38, 1));
+  padding: 16px;
+  font-size: 0.85rem;
+  text-align: center;
+  color: white;
+}
+
+
 
 /***
   **
@@ -275,6 +326,31 @@
   font-weight: 900;
   font-style: normal;
   font-size: 48px;
+}
+
+.bungee-shade {
+  font-family: "Bungee Shade", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.bungee-inline {
+  font-family: "Bungee Inline", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.bungee-outline {
+  font-family: "Bungee Outline", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.bungee-hairline {
+  font-family: "Bungee Hairline", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  -webkit-text-stroke: 1px white;
 }
 
 
