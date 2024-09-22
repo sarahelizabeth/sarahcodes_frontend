@@ -6,7 +6,7 @@ import { FaAws, FaDocker, FaGithub, FaHtml5, FaNode, FaPython, FaReact, FaSass, 
 import { SiDjango, SiTailwindcss, SiNextdotjs, SiTypescript, SiVite } from 'react-icons/si';
 import { DiPostgresql } from 'react-icons/di';
 
-import StackTooltip from './StackTooltip';
+import { IconTooltip } from '../IconTooltip';
 
 export const Developer = () => {
   const [projects, setProjects] = useState([]);
@@ -32,21 +32,21 @@ export const Developer = () => {
       <div className='mb-8'>
         <h6 className='mb-3 dosis font-extrabold text-lg'>STACK</h6>
         <div className='stack-grid grid grid-cols-5 w-full gap-2'>
-          <StackTooltip placement='topStart' text='React' icon={<FaReact size={35} />} />
-          <StackTooltip placement='top' text='VueJS' icon={<FaVuejs size={35} />} />
-          <StackTooltip placement='top' text='Django' icon={<SiDjango size={35} />} />
-          <StackTooltip placement='top' text='PostgreSQL' icon={<DiPostgresql size={35} />} />
-          <StackTooltip placement='topEnd' text='TypeScript' icon={<SiTypescript size={32} />} />
-          <StackTooltip placement='top' text='Python' icon={<FaPython size={35} />} />
-          <StackTooltip placement='top' text='HTML' icon={<FaHtml5 size={35} />} />
-          <StackTooltip placement='top' text='Sass' icon={<FaSass size={35} />} />
-          <StackTooltip placement='top' text='Tailwind CSS' icon={<SiTailwindcss size={35} />} />
-          <StackTooltip placement='top' text='AWS' icon={<FaAws size={38} />} />
-          <StackTooltip placement='bottomStart' text='Docker' icon={<FaDocker size={35} />} />
-          <StackTooltip placement='bottom' text='Github' icon={<FaGithub size={35} />} />
-          <StackTooltip placement='bottom' text='Next.js' icon={<SiNextdotjs size={35} />} />
-          <StackTooltip placement='bottom' text='Node.js' icon={<FaNode size={35} />} />
-          <StackTooltip placement='bottomEnd' text='Vite' icon={<SiVite size={35} />} />
+          <IconTooltip placement='topStart' text='React' icon={<FaReact size={35} />} />
+          <IconTooltip placement='top' text='VueJS' icon={<FaVuejs size={35} />} />
+          <IconTooltip placement='top' text='Django' icon={<SiDjango size={35} />} />
+          <IconTooltip placement='top' text='PostgreSQL' icon={<DiPostgresql size={35} />} />
+          <IconTooltip placement='topEnd' text='TypeScript' icon={<SiTypescript size={32} />} />
+          <IconTooltip placement='top' text='Python' icon={<FaPython size={35} />} />
+          <IconTooltip placement='top' text='HTML' icon={<FaHtml5 size={35} />} />
+          <IconTooltip placement='top' text='Sass' icon={<FaSass size={35} />} />
+          <IconTooltip placement='top' text='Tailwind CSS' icon={<SiTailwindcss size={35} />} />
+          <IconTooltip placement='top' text='AWS' icon={<FaAws size={38} />} />
+          <IconTooltip placement='bottomStart' text='Docker' icon={<FaDocker size={35} />} />
+          <IconTooltip placement='bottom' text='Github' icon={<FaGithub size={35} />} />
+          <IconTooltip placement='bottom' text='Next.js' icon={<SiNextdotjs size={35} />} />
+          <IconTooltip placement='bottom' text='Node.js' icon={<FaNode size={35} />} />
+          <IconTooltip placement='bottomEnd' text='Vite' icon={<SiVite size={35} />} />
         </div>
       </div>
       <h6 className='mb-3 dosis font-extrabold text-lg'>PROJECTS</h6>

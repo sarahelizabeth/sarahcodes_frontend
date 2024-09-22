@@ -8,8 +8,8 @@ export const Register = ({ isOpen, handleClose }) => {
   const form = useRef();
   const userContext = useContext(UserContext);
   const [showError, setShowError] = useState(false);
-  const loginContext = useContext(LoginContext);
-  const registerContext = useContext(RegisterContext);
+  // const loginContext = useContext(LoginContext);
+  // const registerContext = useContext(RegisterContext);
   const [formValue, setFormValue] = useState({
     first_name: '',
     last_name: '',

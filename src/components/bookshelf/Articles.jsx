@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { MediaItem } from './MediaItem';
 import { API } from '../../api';
 import { Divider } from 'rsuite';
+import { IoLogoYoutube } from 'react-icons/io5';
+import { FiExternalLink } from 'react-icons/fi';
 
 export const Articles = () => {
   const [articles, setArticles] = useState([]);

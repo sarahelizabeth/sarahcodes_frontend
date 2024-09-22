@@ -2,27 +2,68 @@ import React, { useContext, useEffect, useState } from 'react'
 import { UserContext } from '../App'
 import { Gallery } from '../components/cuties/Gallery';
 import { API } from '../api';
+import { useToaster } from 'rsuite';
+import { SubmitPetModal } from '../components/cuties/SubmitPetModal';
 
-export const PetPicsPage = ({ handleTitleChange }) => {
+export const PetPicsPage = ({ handlePageChange }) => {
   const userContext = useContext(UserContext);
+  const toaster = useToaster();
+
   const [pics, setPics] = useState([]);
+  const [open, setOpen] = useState(false);
+
+  const handleSubmitPicture = () => {
+    if (!userContext.user) {
+      handleShowWarning();
+      return;
+    }
+    setOpen(true);
+  }
+
+  const handleShowWarning = () => {
+    let mediaPlacement = 'bottomStart';
+    const windowWidth = window.innerWidth;
+    if (windowWidth <= 438) {
+      mediaPlacement = 'topCenter';
+    }
+    toaster.push(warning, { placement: mediaPlacement, duration: 3000 });
+    setTimeout(() => {
+      toaster.clear();
+    }, 5000);
+  };
+
+  const warning = (
+    <div className='w-300 h-100 border-2 border-white text-white bg-black px-3 py-2 mt-4 toaster-shadow-white'>
+      <p className='jetbrains-mono'>
+        Please log in or sign up to post <br></br> a pic of your cutie!
+      </p>
+    </div>
+  );
 
   useEffect(() => {
     API.get(`api/pets/pics/`)
       .then((res) => {
-        handleTitleChange();
+        handlePageChange();
         setPics(res.data);
       })
       .catch(error => console.error('get all pet pics err: ', error));
   }, []);
 
   return (
-    <div className='bg-black px-10 pt-20'>
-      <div className='header-container text-white text-center'>
+    <div className='px-4 relative top-28 sm:top-[5.25rem] pt-2'>
+      <div className='text-center md:flex md:justify-center md:items-center md:mb-3'>
         <h2 className='bungee-shade text-5xl'>PET PICS!!!</h2>
-        <h5 className='bungee-hairline uppercase text-3xl py-3'>AKA The Best Part of this Entire Website</h5>
+        <h5 className='bungee-hairline uppercase text-xs py-3 md:max-w-40 md:ml-3'>
+          {'('}AKA The Best Part of this Entire Website{'}'}
+        </h5>
       </div>
       <Gallery items={pics} />
+      <div class='fixed bottom-4 left-1/2 transform -translate-x-1/2'>
+        <button onClick={handleSubmitPicture} className='button-shadow-black-outline border-2 border-black text-black bg-white px-4 py-2 uppercase mt-2 mb-4 hover:font-extrabold z-20'>
+          Submit Your Own
+        </button>
+      </div>
+      <SubmitPetModal isOpen={open} handleClose={() => setOpen(false)} />
     </div>
   );
 }

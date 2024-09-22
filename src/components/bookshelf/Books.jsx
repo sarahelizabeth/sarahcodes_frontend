@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { API } from '../../api';
 import { MediaItem } from './MediaItem';
 import { Divider } from 'rsuite';
+import { FaGoodreads } from 'react-icons/fa6';
 
 export const Books = () => {
   const [books, setBooks] = useState([]);
