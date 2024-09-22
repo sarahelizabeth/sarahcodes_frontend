@@ -1,24 +1,33 @@
-import React from 'react'
+import React, { useState } from 'react';
+import { PicItem } from './PicItem';
+import { PicModal } from './PicModal';
 
 export const Gallery = ({ items }) => {
   console.log(items);
-  
+  const [currentPic, setCurrentPic] = useState(null);
+  const [open, setOpen] = useState(false);
+
+  const handleOpenPicModal = (item) => {
+    console.log(item);
+    setCurrentPic(item);
+    setOpen(true);
+  };
+
+  const handleClosePicModal = () => {
+    setCurrentPic(null);
+    setOpen(false);
+  }
+
   return (
     <div className='gallery-container'>
       {items.map((item, index) => (
-        <div key={index}>
-          <figure
-            className='gallery-img-container'
-          >
-            <img
-              alt={item.title}
-              src={item.image}
-              className='gallery-img'
-            />
-            {item.title ? <figcaption className='gallery-img-caption'>{item.title}</figcaption> : ''}
-          </figure>
-        </div>
+        <figure className='gallery-img-container' key={index}>
+          <button onClick={() => handleOpenPicModal(item)}>
+            <PicItem picData={item} />
+          </button>
+          {currentPic && <PicModal picData={currentPic} isOpen={open} handleClose={handleClosePicModal} />}
+        </figure>
       ))}
     </div>
   );
-}
+};

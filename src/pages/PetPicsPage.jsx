@@ -3,7 +3,7 @@ import { UserContext } from '../App'
 import { Gallery } from '../components/cuties/Gallery';
 import { API } from '../api';
 import { useToaster } from 'rsuite';
-import { SubmitPetModal } from '../components/cuties/SubmitPetModal';
+import { AddPetPicModal } from '../components/cuties/AddPetPicModal';
 
 export const PetPicsPage = ({ handlePageChange }) => {
   const userContext = useContext(UserContext);
@@ -58,12 +58,12 @@ export const PetPicsPage = ({ handlePageChange }) => {
         </h5>
       </div>
       <Gallery items={pics} />
-      <div class='fixed bottom-4 left-1/2 transform -translate-x-1/2'>
+      <div className='fixed bottom-4 left-1/2 transform -translate-x-1/2'>
         <button onClick={handleSubmitPicture} className='button-shadow-black-outline border-2 border-black text-black bg-white px-4 py-2 uppercase mt-2 mb-4 hover:font-extrabold z-20'>
           Submit Your Own
         </button>
       </div>
-      <SubmitPetModal isOpen={open} handleClose={() => setOpen(false)} />
+      <AddPetPicModal isOpen={open} handleClose={() => setOpen(false)} />
     </div>
   );
 }
