@@ -12,6 +12,7 @@ import { GiSandSnake } from 'react-icons/gi';
 import { PiPottedPlantFill } from 'react-icons/pi';
 import { UserContext } from '../../App';
 import format from 'date-fns/format';
+import { PicsContext } from '../../pages/PetPicsPage';
 
 const speciesList = [
   {
@@ -51,8 +52,9 @@ const speciesList = [
   },
 ];
 
-export const AddPetPicModal = ({ isOpen, handleClose, handleSuccess }) => {
+export const AddPetPicModal = ({ isOpen, handleClose }) => {
   const userContext = useContext(UserContext);
+  const picsContext = useContext(PicsContext);
   const [formValue, setFormValue] = useState({
     pet_type: null,
     name: '',
@@ -65,7 +67,7 @@ export const AddPetPicModal = ({ isOpen, handleClose, handleSuccess }) => {
   const [previewImage, setPreviewImage] = useState(null);
 
   const form = useRef();
-  const { StringType, DateType } = Schema.Types;
+  const { StringType } = Schema.Types;
   const model = Schema.Model({
     name: StringType().isRequired('Name is required.').maxLength(100, 'The maximum number of characters is 100.'),
     breed: StringType().maxLength(100, 'The maximum number of characters is 100.'),
@@ -89,21 +91,19 @@ export const AddPetPicModal = ({ isOpen, handleClose, handleSuccess }) => {
     }
 
     if (formValue.birthday) {
-      const date = format(parseISO(formValue.birthday), 'yyyy-MM-dd');
+      const date = format(formValue.birthday, 'yyyy-MM-dd');
       formValue.birthday = date;
     }
     formValue.owner = userContext.user.pk;
     formValue.pet_type = species;
     formValue.image = image;
 
-    console.log('formValue: ', formValue)
-
     API.post(`/api/pets/pics/`, formValue, {
       headers: { 'content-type': 'multipart/form-data' },
     })
       .then((res) => {
-        console.log(res.data);
-        handleSuccess(res.data);
+        picsContext.setPics([...picsContext.pics, res.data])
+        handleClose();
       })
       .catch((error) => console.error('create pet error: ', error));
   };
