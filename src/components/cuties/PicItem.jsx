@@ -1,33 +1,45 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
+import { GiPawHeart } from 'react-icons/gi';
+import { RiHeartsLine } from 'react-icons/ri';
+import { PiHandHeartBold } from 'react-icons/pi';
+import { TbCameraHeart } from 'react-icons/tb';
+import { TbPhotoHeart } from 'react-icons/tb';
+import { BsChatRightHeartFill } from 'react-icons/bs';
+import { BsChatRightHeart } from 'react-icons/bs';
 
 export const PicItem = ({ picData }) => {
   console.log(picData)
   const [age, setAge] = useState(0);
 
+  const getAge = (birthday) => {
+    var birthdayFormatted = new Date(birthday);
+    var monthsDiff = Date.now() - birthdayFormatted.getTime();
+    var monthsDiffFormatted = new Date(monthsDiff);
+    var birthYear = monthsDiffFormatted.getUTCFullYear();
+    var age = Math.abs(birthYear - 1970); 
+    return age;
+  };
+
   useEffect(() => {
-     var dob = new Date(picData.birthday);
-
-     //calculate month difference from current date in time
-     var month_diff = Date.now() - dob.getTime();
-
-     //convert the calculated difference in date format
-     var age_dt = new Date(month_diff);
-
-     //extract year from date
-     var year = age_dt.getUTCFullYear();
-
-     //now calculate the age of the user
-     var age = Math.abs(year - 1970); 
-
-     setAge(age);
+    let age = getAge(picData.birthday);
+    setAge(age);
   }, []);
 
   return (
     <div className='bg-white border-2 border-black p-2'>
-      <img className='h-auto max-w-full rounded-lg object-cover object-center' src={picData.image} alt='gallery-photo' />
-      <div className='p-1'>
-        <p>{picData.name}, age {age.toString()}</p>
-        <p>Submitted by </p>
+      <img
+        className='h-auto max-w-full rounded-lg object-cover object-center'
+        src={picData.image}
+        alt='gallery-photo'
+      />
+      <div className='p-1 text-left'>
+        <p className='uppercase'>
+          <span className='font-bold'>{picData.name}</span>
+          {picData.birthday ? <span className='text-xs'>, age {age.toString()}</span> : null}
+        </p>
+        <p className='flex items-center'>
+          <BsChatRightHeart /> <span className='pl-2'>{picData.owner_name}</span>
+        </p>
       </div>
     </div>
   );

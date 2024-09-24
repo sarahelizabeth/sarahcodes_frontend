@@ -51,13 +51,13 @@ const speciesList = [
   },
 ];
 
-export const AddPetPicModal = ({ isOpen, handleClose }) => {
+export const AddPetPicModal = ({ isOpen, handleClose, handleSuccess }) => {
   const userContext = useContext(UserContext);
   const [formValue, setFormValue] = useState({
     pet_type: null,
     name: '',
     breed: '',
-    birthday: new Date(),
+    birthday: null,
   });
   const [selected, setSelected] = useState('');
   const [species, setSpecies] = useState('');
@@ -69,7 +69,6 @@ export const AddPetPicModal = ({ isOpen, handleClose }) => {
   const model = Schema.Model({
     name: StringType().isRequired('Name is required.').maxLength(100, 'The maximum number of characters is 100.'),
     breed: StringType().maxLength(100, 'The maximum number of characters is 100.'),
-    birthday: DateType().isRequired('Birthday is required.'),
   });
 
   const RadioItem = ({ type, label, icon }) => (
@@ -89,8 +88,10 @@ export const AddPetPicModal = ({ isOpen, handleClose }) => {
       return;
     }
 
-    const date = format(formValue.birthday, 'yyyy-MM-dd');
-    formValue.birthday = date;
+    if (formValue.birthday) {
+      const date = format(parseISO(formValue.birthday), 'yyyy-MM-dd');
+      formValue.birthday = date;
+    }
     formValue.owner = userContext.user.pk;
     formValue.pet_type = species;
     formValue.image = image;
@@ -102,7 +103,7 @@ export const AddPetPicModal = ({ isOpen, handleClose }) => {
     })
       .then((res) => {
         console.log(res.data);
-        handleClose();
+        handleSuccess(res.data);
       })
       .catch((error) => console.error('create pet error: ', error));
   };
@@ -180,7 +181,7 @@ export const AddPetPicModal = ({ isOpen, handleClose }) => {
           <Divider />
 
           <button
-            className='text-center flex justify-center align-end button-shadow-black hover:font-bold border-2 disabled:border-1 border-black disabled:border-gray-400 px-4 py-2 uppercase mt-2 place-self-center disabled:text-gray-400'
+            className='text-center flex justify-center align-end button-shadow-black uppercase mt-2 place-self-center hover:font-bold disabled:border-1 disabled:border-gray-400 disabled:text-gray-400'
             disabled={!image}
             onClick={handleSubmit}
             type='submit'

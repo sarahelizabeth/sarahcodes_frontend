@@ -41,7 +41,7 @@ export const CommentForm = ({ questionId, submitComment }) => {
         className='self-stretch'
       />
       <button
-        className='button-shadow-black hover:font-bold border-2 border-black px-4 py-2 uppercase mt-2 place-self-end'
+        className='button-shadow-black hover:font-bold uppercase mt-2 place-self-end'
         onClick={handleSubmit}
         type='submit'
       >

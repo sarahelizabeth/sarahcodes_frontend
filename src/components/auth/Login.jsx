@@ -74,7 +74,7 @@ export const Login = ({ isOpen, handleClose }) => {
           )}
 
           <button
-            className='text-center button-shadow-black hover:font-bold border-2 border-black px-4 py-2 uppercase mt-2 place-self-center'
+            className='text-center button-shadow-black hover:font-bold uppercase mt-2 place-self-center'
             onClick={handleSubmit}
             type='submit'
           >

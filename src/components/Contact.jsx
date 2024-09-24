@@ -71,7 +71,7 @@ export const Contact = ({ isOpen, handleClose }) => {
           </Form.Group>
 
           <button
-            className='text-center button-shadow-black hover:font-bold border-2 border-black px-4 py-2 uppercase mt-2 place-self-center'
+            className='text-center button-shadow-black hover:font-bold uppercase mt-2 place-self-center'
             onClick={handleSubmit}
             type='submit'
           >

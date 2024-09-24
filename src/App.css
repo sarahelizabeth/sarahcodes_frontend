@@ -99,6 +99,12 @@
   color: black !important;
 }
 
+.button-shadow-black {
+  border-width: 2px;
+  border-color: black;
+  padding: 0.5rem 1rem;
+}
+
 .button-shadow-white:hover {
   -webkit-box-shadow: 4px 4px 0px 0px white;
   -moz-box-shadow: 4px 4px 0px 0px white;
