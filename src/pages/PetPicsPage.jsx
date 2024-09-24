@@ -4,6 +4,7 @@ import { API } from '../api';
 import { useToaster } from 'rsuite';
 import { AddPetPicModal } from '../components/cuties/AddPetPicModal';
 import { Gallery } from '../components/cuties/Gallery';
+import { ContentError } from '../components/ContentError';
 
 export const PicsContext = createContext(null);
 
@@ -15,6 +16,7 @@ export const PetPicsPage = ({ handlePageChange }) => {
   const picsContext = useMemo(() => ({ pics, setPics }), [pics]);
   
   const [open, setOpen] = useState(false);
+  const [contentError, setContentError] = useState(false);
 
   const handleSubmit = () => {
     if (!userContext.user) {
@@ -45,9 +47,10 @@ export const PetPicsPage = ({ handlePageChange }) => {
   );
 
   useEffect(() => {
+    handlePageChange();
+
     API.get(`api/pets/pics/`)
       .then((res) => {
-        handlePageChange();
         const picsFormatted = res.data.map((item) => {
           if (item.birthday) {
             let birthdayFormatted = new Date(item.birthday).toLocaleDateString('en-US', {
@@ -74,7 +77,10 @@ export const PetPicsPage = ({ handlePageChange }) => {
         });
         picsContext.setPics(picsFormatted);
       })
-      .catch(error => console.error('get all pet pics err: ', error));
+      .catch(error => {
+        setContentError(true);
+        console.error('get all pet pics err: ', error);
+      });
   }, []);
 
   return (
@@ -87,6 +93,13 @@ export const PetPicsPage = ({ handlePageChange }) => {
           </h5>
         </div>
         <Gallery />
+        {contentError && (
+          <div className='centered'>
+            <div className='w-2/3 mt-6 md:w-1/3'>
+              <ContentError />
+            </div>
+          </div>
+        )}
         <div className='fixed bottom-4 left-1/2 transform -translate-x-1/2'>
           <button
             onClick={handleSubmit}
