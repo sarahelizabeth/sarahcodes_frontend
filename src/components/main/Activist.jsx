@@ -1,14 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { API } from '../../api';
 import ProjectList from './ProjectList';
+import { ContentError } from '../ContentError';
 
 export const Activist = () => {
   const [projects, setProjects] = useState([]);
+  const [contentError, setContentError] = useState(false);
 
   useEffect(() => {
-    API.get(`api/portfolio/projects/?project_type=activist`).then((res) => {
-      setProjects(res.data);
-    });
+    API.get(`api/portfolio/projects/?project_type=activist`)
+      .then((res) => {
+        setProjects(res.data);
+      })
+      .catch(error => {
+        console.error('get activist projects err: ', error);
+        setContentError(true);
+      });
   }, []);
 
   return (
@@ -23,6 +30,7 @@ export const Activist = () => {
       </div>
       <h6 className='mb-3 dosis font-extrabold text-lg'>PROJECTS</h6>
       <ProjectList projects={projects} />
+      {contentError && <ContentError />}
     </>
   );
 };

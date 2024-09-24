@@ -3,6 +3,7 @@ import { API } from '../api';
 import { UserContext, LoginContext, RegisterContext } from '../App';
 import { QuestionForm } from '../components/blog/QuestionForm';
 import { Questions } from '../components/blog/Questions';
+import { ContentError } from '../components/ContentError';
 
 export const QuestionsContext = createContext(null);
 
@@ -14,6 +15,7 @@ export const AMAPage = () => {
   const [questions, setQuestions] = useState([]);
   const [questionSubmitted, setQuestionSubmitted] = useState(false);
   const [commentSubmitted, setCommentSubmitted] = useState(false);
+  const [contentError, setContentError] = useState(false);
 
   const handleSuccess = () => {
     setQuestionSubmitted(!questionSubmitted);
@@ -27,6 +29,7 @@ export const AMAPage = () => {
       })
       .catch((error) => {
         console.error('list questions error: ', error);
+        setContentError(true);
       });
   }, [questionSubmitted, commentSubmitted]);
 
@@ -70,6 +73,7 @@ export const AMAPage = () => {
           <QuestionsContext.Provider value={questions}>
             <Questions submitComment={() => setCommentSubmitted(!commentSubmitted)} />
           </QuestionsContext.Provider>
+          {contentError && <ContentError />}
         </div>
       </section>
     </>

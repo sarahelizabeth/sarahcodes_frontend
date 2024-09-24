@@ -1,14 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { API } from '../../api';
 import MentorList from './MentorList';
+import { ContentError } from '../ContentError';
 
 export const Mentor = () => {
   const [projects, setProjects] = useState([]);
+  const [contentError, setContentError] = useState(false);
 
   useEffect(() => {
-    API.get(`api/portfolio/projects/?project_type=mentor`).then((res) => {
-      setProjects(res.data);
-    });
+    API.get(`api/portfolio/projects/?project_type=mentor`)
+      .then((res) => {
+        setProjects(res.data);
+      })
+      .catch(error => {
+        console.error('get mentor projects: ', error);
+        setContentError(true);
+      });
   }, []);
 
   return (
@@ -23,6 +30,7 @@ export const Mentor = () => {
       </div>
       <h6 className='mb-3 dosis font-extrabold text-lg'>EXPERIENCES</h6>
       <MentorList projects={projects} />
+      {contentError && <ContentError />}
     </>
   );
 };

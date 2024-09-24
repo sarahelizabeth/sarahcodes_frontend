@@ -3,16 +3,21 @@ import { API } from '../../api';
 import { MediaItem } from './MediaItem';
 import { Divider } from 'rsuite';
 import { FaAppStoreIos } from 'react-icons/fa';
+import { ContentError } from '../ContentError';
 
 export const CoolApps = () => {
   const [apps, setApps] = useState([]);
+  const [contentError, setContentError] = useState(false);
 
   useEffect(() => {
     API.get(`/api/bookshelf/media/?media_type=app&visible=true`)
       .then((res) => {
         setApps(res.data);
       })
-      .catch((error) => console.error('apps list error: ', error));
+      .catch((error) => {
+        console.error('apps list error: ', error);
+        setContentError(true);
+      });
   }, []);
 
   return (
@@ -23,6 +28,7 @@ export const CoolApps = () => {
           <Divider />
         </React.Fragment>
       ))}
+      {contentError && <ContentError />}
     </div>
   );
 };

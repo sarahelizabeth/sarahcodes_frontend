@@ -7,16 +7,21 @@ import { SiDjango, SiTailwindcss, SiNextdotjs, SiTypescript, SiVite } from 'reac
 import { DiPostgresql } from 'react-icons/di';
 
 import { IconTooltip } from '../IconTooltip';
+import { ContentError } from '../ContentError';
 
 export const Developer = () => {
   const [projects, setProjects] = useState([]);
+  const [contentError, setContentError] = useState(false);
 
   useEffect(() => {
     API.get(`api/portfolio/projects?project_type=developer`)
       .then((res) => {
         setProjects(res.data);
       })
-      .catch((error) => console.error('developer list error: ', error));
+      .catch((error) => {
+        console.error('developer list error: ', error);
+        setContentError(true);
+      });
   }, []);
 
   return (
@@ -51,6 +56,7 @@ export const Developer = () => {
       </div>
       <h6 className='mb-3 dosis font-extrabold text-lg'>PROJECTS</h6>
       <ProjectList projects={projects} />
+      {contentError && <ContentError />}
     </>
   );
 };
