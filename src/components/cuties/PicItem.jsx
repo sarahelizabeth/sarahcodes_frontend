@@ -1,14 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { GiPawHeart } from 'react-icons/gi';
-import { RiHeartsLine } from 'react-icons/ri';
-import { PiHandHeartBold } from 'react-icons/pi';
-import { TbCameraHeart } from 'react-icons/tb';
-import { TbPhotoHeart } from 'react-icons/tb';
-import { BsChatRightHeartFill } from 'react-icons/bs';
 import { BsChatRightHeart } from 'react-icons/bs';
 
 export const PicItem = ({ picData }) => {
-  console.log(picData)
   const [age, setAge] = useState(0);
 
   const getAge = (birthday) => {
@@ -23,12 +16,12 @@ export const PicItem = ({ picData }) => {
   useEffect(() => {
     let age = getAge(picData.birthday);
     setAge(age);
-  }, []);
+  }, [picData]);
 
   return (
-    <div className='bg-white border-2 border-black p-2'>
+    <div className='bg-white border-2 border-black p-2 w-full'>
       <img
-        className='h-auto max-w-full rounded-lg object-cover object-center'
+        className='h-auto w-full rounded-lg object-cover object-center'
         src={picData.image}
         alt='gallery-photo'
       />

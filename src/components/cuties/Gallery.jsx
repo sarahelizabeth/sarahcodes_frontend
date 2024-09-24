@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { PicItem } from './PicItem';
 import { PicModal } from './PicModal';
+import { motion } from 'framer-motion';
+import { PicsContext } from '../../pages/PetPicsPage';
 
-export const Gallery = ({ items }) => {
-  console.log(items);
+export const Gallery = () => {
+  const picsContext = useContext(PicsContext);
   const [currentPic, setCurrentPic] = useState(null);
   const [open, setOpen] = useState(false);
 
   const handleOpenPicModal = (item) => {
-    console.log(item);
     setCurrentPic(item);
     setOpen(true);
   };
@@ -16,16 +17,27 @@ export const Gallery = ({ items }) => {
   const handleClosePicModal = () => {
     setCurrentPic(null);
     setOpen(false);
-  }
+  };
 
   return (
     <div className='gallery-container'>
-      {items.map((item, index) => (
+      {picsContext.pics.map((item, index) => (
         <figure className='gallery-img-container' key={index}>
-          <button onClick={() => handleOpenPicModal(item)}>
+          <motion.button
+            onClick={() => handleOpenPicModal(item)}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.975 }}
+            className='w-full'
+          >
             <PicItem picData={item} />
-          </button>
-          {currentPic && <PicModal picData={currentPic} isOpen={open} handleClose={handleClosePicModal} />}
+          </motion.button>
+          {currentPic && (
+            <PicModal
+              picData={currentPic}
+              isOpen={open}
+              handleClose={handleClosePicModal}
+            />
+          )}
         </figure>
       ))}
     </div>
