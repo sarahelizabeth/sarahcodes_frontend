@@ -71,10 +71,10 @@ export const Navigation = ({ toggleOpen }) => {
       title: 'Bookshelf',
       link: '/shelf',
     },
-    // {
-    //   title: 'Pet Pics',
-    //   link: '/cuties',
-    // },
+    {
+      title: 'Pet Pics',
+      link: '/cuties',
+    },
   ];
 
   return (
