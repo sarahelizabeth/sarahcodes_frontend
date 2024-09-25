@@ -30,7 +30,7 @@ export const Activist = () => {
       </div>
       <h6 className='mb-3 dosis font-extrabold text-lg'>PROJECTS</h6>
       <ProjectList projects={projects} />
-      {contentError && <ContentError />}
+      {contentError || (projects.length < 1 && <ContentError />)}
     </>
   );
 };

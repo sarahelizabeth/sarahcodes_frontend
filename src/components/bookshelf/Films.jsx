@@ -28,7 +28,7 @@ export const Films = () => {
           <Divider />
         </React.Fragment>
       ))}
-      {contentError && <ContentError />}
+      {contentError || (films.length < 1 && <ContentError />)}
     </div>
   );
 };

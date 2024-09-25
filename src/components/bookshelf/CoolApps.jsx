@@ -28,7 +28,7 @@ export const CoolApps = () => {
           <Divider />
         </React.Fragment>
       ))}
-      {contentError && <ContentError />}
+      {contentError || (apps.length < 1 && <ContentError />)}
     </div>
   );
 };

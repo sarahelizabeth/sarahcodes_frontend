@@ -28,7 +28,7 @@ export const Books = () => {
           <Divider />
         </React.Fragment>
       ))}
-      {contentError && <ContentError />}
+      {contentError || (books.length < 1 && <ContentError />)}
     </div>
   );
 };

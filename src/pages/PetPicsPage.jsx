@@ -93,13 +93,14 @@ export const PetPicsPage = ({ handlePageChange }) => {
           </h5>
         </div>
         <Gallery />
-        {contentError && (
-          <div className='centered'>
-            <div className='w-2/3 mt-6 md:w-1/3'>
-              <ContentError />
+        {contentError ||
+          (pics.length < 1 && (
+            <div className='centered'>
+              <div className='w-2/3 mt-6 md:w-1/3'>
+                <ContentError />
+              </div>
             </div>
-          </div>
-        )}
+          ))}
         <div className='fixed bottom-4 left-1/2 transform -translate-x-1/2'>
           <button
             onClick={handleSubmit}
@@ -108,10 +109,7 @@ export const PetPicsPage = ({ handlePageChange }) => {
             Submit Your Own
           </button>
         </div>
-        <AddPetPicModal
-          isOpen={open}
-          handleClose={() => setOpen(false)}
-        />
+        <AddPetPicModal isOpen={open} handleClose={() => setOpen(false)} />
       </div>
     </PicsContext.Provider>
   );

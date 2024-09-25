@@ -73,7 +73,7 @@ export const AMAPage = () => {
           <QuestionsContext.Provider value={questions}>
             <Questions submitComment={() => setCommentSubmitted(!commentSubmitted)} />
           </QuestionsContext.Provider>
-          {contentError && <ContentError />}
+          {contentError || (questions.length < 1 && <ContentError />)}
         </div>
       </section>
     </>

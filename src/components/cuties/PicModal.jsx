@@ -118,10 +118,10 @@ export const PicModal = ({ picData, isOpen, handleClose }) => {
         )}
       </Modal.Header>
       <Modal.Body>
-        <div className='md:grid md:grid-cols-5 gap-2 text-xs md:text-sm'>
-          <img className='md:col-span-3' src={picData.image} />
+        <div className='md:grid md:grid-cols-3 gap-2'>
+          <img className='md:col-span-2' src={picData.image} />
           {isEditing ? (
-            <div className='md:col-span-2'>
+            <div className='md:col-span-1'>
               <Form
                 ref={form}
                 model={model}
@@ -185,24 +185,42 @@ export const PicModal = ({ picData, isOpen, handleClose }) => {
           ) : (
             <>
               <div className='mt-4 md:mt-0 md:col-span-1'>
-                <p>Submitted by:</p>
-                <p>{modalPic.breed.length > 0 ? 'Breed:' : ''}</p>
-                <p>{modalPic.birthday ? 'Birthday:' : ''}</p>
-                <p>Uploaded on:</p>
-              </div>
-              <div className='mt-4 md:mt-0 md:col-span-1'>
-                <p>{modalPic.owner_name}</p>
-                <p>{modalPic.breed}</p>
-                <p>{modalPic.birthday ? modalPic.birthdayFormatted : null} </p>
-                <p>{modalPic.createdAtFormatted}</p>
-                {userContext.user.pk === modalPic.owner.pk && (
-                  <button
-                    onClick={() => setIsEditing(true)}
-                    className='button-shadow-black font-bold text-xs py-1 px-2 mt-4 flex items-center float-right'
-                  >
-                    <FaEdit />
-                    <span className='pl-2 pt-[0.15rem]'>Edit</span>
-                  </button>
+                <div className='mb-3'>
+                  <label className='uppercase text-[0.69rem] font-extrabold'>Submitted by</label>
+                  <p>{modalPic.owner_name}</p>
+                </div>
+                {modalPic.breed.length > 0 ? (
+                  <div className='mb-3'>
+                    <label className='uppercase text-[0.69rem] font-extrabold'>Breed</label>
+                    <p>{modalPic.breed}</p>
+                  </div>
+                ) : (
+                  ''
+                )}
+                {modalPic.birthday ? (
+                  <div className='mb-3'>
+                    <label className='uppercase text-[0.69rem] font-extrabold'>Birthday</label>
+                    <p>{modalPic.birthdayFormatted}</p>
+                  </div>
+                ) : (
+                  ''
+                )}
+                <div className='mb-3'>
+                  <label className='uppercase text-[0.69rem] font-extrabold'>Uploaded on</label>
+                  <p>{modalPic.createdAtFormatted}</p>
+                </div>
+                {userContext.user && (
+                  <>
+                    {userContext.user.pk === modalPic.owner.pk && (
+                    <button
+                      onClick={() => setIsEditing(true)}
+                      className='button-shadow-black font-bold text-xs py-1 px-2 mt-4 flex items-center float-right'
+                    >
+                      <FaEdit />
+                      <span className='pl-2 pt-[0.15rem]'>Edit</span>
+                    </button>
+                    )}
+                  </>
                 )}
               </div>
             </>

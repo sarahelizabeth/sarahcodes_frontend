@@ -41,6 +41,21 @@ export const Navigation = ({ toggleOpen }) => {
   const registerContext = useContext(RegisterContext);
   const userContext = useContext(UserContext);
 
+  const handleContact = () => {
+    contactContext.setOpenContact(true);
+    toggleOpen();
+  };
+
+  const handleRegister = () => {
+    registerContext.setOpenRegister(true);
+    toggleOpen();
+  };
+
+  const handleLogin = () => {
+    loginContext.setOpenLogin(true);
+    toggleOpen();
+  };
+
   const handleLogout = () => {
     const access_token = Cookies.get('access_token');
     API.post(`api/auth/logout/`, {
@@ -97,7 +112,7 @@ export const Navigation = ({ toggleOpen }) => {
           <motion.li variants={liVariants} whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
             <button
               className='text-black hover:underline hover:font-bold'
-              onClick={() => loginContext.setOpenLogin(true)}
+              onClick={handleLogin}
             >
               Log In
             </button>
@@ -105,7 +120,7 @@ export const Navigation = ({ toggleOpen }) => {
           <motion.li variants={liVariants} whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
             <button
               className='text-black hover:underline hover:font-bold'
-              onClick={() => registerContext.setOpenRegister(true)}
+              onClick={handleRegister}
             >
               Sign Up
             </button>
@@ -115,7 +130,7 @@ export const Navigation = ({ toggleOpen }) => {
       <motion.li variants={liVariants} whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
         <button
           className='text-black hover:underline hover:font-bold'
-          onClick={() => contactContext.setOpenContact(true)}
+          onClick={handleContact}
         >
           Contact
         </button>

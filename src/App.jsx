@@ -31,7 +31,6 @@ export const LoginContext = createContext();
 export const ContactContext = createContext();
 
 
-
 function App() {
   const [isPetPage, setIsPetPage] = useState(false);
   const router = createBrowserRouter([

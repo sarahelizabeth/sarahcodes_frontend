@@ -30,7 +30,7 @@ export const Mentor = () => {
       </div>
       <h6 className='mb-3 dosis font-extrabold text-lg'>EXPERIENCES</h6>
       <MentorList projects={projects} />
-      {contentError && <ContentError />}
+      {contentError || (projects.length < 1 && <ContentError />)}
     </>
   );
 };

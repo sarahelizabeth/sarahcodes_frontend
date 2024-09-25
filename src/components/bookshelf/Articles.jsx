@@ -29,7 +29,7 @@ export const Articles = () => {
           <Divider />
         </React.Fragment>
       ))}
-      {contentError && <ContentError />}
+      {contentError || (articles.length < 1 && <ContentError />)}
     </div>
   );
 };
