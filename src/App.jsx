@@ -13,6 +13,7 @@ import { Intro } from './components/main/Intro';
 import { Developer } from './components/main/Developer';
 import { Mentor } from './components/main/Mentor';
 import { Activist } from './components/main/Activist';
+import { Experience } from './components/main/Experience';
 
 import { AMAPage } from './pages/AMAPage';
 
@@ -53,6 +54,10 @@ function App() {
         {
           path: 'activist',
           element: <Activist />,
+        },
+        {
+          path: 'experience',
+          element: <Experience />
         },
       ],
     },

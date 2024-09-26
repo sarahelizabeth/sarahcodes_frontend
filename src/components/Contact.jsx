@@ -86,7 +86,7 @@ export const Contact = ({ isOpen, handleClose }) => {
             Submit
           </button>
         </Form>
-        <Divider />
+        <Divider>OR CHECK OUT MY OTHER STUFF</Divider>
         <div className='flex justify-center gap-5 pt-3 '>
           <motion.a
             href='https://github.com/sarahelizabeth?tab=repositories'
