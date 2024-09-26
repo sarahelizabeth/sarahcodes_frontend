@@ -19,8 +19,9 @@ export const Developer = () => {
         setProjects(res.data);
       })
       .catch((error) => {
-        console.error('developer list error: ', error);
         setContentError(true);
+        console.log(contentError)
+        console.error('developer list error: ', error);
       });
   }, []);
 
@@ -55,8 +56,7 @@ export const Developer = () => {
         </div>
       </div>
       <h6 className='mb-3 dosis font-extrabold text-lg'>PROJECTS</h6>
-      <ProjectList projects={projects} />
-      {contentError || (projects.length < 1) && <ContentError />}
+      {contentError || projects.length < 1 ? <ContentError /> : <ProjectList projects={projects} />}
     </>
   );
 };

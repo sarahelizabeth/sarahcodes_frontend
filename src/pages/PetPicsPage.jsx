@@ -78,8 +78,8 @@ export const PetPicsPage = ({ handlePageChange }) => {
         picsContext.setPics(picsFormatted);
       })
       .catch(error => {
-        setContentError(true);
         console.error('get all pet pics err: ', error);
+        setContentError(true);
       });
   }, []);
 
