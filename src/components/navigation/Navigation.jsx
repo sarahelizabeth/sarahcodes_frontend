@@ -141,19 +141,19 @@ export const Navigation = ({ toggleOpen }) => {
             href='https://github.com/sarahelizabeth?tab=repositories'
             target='_blank'
             className='hover:text-black focus:text-black'
-            whileHover={{ scale: 1.2 }}
+            whileHover={{ scale: 1.25 }}
             whileTap={{ scale: 0.95 }}
           >
-            <FaGithub size={36} />
+            <FaGithub size={28} />
           </motion.a>
           <motion.a
             href='https://www.linkedin.com/in/semurray1/'
             target='_blank'
             className='hover:text-black focus:text-black'
-            whileHover={{ scale: 1.2 }}
+            whileHover={{ scale: 1.25 }}
             whileTap={{ scale: 0.95 }}
           >
-            <FaLinkedinIn size={36} />
+            <FaLinkedinIn size={28} />
           </motion.a>
         </div>
       </motion.li>

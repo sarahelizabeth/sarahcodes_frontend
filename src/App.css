@@ -2,12 +2,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Bangers&family=Nova+Mono&family=Outfit:wght@100..900&family=Train+One&display=swap&family=Dosis:wght@200..800');
 /* bungee shade */
 @import url('https://fonts.googleapis.com/css2?family=Bungee+Shade&display=swap');
-/* bungee inline */
-@import url('https://fonts.googleapis.com/css2?family=Bungee+Inline&display=swap');
 /* bungee hairline */
 @import url('https://fonts.googleapis.com/css2?family=Bungee+Hairline&display=swap');
-/* bungee outline */
-@import url('https://fonts.googleapis.com/css2?family=Bungee+Outline&display=swap');
+/* bungee regular */
+@import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
 
 
 .centered {
@@ -54,6 +52,7 @@
   -webkit-text-stroke-color: white;
   color: black;
   font-size: 40px;
+  text-shadow: 8px 6px rgba(255, 255, 255, 0.4);
 }
 
 #main-nav > a#activist:hover {
@@ -336,18 +335,6 @@
   font-style: normal;
 }
 
-.bungee-inline {
-  font-family: "Bungee Inline", sans-serif;
-  font-weight: 400;
-  font-style: normal;
-}
-
-.bungee-outline {
-  font-family: "Bungee Outline", sans-serif;
-  font-weight: 400;
-  font-style: normal;
-}
-
 .bungee-hairline {
   font-family: "Bungee Hairline", sans-serif;
   font-weight: 400;
@@ -355,6 +342,11 @@
   -webkit-text-stroke: 1px black;
 }
 
+.bungee-regular {
+  font-family: "Bungee", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
 
 /***
   **
@@ -370,7 +362,12 @@
 
 @media (max-width: 767px) {
   .triangle {
-    display: none !important;
+    width: 0px;
+    height: 0px;
+    border-style: solid;
+    border-width: 0 17px 12px 17px;
+    border-color: transparent transparent #000000 transparent;
+    transform: rotate(180deg);
   }
 
   .centered {

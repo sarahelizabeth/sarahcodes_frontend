@@ -21,7 +21,7 @@ export const Mentor = () => {
   return (
     <>
       <div className='mt-1 md:mt-4 mb-8'>
-        <h6 className='mb-2 dosis font-extrabold text-lg'>PERSONAL STATEMENT</h6>
+        <h6 className='hidden md:block mb-2 dosis font-extrabold text-lg'>PERSONAL STATEMENT</h6>
         <p>
           There are few things that get me more excited than sharing my knowledge of and love for technology with
           others, whether that be in the capacity of mentor, teacher, or coworker, i feel privileged to have the

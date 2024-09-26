@@ -28,7 +28,7 @@ export const Developer = () => {
   return (
     <>
       <div className='mt-1 md:mt-4 mb-8'>
-        <h6 className='mb-2 dosis font-extrabold text-lg'>PERSONAL STATEMENT</h6>
+        <h6 className='hidden md:block mb-2 dosis font-extrabold text-lg'>PERSONAL STATEMENT</h6>
         <p>
           With 8 years of professional experience in full-stack development and 10+ years of writing code, I have a
           strong foundation in creating sophisticated, robust, user-centric applications. I have a deep respect for the

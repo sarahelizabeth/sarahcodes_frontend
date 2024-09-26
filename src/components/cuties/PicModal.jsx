@@ -112,9 +112,9 @@ export const PicModal = ({ picData, isOpen, handleClose }) => {
       <Modal.Header className='flex mb-4 items-center'>
         <SpeciesIcon type={picData.pet_type} />
         {isEditing ? (
-          <h2 className='text-xl pl-4'>Edit Info</h2>
+          <h2 className='text-[1.5rem] bungee-regular pl-4'>Edit Info</h2>
         ) : (
-          <h2 className='text-xl uppercase font-bold pl-4'>{modalPic.name}</h2>
+          <h2 className='text-xl bungee-regular uppercase font-bold pl-4'>{modalPic.name}</h2>
         )}
       </Modal.Header>
       <Modal.Body>
@@ -212,13 +212,13 @@ export const PicModal = ({ picData, isOpen, handleClose }) => {
                 {userContext.user && (
                   <>
                     {userContext.user.pk === modalPic.owner.pk && (
-                    <button
-                      onClick={() => setIsEditing(true)}
-                      className='button-shadow-black font-bold text-xs py-1 px-2 mt-4 flex items-center float-right'
-                    >
-                      <FaEdit />
-                      <span className='pl-2 pt-[0.15rem]'>Edit</span>
-                    </button>
+                      <button
+                        onClick={() => setIsEditing(true)}
+                        className='button-shadow-black font-bold text-xs py-1 px-2 mt-4 flex items-center float-right'
+                      >
+                        <FaEdit />
+                        <span className='pl-2 pt-[0.15rem]'>Edit</span>
+                      </button>
                     )}
                   </>
                 )}
