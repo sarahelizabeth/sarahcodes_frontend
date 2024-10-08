@@ -132,7 +132,22 @@ export const getProjects = async (project_type) => {
 export const getQuestions = async () => {
   try {
     const response = await database.listDocuments(databaseId, questionsCollectionId);
-    return response.documents;
+    
+    
+    const questions = response.documents.map((item, index) => {
+      let lastInitial = '';
+      if (item.author.last_name) {
+        lastInitial = item.author.last_name.charAt(0);
+        console.log(item.author.last_name);
+        console.log(lastInitial);
+      }
+      const author_name = item.author.first_name + ' ' + lastInitial + '.';
+      return {
+        ...item,
+        author_name: author_name,
+      };
+    });
+    return questions;
   } catch (error) {
     console.error(error);
   }
@@ -172,6 +187,8 @@ export const getPets = async (filter_type, filter_value) => {
       let lastInitial = '';
       if (item.owner.last_name) {
         lastInitial = item.owner.last_name.charAt(0);
+        console.log(item.owner.last_name);
+        console.log(lastInitial);
       }
       const owner_name = item.owner.first_name + ' ' + lastInitial + '.';
 

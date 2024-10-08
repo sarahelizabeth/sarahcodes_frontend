@@ -7,7 +7,7 @@ export const QuestionItem = ({ question }) => {
   return (
     <>
       <p>
-        ASKED BY <span className='font-black'>{question?.author?.first_name}</span> on {formatted_date} at{' '}
+        ASKED BY <span className='font-black'>{question.author_name}</span> on {formatted_date} at{' '}
         {formatted_time}:
       </p>
       <p>

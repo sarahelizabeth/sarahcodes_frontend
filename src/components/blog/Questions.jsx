@@ -57,7 +57,7 @@ export const Questions = ({ submitComment }) => {
 
   return (
     <div className='m-0 md:mt-5'>
-      {questions.toReversed().map((question, index) => (
+      {questions?.toReversed().map((question, index) => (
         <div key={index} className='item'>
           <QuestionItem question={question} />
           {question.answer !== null && <AnswerItem answer={question.answer} />}
