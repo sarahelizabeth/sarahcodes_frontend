@@ -60,7 +60,7 @@ export const Questions = ({ submitComment }) => {
       {questions.toReversed().map((question, index) => (
         <div key={index} className='item'>
           <QuestionItem question={question} />
-          {question.answer !== null && <AnswerItem answerId={question.answer} />}
+          {question.answer !== null && <AnswerItem answer={question.answer} />}
           <div className='comment-container mt-4'>
             <div className='flex justify-between'>
               <button
@@ -69,7 +69,7 @@ export const Questions = ({ submitComment }) => {
               >
                 <MdOutlineInsertComment size={18} />
                 <p className='hover:underline'>
-                  {question.comments.length} {`comment${question.comments.length === 1 ? '' : 's'}`}
+                  {question.comments && question.comments.length} {`comment${question.comments && question.comments.length === 1 ? '' : 's'}`}
                 </p>
               </button>
               <button onClick={() => handleShowForm(index)} className='flex items-end gap-x-2'>
@@ -81,11 +81,11 @@ export const Questions = ({ submitComment }) => {
               {showComments === index &&
                 question.comments.map((comment, index) => (
                   <div key={index}>
-                    <CommentItem commentId={comment} />
+                    <CommentItem comment={comment} />
                   </div>
                 ))}
               {showForm === index && (
-                <CommentForm questionId={question.pk} submitComment={() => handleSubmitComment(index)} />
+                <CommentForm questionId={question.$id} userId={userContext.user.$id} submitComment={() => handleSubmitComment(index)} />
               )}
             </div>
             {/* <CommentBlock

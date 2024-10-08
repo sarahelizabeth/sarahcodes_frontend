@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { API } from '../../api';
+import { API } from '../../utils/api';
 import { MediaItem } from './MediaItem';
 import { Divider } from 'rsuite';
 import { FaAppStoreIos } from 'react-icons/fa';

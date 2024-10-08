@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { API } from '../../api';
+import { API } from '../../utils/api';
 import { Button, useToaster } from 'rsuite';
 import { UserContext } from '../../App';
 import { IoCheckboxSharp } from 'react-icons/io5';

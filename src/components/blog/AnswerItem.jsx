@@ -1,37 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { API } from '../../api';
+import { API } from '../../utils/api';
 
-export const AnswerItem = ({ answerId }) => {
-  const [answerData, setAnswerData] = useState({
-    body: '',
-    date: '',
-    time: '',
-  });
-  useEffect(() => {
-    API.get(`/api/blog/answers/${answerId.toString()}/`)
-      .then((res) => {
-        const date = new Date(res.data.created_at).toLocaleDateString();
-        const time = new Date(res.data.created_at).toLocaleTimeString();
-        const answerData = {
-          body: res.data.body,
-          date: date,
-          time: time,
-        };
-        setAnswerData(answerData);
-      })
-      .catch((error) => {
-        console.error('get answer error: ', error);
-      });
-  }, []);
+export const AnswerItem = ({ answer }) => {
+  const dateFormatted = new Date(answer.$createdAt).toLocaleDateString();
+  const timeFormatted = new Date(answer.$createdAt).toLocaleTimeString();
 
   return (
     <div className='mt-4'>
       <p>
-        ANSWERED on {answerData.date} at {answerData.time}:
+        ANSWERED on {dateFormatted} at {timeFormatted}:
       </p>
       <p>
         {' '}
-        {'>'} {answerData.body}
+        {'>'} {answer?.body}
       </p>
     </div>
   );

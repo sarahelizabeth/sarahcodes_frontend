@@ -1,7 +1,7 @@
 import React, { useState, useRef, useContext, useEffect } from 'react';
 import { Form, Modal, Input, Schema, Divider } from 'rsuite';
 import { UserContext } from '../App';
-import { API } from '../api';
+import { API } from '../utils/api';
 import { motion } from 'framer-motion';
 import { FaGithub, FaLinkedinIn } from 'react-icons/fa';
 import { SiBuymeacoffee } from 'react-icons/si';

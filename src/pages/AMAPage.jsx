@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext, createContext } from 'react';
-import { API } from '../api';
+import { API } from '../utils/api';
+import { getQuestions } from '../utils/appwriteClient';
 import { UserContext, LoginContext, RegisterContext } from '../App';
 import { QuestionForm } from '../components/blog/QuestionForm';
 import { Questions } from '../components/blog/Questions';
@@ -22,15 +23,25 @@ export const AMAPage = () => {
   };
 
   useEffect(() => {
-    API.get(`/api/blog/questions/`)
-      .then((response) => {
-        const questionData = response.data;
-        setQuestions(questionData);
-      })
-      .catch((error) => {
+    const fetchQuestions = async () => {
+      try {
+        const response = await getQuestions();
+        console.log(response);
+        setQuestions(response);
+      } catch (error) {
         console.error('list questions error: ', error);
         setContentError(true);
-      });
+      }
+    };
+    fetchQuestions();
+      // .then((response) => {
+      //   const questionData = response.data;
+      //   setQuestions(questionData);
+      // })
+      // .catch((error) => {
+      //   console.error('list questions error: ', error);
+      //   setContentError(true);
+      // });
   }, [questionSubmitted, commentSubmitted]);
 
   return (

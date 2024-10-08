@@ -1,22 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { API } from '../../api';
+import { API } from '../../utils/api';
+import { useFetch } from '../../utils/useFetch';
+import { getProjects } from '../../utils/appwriteClient';
 import ProjectList from './ProjectList';
 import { ContentError } from '../ContentError';
 
 export const Activist = () => {
-  const [projects, setProjects] = useState([]);
-  const [contentError, setContentError] = useState(false);
+    const { data: projects, loading, refetch, error: contentError } = useFetch(() => getProjects('activist'));
 
-  useEffect(() => {
-    API.get(`api/portfolio/projects/?project_type=activist`)
-      .then((res) => {
-        setProjects(res.data);
-      })
-      .catch(error => {
-        console.error('get activist projects err: ', error);
-        setContentError(true);
-      });
-  }, []);
 
   return (
     <>

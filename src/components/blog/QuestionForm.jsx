@@ -1,7 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../../App';
 import { Input } from 'rsuite';
-import { API } from '../../api';
+import { API } from '../../utils/api';
+import { createQuestion } from '../../utils/appwriteClient';
 
 export const QuestionForm = ({ submitQuestion }) => {
   const userContext = useContext(UserContext);
@@ -15,7 +16,7 @@ export const QuestionForm = ({ submitQuestion }) => {
     }
   }, []);
 
-  const handleSubmit = () => {
+  const oldHandleSubmit = () => {
     if (input == '') {
       console.error('Input error');
       return;
@@ -35,6 +36,22 @@ export const QuestionForm = ({ submitQuestion }) => {
       .catch((error) => {
         console.error('question error: ', error);
       });
+  };
+
+  const handleSubmit = async () => {
+    if (input == '') {
+      console.error('Input error');
+      return;
+    }
+
+    try {
+      const response = await createQuestion(input, userContext.user.$id);
+      console.log(response);
+      setInput('');
+      submitQuestion();
+    } catch (error) {
+      console.error('question error: ', error);
+    }
   };
 
   return (

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ProjectList from './ProjectList';
-import { API } from '../../api';
+import { useFetch } from '../../utils/useFetch';
+import { getProjects } from '../../utils/appwriteClient';
 
 import { FaAws, FaDocker, FaGithub, FaHtml5, FaNode, FaPython, FaReact, FaSass, FaVuejs } from 'react-icons/fa';
 import { SiDjango, SiTailwindcss, SiNextdotjs, SiTypescript, SiVite } from 'react-icons/si';
@@ -10,20 +11,7 @@ import { IconTooltip } from '../IconTooltip';
 import { ContentError } from '../ContentError';
 
 export const Developer = () => {
-  const [projects, setProjects] = useState([]);
-  const [contentError, setContentError] = useState(false);
-
-  useEffect(() => {
-    API.get(`api/portfolio/projects?project_type=developer`)
-      .then((res) => {
-        setProjects(res.data);
-      })
-      .catch((error) => {
-        setContentError(true);
-        console.log(contentError)
-        console.error('developer list error: ', error);
-      });
-  }, []);
+  const { data: projects, loading, refetch, error } = useFetch(() => getProjects('developer'));
 
   return (
     <>
@@ -56,7 +44,7 @@ export const Developer = () => {
         </div>
       </div>
       <h6 className='mb-3 dosis font-extrabold text-lg'>PROJECTS</h6>
-      {contentError || projects.length < 1 ? <ContentError /> : <ProjectList projects={projects} />}
+      {error || projects.length < 1 ? <ContentError /> : <ProjectList projects={projects} />}
     </>
   );
 };

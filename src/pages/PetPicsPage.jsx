@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useMemo, useState, createContext } from 'react';
 import { UserContext } from '../App';
-import { API } from '../api';
+import { API } from '../utils/api';
+import { getPets } from '../utils/appwriteClient';
 import { useToaster } from 'rsuite';
 import { AddPetPicModal } from '../components/cuties/AddPetPicModal';
 import { Gallery } from '../components/cuties/Gallery';
@@ -49,38 +50,14 @@ export const PetPicsPage = ({ handlePageChange }) => {
   useEffect(() => {
     handlePageChange();
 
-    API.get(`api/pets/pics/`)
-      .then((res) => {
-        const picsFormatted = res.data.map((item) => {
-          if (item.birthday) {
-            let birthdayFormatted = new Date(item.birthday).toLocaleDateString('en-US', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric',
-              timeZone: 'UTC',
-            });
-            item.birthdayFormatted = birthdayFormatted;
-          }
-
-          let createdAtFormatted = new Date(item.created_at).toLocaleString('en-US', {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: true,
-            timeZone: 'UTC',
-          });
-
-          item.createdAtFormatted = createdAtFormatted;
-          return item;
-        });
-        picsContext.setPics(picsFormatted);
-      })
-      .catch(error => {
-        console.error('get all pet pics err: ', error);
-        setContentError(true);
-      });
+    const pets = async () => {
+      try {
+        getPets().then((pets) => setPics(pets));
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    pets();
   }, []);
 
   return (

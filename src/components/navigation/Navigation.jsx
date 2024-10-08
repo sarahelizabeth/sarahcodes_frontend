@@ -1,7 +1,8 @@
 import React, { useContext } from 'react';
 import { motion } from 'framer-motion';
 import { UserContext, ContactContext, LoginContext, RegisterContext } from '../../App';
-import { API } from '../../api';
+import { API } from '../../utils/api';
+import { logout } from '../../utils/appwriteClient';
 import Cookies from 'js-cookie';
 import { FaGithub, FaLinkedinIn } from 'react-icons/fa';
 
@@ -56,21 +57,14 @@ export const Navigation = ({ toggleOpen }) => {
     toggleOpen();
   };
 
-  const handleLogout = () => {
-    const access_token = Cookies.get('access_token');
-    API.post(`api/auth/logout/`, {
-      headers: { Authorization: `Bearer ${access_token}` },
-    })
-      .then(() => {
-        Cookies.remove('access_token');
-        Cookies.remove('refresh_token');
-        localStorage.removeItem('user');
-        userContext.setUser(null);
-        toggleOpen();
-      })
-      .catch((error) => {
-        console.error('logout error: ', error);
-      });
+  const handleLogout = async () => {
+    toggleOpen();
+    try {
+      await logout();
+      userContext.setUser(null);
+    } catch (error) {
+      console.error('logout error: ', error);
+    }
   };
 
   const navigation = [
@@ -109,29 +103,21 @@ export const Navigation = ({ toggleOpen }) => {
         </motion.li>
       ) : (
         <>
+          
           <motion.li variants={liVariants} whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
-            <button
-              className='text-black hover:underline hover:font-bold'
-              onClick={handleLogin}
-            >
+            <button className='text-black hover:underline hover:font-bold' onClick={handleLogin}>
               Log In
             </button>
           </motion.li>
           <motion.li variants={liVariants} whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
-            <button
-              className='text-black hover:underline hover:font-bold'
-              onClick={handleRegister}
-            >
+            <button className='text-black hover:underline hover:font-bold' onClick={handleRegister}>
               Sign Up
             </button>
           </motion.li>
         </>
       )}
       <motion.li variants={liVariants} whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
-        <button
-          className='text-black hover:underline hover:font-bold'
-          onClick={handleContact}
-        >
+        <button className='text-black hover:underline hover:font-bold' onClick={handleContact}>
           Contact
         </button>
       </motion.li>

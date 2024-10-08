@@ -3,7 +3,7 @@ import { DatePicker, Modal, Form, Schema, useToaster } from 'rsuite';
 import { SpeciesIcon } from './SpeciesIcon';
 import { UserContext } from '../../App';
 import { PicsContext } from '../../pages/PetPicsPage';
-import { API } from '../../api';
+import { API } from '../../utils/api';
 import { FaEdit, FaRegSave } from 'react-icons/fa';
 import { TbTrashX, TbTrash } from 'react-icons/tb';
 import { ImCancelCircle } from 'react-icons/im';
@@ -102,6 +102,7 @@ export const PicModal = ({ picData, isOpen, handleClose }) => {
   };
 
   useEffect(() => {
+    console.log(picData);
     if (picData.birthday) {
       setDefaultBirthday(new Date(picData.birthday));
     }

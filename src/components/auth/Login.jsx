@@ -2,8 +2,8 @@ import React, { useState, useRef, useContext } from 'react';
 import { UserContext } from '../../App';
 import { Modal, Form, Schema } from 'rsuite';
 import Cookies from 'js-cookie';
-import { API } from '../../api';
-// import { login } from './apiCalls';
+import { API } from '../../utils/api';
+import { login } from '../../utils/appwriteClient';
 
 export const Login = ({ isOpen, handleClose }) => {
   const userContext = useContext(UserContext);
@@ -21,7 +21,7 @@ export const Login = ({ isOpen, handleClose }) => {
     password: StringType().isRequired('Password is required.'),
   });
 
-  const handleSubmit = async () => {
+  const oldHandleSubmit = async () => {
     if (!form.current.check()) {
       console.error('Form Error');
       return;
@@ -48,6 +48,19 @@ export const Login = ({ isOpen, handleClose }) => {
           setShowError(true);
         };
       });
+  };
+
+  const handleSubmit = async () => {
+    try {
+      const {response, currentUser} = await login(formValue.email, formValue.password);
+      console.log(response);
+      console.log(currentUser);
+      userContext.setUser(currentUser);
+      handleClose();
+    } catch (error) {
+      console.error('login error: ', error);
+      setShowError(true);
+    }
   };
 
   return (
