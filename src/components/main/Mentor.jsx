@@ -1,22 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { API } from '../../api';
+import { API } from '../../utils/api';
+import { useFetch } from '../../utils/useFetch';
+import { getProjects } from '../../utils/appwriteClient';
 import MentorList from './MentorList';
 import { ContentError } from '../ContentError';
 
 export const Mentor = () => {
-  const [projects, setProjects] = useState([]);
-  const [contentError, setContentError] = useState(false);
-
-  useEffect(() => {
-    API.get(`api/portfolio/projects/?project_type=mentor`)
-      .then((res) => {
-        setProjects(res.data);
-      })
-      .catch(error => {
-        console.error('get mentor projects: ', error);
-        setContentError(true);
-      });
-  }, []);
+  const { data: projects, loading, refetch, error: contentError } = useFetch(() => getProjects('mentor'));
 
   return (
     <>

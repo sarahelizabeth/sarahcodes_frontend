@@ -1,13 +1,12 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { Input } from 'rsuite';
-import { API } from '../../api';
-import { UserContext } from '../../App';
+import { API } from '../../utils/api';
+import { createComment } from '../../utils/appwriteClient';
 
-export const CommentForm = ({ questionId, submitComment }) => {
-  const userContext = useContext(UserContext);
+export const CommentForm = ({ questionId, userId, submitComment }) => {
   const [input, setInput] = useState('');
 
-  const handleSubmit = () => {
+  const oldHandleSubmit = () => {
     if (input == '') {
       console.error('Input error');
       return;
@@ -28,6 +27,18 @@ export const CommentForm = ({ questionId, submitComment }) => {
       .catch((error) => {
         console.error('comment error: ', error);
       });
+  };
+
+  const handleSubmit = async () => {
+    if (input == '') {
+      console.error('Input error');
+      return;
+    }
+
+    const response = await createComment(input, userId, questionId);
+    console.log(response);
+    setInput('');
+    submitComment();
   };
 
   return (

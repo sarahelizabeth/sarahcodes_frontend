@@ -1,7 +1,8 @@
 import React, { useContext, useRef, useState } from 'react';
 import { Form, Modal, Schema, DatePicker, RadioGroup, Radio, Divider } from 'rsuite';
 import { motion } from 'framer-motion';
-import { API } from '../../api';
+import { API } from '../../utils/api';
+import { createPet } from '../../utils/appwriteClient';
 import { PiUploadSimpleBold } from 'react-icons/pi';
 import { UploadButton } from './UploadButton';
 import { IconTooltip } from '../IconTooltip';
@@ -84,7 +85,7 @@ export const AddPetPicModal = ({ isOpen, handleClose }) => {
     setPreviewImage(URL.createObjectURL(file));
   };
 
-  const handleSubmit = () => {
+  const oldHandleSubmit = () => {
     if (!form.current.check() || species.length === 0) {
       console.error('Form Error');
       return;
@@ -106,6 +107,30 @@ export const AddPetPicModal = ({ isOpen, handleClose }) => {
         handleClose();
       })
       .catch((error) => console.error('create pet error: ', error));
+  };
+
+  const handleSubmit = async () => {
+    if (!form.current.check() || species.length === 0) {
+      console.error('Form Error');
+      return;
+    }
+
+    if (formValue.birthday) {
+      const date = format(formValue.birthday, 'yyyy-MM-dd');
+      formValue.birthday = date;
+    }
+
+    formValue.pet_type = species;
+
+    try {
+      const newPet = await createPet(formValue, userContext.user.$id, image);
+
+      console.log(newPet);
+      picsContext.setPics([...picsContext.pics, newPet]);
+      handleClose();
+    } catch (error) {
+      console.error('create pet error: ', error);
+    }
   };
 
   return (

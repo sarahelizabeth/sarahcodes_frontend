@@ -3,7 +3,7 @@ import { DatePicker, Modal, Form, Schema, useToaster } from 'rsuite';
 import { SpeciesIcon } from './SpeciesIcon';
 import { UserContext } from '../../App';
 import { PicsContext } from '../../pages/PetPicsPage';
-import { API } from '../../api';
+import { API } from '../../utils/api';
 import { FaEdit, FaRegSave } from 'react-icons/fa';
 import { TbTrashX, TbTrash } from 'react-icons/tb';
 import { ImCancelCircle } from 'react-icons/im';
@@ -102,6 +102,7 @@ export const PicModal = ({ picData, isOpen, handleClose }) => {
   };
 
   useEffect(() => {
+    console.log(picData);
     if (picData.birthday) {
       setDefaultBirthday(new Date(picData.birthday));
     }
@@ -209,9 +210,9 @@ export const PicModal = ({ picData, isOpen, handleClose }) => {
                   <label className='uppercase text-[0.69rem] font-extrabold'>Uploaded on</label>
                   <p>{modalPic.createdAtFormatted}</p>
                 </div>
-                {userContext.user && (
+                {/* {userContext.user && (
                   <>
-                    {userContext.user.pk === modalPic.owner.pk && (
+                    {userContext.user.$id === modalPic.owner.$id && (
                       <button
                         onClick={() => setIsEditing(true)}
                         className='button-shadow-black font-bold text-xs py-1 px-2 mt-4 flex items-center float-right'
@@ -221,7 +222,7 @@ export const PicModal = ({ picData, isOpen, handleClose }) => {
                       </button>
                     )}
                   </>
-                )}
+                )} */}
               </div>
             </>
           )}

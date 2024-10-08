@@ -1,7 +1,8 @@
 import React, { useState, useRef, useContext, useEffect } from 'react';
 import { Form, Modal, Input, Schema, Divider } from 'rsuite';
 import { UserContext } from '../App';
-import { API } from '../api';
+import { API } from '../utils/api';
+import { createContactItem } from '../utils/appwriteClient';
 import { motion } from 'framer-motion';
 import { FaGithub, FaLinkedinIn } from 'react-icons/fa';
 import { SiBuymeacoffee } from 'react-icons/si';
@@ -42,7 +43,7 @@ export const Contact = ({ isOpen, handleClose }) => {
     message: StringType().isRequired('Message is required.'),
   });
 
-  const handleSubmit = () => {
+  const oldHandleSubmit = () => {
     if (!form.current.check()) {
       console.error('Form Error');
       return;
@@ -54,6 +55,12 @@ export const Contact = ({ isOpen, handleClose }) => {
         handleClose();
       })
       .catch((error) => console.error('contact error: ', error));
+  };
+
+  const handleSubmit = async() => {
+    const newContactItem = await createContactItem(formValue.message, formValue.email, formValue.name);
+    console.log(newContactItem);
+    handleClose();
   };
 
   return (

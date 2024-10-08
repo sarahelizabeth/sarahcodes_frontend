@@ -1,24 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { API } from '../../api';
+import React, { useEffect, useState, useContext } from 'react';
+import { API } from '../../utils/api';
 import { MediaItem } from './MediaItem';
 import { Divider } from 'rsuite';
 import { FaGoodreads } from 'react-icons/fa6';
 import { ContentError } from '../ContentError';
+import { BookshelfContext } from '../../App';
 
 export const Books = () => {
-  const [books, setBooks] = useState([]);
-  const [contentError, setContentError] = useState(false);
-
-  useEffect(() => {
-    API.get(`/api/bookshelf/media/?media_type=book&visible=true`)
-      .then((res) => {
-        setBooks(res.data);
-      })
-      .catch((error) => {
-        console.error('books list error: ', error);
-        setContentError(true);
-      });  
-  }, []);
+  const { bookshelf } = useContext(BookshelfContext);
+  const books = bookshelf.filter((item) => item.media_type === 'book');
 
   return (
     <div className='right-container mt-4'>
@@ -28,7 +18,7 @@ export const Books = () => {
           <Divider />
         </React.Fragment>
       ))}
-      {contentError || (books.length < 1 && <ContentError />)}
+      {books.length < 1 && <ContentError />}
     </div>
   );
 };

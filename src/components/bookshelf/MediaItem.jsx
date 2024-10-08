@@ -1,22 +1,26 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { API } from '../../api';
+import { API } from '../../utils/api';
+import { addView } from '../../utils/appwriteClient';
 import { Button, useToaster } from 'rsuite';
 import { UserContext } from '../../App';
 import { IoCheckboxSharp } from 'react-icons/io5';
 import { LiaPlusSquareSolid } from 'react-icons/lia';
 import { MediaModal } from './MediaModal';
+import { BookshelfContext } from '../../App';
 
 export const MediaItem = ({ item, action }) => {
   const userContext = useContext(UserContext);
+  const { bookshelf, setBookshelf } = useContext(BookshelfContext);
   const user = userContext.user;
 
   const [hasLiked, setHasLiked] = useState(false);
+  const [viewers, setViewers] = useState([]);
   const [hover, setHover] = useState(false);
   const [open, setOpen] = useState(false);
 
   const toaster = useToaster();
 
-  const handleLike = (item) => {
+  const oldHandleLike = (item) => {
     if (user === null) {
       handleShowWarning();
       return;
@@ -42,6 +46,25 @@ export const MediaItem = ({ item, action }) => {
       .catch((error) => console.error('item like error: ', error));
   };
 
+  const handleLike = async(item) => {
+    if (user === null) {
+      handleShowWarning();
+      return;
+    }
+    const response = await addView(item, user.$id);
+    console.log(response);
+    const updatedBookshelf = bookshelf.map((item) => {
+      if (item.$id === response.$id) {
+        return response;
+      }
+      return item;
+    });
+    setBookshelf(updatedBookshelf);
+    console.log(response);
+    setHasLiked(true);
+    // setViewers(response.viewers);
+  };
+
   const handleShowWarning = () => {
     let mediaPlacement = 'bottomStart';
     const windowWidth = window.innerWidth;
@@ -64,12 +87,13 @@ export const MediaItem = ({ item, action }) => {
 
   useEffect(() => {
     if (user) {
-      const checkHasLiked = item.likes?.some((like) => {
-        return like.author === user.pk;
+      const checkHasLiked = item.viewers?.some((item) => {
+        return item.$id === userContext.user.$id;
       });
       setHasLiked(checkHasLiked);
+      // setViewers(item.viewers);
     }
-  }, []);
+  }, [hasLiked]);
 
   return (
     <div className='grid grid-cols-5 gap-4'>
@@ -99,7 +123,7 @@ export const MediaItem = ({ item, action }) => {
             <>
               <IoCheckboxSharp size={23} />
               <p className='text-xs'>
-                {item.likes.length} other people have also {action} this
+                {item.viewers.length} other people have also {action} this
               </p>
             </>
           ) : (

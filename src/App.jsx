@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo, createContext } from 'react';
 import { createBrowserRouter, RouterProvider, Link } from 'react-router-dom';
 import 'rsuite/dist/rsuite.min.css';
 import './App.css';
+import { getUser, getBookshelf } from './utils/appwriteClient';
 
 import { NavSidebar } from './components/NavSidebar';
 import { Contact } from './components/Contact';
@@ -13,7 +14,7 @@ import { Intro } from './components/main/Intro';
 import { Developer } from './components/main/Developer';
 import { Mentor } from './components/main/Mentor';
 import { Activist } from './components/main/Activist';
-import { Experience } from './components/main/Experience';
+// import { Experience } from './components/main/Experience';
 
 import { AMAPage } from './pages/AMAPage';
 
@@ -27,6 +28,7 @@ import { Films } from './components/bookshelf/Films';
 import { PetPicsPage } from './pages/PetPicsPage';
 
 export const UserContext = createContext();
+export const BookshelfContext = createContext();
 export const RegisterContext = createContext();
 export const LoginContext = createContext();
 export const ContactContext = createContext();
@@ -55,10 +57,10 @@ function App() {
           path: 'activist',
           element: <Activist />,
         },
-        {
-          path: 'experience',
-          element: <Experience />
-        },
+        // {
+        //   path: 'experience',
+        //   element: <Experience />
+        // },
       ],
     },
     {
@@ -100,13 +102,33 @@ function App() {
   const [user, setUser] = useState(null);
   const userContext = useMemo(() => ({ user, setUser }), [user]);
 
+  const [bookshelf, setBookshelf] = useState([]);
+  const bookshelfContext = useMemo(() => ({ bookshelf, setBookshelf }), [bookshelf]);
+
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem('user'));
-    if (user) {
-      setUser(user);
+    const session = JSON.parse(localStorage.getItem('session'));
+    const getCurrent = async () => {
+      const currentUser = await getUser();
+      setUser(currentUser);
+      console.log(currentUser);
+      return currentUser;
+    };
+    
+    if (session) {
+      setUser(getCurrent());
+      
+      console.log(user);
     } else {
       setUser(null);
     }
+
+    const getAllMedia = async () => {
+      const bookshelf = await getBookshelf();
+      setBookshelf(bookshelf);
+      return bookshelf;
+    };
+
+    getAllMedia();
   }, []);
 
   const [openRegister, setOpenRegister] = useState(false);
@@ -136,7 +158,9 @@ function App() {
                 </h5>{' '}
               </a>
             </div>
-            <RouterProvider router={router} />
+            <BookshelfContext.Provider value={bookshelfContext}>
+              <RouterProvider router={router} />
+            </BookshelfContext.Provider>
           </ContactContext.Provider>
         </LoginContext.Provider>
       </RegisterContext.Provider>

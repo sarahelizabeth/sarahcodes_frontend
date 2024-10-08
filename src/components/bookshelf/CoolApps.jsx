@@ -1,24 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { API } from '../../api';
+import React, { useState, useEffect, useContext } from 'react';
+import { API } from '../../utils/api';
 import { MediaItem } from './MediaItem';
 import { Divider } from 'rsuite';
 import { FaAppStoreIos } from 'react-icons/fa';
 import { ContentError } from '../ContentError';
+import { BookshelfContext } from '../../App';
 
 export const CoolApps = () => {
-  const [apps, setApps] = useState([]);
-  const [contentError, setContentError] = useState(false);
-
-  useEffect(() => {
-    API.get(`/api/bookshelf/media/?media_type=app&visible=true`)
-      .then((res) => {
-        setApps(res.data);
-      })
-      .catch((error) => {
-        console.error('apps list error: ', error);
-        setContentError(true);
-      });
-  }, []);
+  const { bookshelf } = useContext(BookshelfContext);
+  const apps = bookshelf.filter((item) => item.media_type === 'app');
 
   return (
     <div className='right-container mt-4'>
@@ -28,7 +18,7 @@ export const CoolApps = () => {
           <Divider />
         </React.Fragment>
       ))}
-      {contentError || (apps.length < 1 && <ContentError />)}
+      {apps.length < 1 && <ContentError />}
     </div>
   );
 };

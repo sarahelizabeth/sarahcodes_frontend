@@ -1,6 +1,7 @@
 import React, { useContext, useState, useRef } from 'react';
 import { Modal, Form, Schema } from 'rsuite';
-import { API } from '../../api';
+import { API } from '../../utils/api';
+import { register } from '../../utils/appwriteClient';
 import Cookies from 'js-cookie';
 import { UserContext, LoginContext, RegisterContext } from '../../App';
 
@@ -40,7 +41,7 @@ export const Register = ({ isOpen, handleClose }) => {
     localStorage.setItem('user', JSON.stringify(response.user));
   };
 
-  const handleSubmit = () => {
+  const oldHandleSubmit = () => {
     if (!form.current.check()) {
       console.error('Form Error');
       return;
@@ -78,6 +79,18 @@ export const Register = ({ isOpen, handleClose }) => {
       .catch((error) => {
         console.error('register error: ', error);
       });
+  };
+
+  const handleSubmit = async () => {
+    try {
+      const response = await register(formValue.email, formValue.password1, formValue.first_name, formValue.last_name);
+      console.log(response);
+      userContext.setUser(response);
+      handleClose();
+    } catch (error) {
+      console.error('register error: ', error);
+      setShowError(true);
+    }
   };
 
   return (
