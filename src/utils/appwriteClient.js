@@ -8,6 +8,8 @@ export const petsCollectionId = '670450d4001a8888bd7e';
 export const questionsCollectionId = '670450ed00308d322483';
 export const commentsCollectionId = '6704511f000de214c79d';
 export const bookshelfCollectionId = '670450e1000449220733';
+export const contactsCollectionId = '6704ed8d00302104f2d8';
+export const bookshelfImageBucketId = '6704cdc500277aad80c0';
 export const projectImageBucketId = '6704532f0007f337ad70';
 export const petImageBucketId = '670452e6003933c892d4';
 export const authenticateFunctionId = '6704c5e20002d98cd8b9';
@@ -21,12 +23,16 @@ const account = new Account(client);
 const storage = new Storage(client);
 const functions = new Functions(client);
 
-
 export const authenticate = async (accountId) => {
-  const functionResponse = await functions.createExecution(authenticateFunctionId, accountId, true, ExecutionMethod.POST);
+  const functionResponse = await functions.createExecution(
+    authenticateFunctionId,
+    accountId,
+    true,
+    ExecutionMethod.POST
+  );
   console.log(functionResponse);
   return functionResponse;
-}
+};
 
 export const register = async (email, password, first_name, last_name) => {
   try {
@@ -34,7 +40,7 @@ export const register = async (email, password, first_name, last_name) => {
     if (!response) {
       throw new Error('Failed to create account');
     }
-    
+
     const user = await database.createDocument(databaseId, usersCollectionId, ID.unique(), {
       accountId: response.$id,
       email: email,
@@ -42,7 +48,7 @@ export const register = async (email, password, first_name, last_name) => {
       last_name: last_name,
     });
 
-    await authenticate(response.$id);
+    // await authenticate(response.$id);
 
     await login(email, password);
 
@@ -57,7 +63,7 @@ export const login = async (email, password) => {
     const session = await account.createEmailPasswordSession(email, password);
     const currentUser = await getUser();
     localStorage.setItem('session', JSON.stringify(session));
-    return { session, currentUser };
+    return currentUser;
   } catch (error) {
     throw new Error(error);
   }
@@ -97,10 +103,27 @@ export const getUser = async () => {
   }
 };
 
+export const getProjectImage = (imageId) => {
+  const image = storage.getFileView(projectImageBucketId, imageId);
+  return image;
+};
+
 export const getProjects = async (project_type) => {
   try {
-    const response = await database.listDocuments(databaseId, projectsCollectionId, [Query.equal('project_type', project_type)]);
-    return response.documents;
+    const response = await database.listDocuments(databaseId, projectsCollectionId, [
+      Query.equal('project_type', project_type),
+    ]);
+    const projects = response.documents.map((item) => {
+      const projectLogo = getProjectImage(item.logoId);
+      const projectImages = item.imageIds.map((imageId) => getProjectImage(imageId));
+      return {
+        ...item,
+        logo: projectLogo,
+        images: projectImages,
+      };
+    });
+    console.log(projects);
+    return projects;
   } catch (error) {
     console.error(error);
   }
@@ -145,7 +168,7 @@ export const getPets = async (filter_type, filter_value) => {
     const response = await database.listDocuments(databaseId, petsCollectionId);
     const allPets = response.documents.map((item, index) => {
       const petPic = storage.getFileView(petImageBucketId, item.imageId);
-      
+
       let lastInitial = '';
       if (item.owner.last_name) {
         lastInitial = item.owner.last_name.charAt(0);
@@ -213,11 +236,50 @@ export const createPet = async (pet, ownerId, image) => {
   }
 };
 
+export const getBookshelfImage = (imageId) => {
+  const image = storage.getFileView(bookshelfImageBucketId, imageId);
+  return image;
+};
+
 export const getBookshelf = async () => {
   try {
     const response = await database.listDocuments(databaseId, bookshelfCollectionId);
+    const media = response.documents.map((item, index) => {
+      const mediaItem = getBookshelfImage(item.imageId);
+      return {
+        ...item,
+        image: mediaItem,
+      };
+    });
+    console.log(media);
+    return media;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const addView = async (media, userId) => {
+  try {
+    const response = await database.updateDocument(databaseId, bookshelfCollectionId, media.$id, {
+      // image: getBookshelfImage(media.imageId),
+      viewers: [...media.viewers, userId],
+    });
     console.log(response);
-    return response.documents;
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const createContactItem = async (body, email, name) => {
+  try {
+    const newContactItem = await database.createDocument(databaseId, contactsCollectionId, ID.unique(), {
+      body: body,
+      email: email,
+      name: name,
+      replied: false,
+    });
+    return newContactItem;
   } catch (error) {
     console.error(error);
   }

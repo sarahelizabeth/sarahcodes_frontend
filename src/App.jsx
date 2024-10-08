@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo, createContext } from 'react';
 import { createBrowserRouter, RouterProvider, Link } from 'react-router-dom';
 import 'rsuite/dist/rsuite.min.css';
 import './App.css';
-import { getUser } from './utils/appwriteClient';
+import { getUser, getBookshelf } from './utils/appwriteClient';
 
 import { NavSidebar } from './components/NavSidebar';
 import { Contact } from './components/Contact';
@@ -28,6 +28,7 @@ import { Films } from './components/bookshelf/Films';
 import { PetPicsPage } from './pages/PetPicsPage';
 
 export const UserContext = createContext();
+export const BookshelfContext = createContext();
 export const RegisterContext = createContext();
 export const LoginContext = createContext();
 export const ContactContext = createContext();
@@ -101,6 +102,9 @@ function App() {
   const [user, setUser] = useState(null);
   const userContext = useMemo(() => ({ user, setUser }), [user]);
 
+  const [bookshelf, setBookshelf] = useState([]);
+  const bookshelfContext = useMemo(() => ({ bookshelf, setBookshelf }), [bookshelf]);
+
   useEffect(() => {
     const session = JSON.parse(localStorage.getItem('session'));
     const getCurrent = async () => {
@@ -117,6 +121,14 @@ function App() {
     } else {
       setUser(null);
     }
+
+    const getAllMedia = async () => {
+      const bookshelf = await getBookshelf();
+      setBookshelf(bookshelf);
+      return bookshelf;
+    };
+
+    getAllMedia();
   }, []);
 
   const [openRegister, setOpenRegister] = useState(false);
@@ -146,7 +158,9 @@ function App() {
                 </h5>{' '}
               </a>
             </div>
-            <RouterProvider router={router} />
+            <BookshelfContext.Provider value={bookshelfContext}>
+              <RouterProvider router={router} />
+            </BookshelfContext.Provider>
           </ContactContext.Provider>
         </LoginContext.Provider>
       </RegisterContext.Provider>

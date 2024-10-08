@@ -52,8 +52,7 @@ export const Login = ({ isOpen, handleClose }) => {
 
   const handleSubmit = async () => {
     try {
-      const {response, currentUser} = await login(formValue.email, formValue.password);
-      console.log(response);
+      const currentUser = await login(formValue.email, formValue.password);
       console.log(currentUser);
       userContext.setUser(currentUser);
       handleClose();

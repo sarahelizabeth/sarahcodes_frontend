@@ -210,9 +210,9 @@ export const PicModal = ({ picData, isOpen, handleClose }) => {
                   <label className='uppercase text-[0.69rem] font-extrabold'>Uploaded on</label>
                   <p>{modalPic.createdAtFormatted}</p>
                 </div>
-                {userContext.user && (
+                {/* {userContext.user && (
                   <>
-                    {userContext.user.pk === modalPic.owner.pk && (
+                    {userContext.user.$id === modalPic.owner.$id && (
                       <button
                         onClick={() => setIsEditing(true)}
                         className='button-shadow-black font-bold text-xs py-1 px-2 mt-4 flex items-center float-right'
@@ -222,7 +222,7 @@ export const PicModal = ({ picData, isOpen, handleClose }) => {
                       </button>
                     )}
                   </>
-                )}
+                )} */}
               </div>
             </>
           )}

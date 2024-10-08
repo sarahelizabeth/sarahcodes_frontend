@@ -12,7 +12,7 @@ const ProjectModal = ({ project, isOpen, handleClose }) => {
       <Modal.Body>
         <div className='flex flex-row gap-2 overflow-x-scroll h-64'>
           {project.images?.map((i, index) => (
-            <img key={index} id={index} src={API.defaults.baseURL + i.image} alt={i.alt_text} />
+            <img key={index} id={index} src={i} />
           ))}
         </div>
         <p className='py-3'>{project.description}</p>

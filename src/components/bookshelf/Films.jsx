@@ -1,24 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { API } from '../../utils/api';
 import { MediaItem } from './MediaItem';
 import { Divider } from 'rsuite';
 import { FaImdb } from 'react-icons/fa';
 import { ContentError } from '../ContentError';
+import { BookshelfContext } from '../../App';
 
 export const Films = () => {
-  const [films, setFilms] = useState([]);
-  const [contentError, setContentError] = useState(false);
-
-  useEffect(() => {
-    API.get(`/api/bookshelf/media/?media_type=film&media_type=show&visible=true`)
-      .then((res) => {
-        setFilms(res.data);
-      })
-      .catch((error) => {
-        console.error('films list error: ', error);
-        setContentError(true);
-      });
-  }, []);
+  const { bookshelf } = useContext(BookshelfContext);
+  const films = bookshelf.filter((item) => item.media_type === 'film');
 
   return (
     <div className='right-container mt-4'>
@@ -28,7 +18,7 @@ export const Films = () => {
           <Divider />
         </React.Fragment>
       ))}
-      {contentError || (films.length < 1 && <ContentError />)}
+      {films.length < 1 && <ContentError />}
     </div>
   );
 };

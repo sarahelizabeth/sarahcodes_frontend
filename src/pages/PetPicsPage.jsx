@@ -50,14 +50,15 @@ export const PetPicsPage = ({ handlePageChange }) => {
   useEffect(() => {
     handlePageChange();
 
-    const pets = async () => {
+    const getAllPets = async () => {
       try {
-        getPets().then((pets) => setPics(pets));
+        const allPets = await getPets();
+        setPics(allPets);
       } catch (error) {
         console.error(error);
       }
     };
-    pets();
+    getAllPets();
   }, []);
 
   return (
