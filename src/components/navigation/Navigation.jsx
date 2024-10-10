@@ -1,8 +1,6 @@
 import React, { useContext } from 'react';
 import { motion } from 'framer-motion';
 import { UserContext, ContactContext, LoginContext, RegisterContext } from '../../App';
-import { API } from '../../utils/api';
-import { logout } from '../../utils/appwriteClient';
 import supabase from '../../utils/supabaseClient';
 import Cookies from 'js-cookie';
 import { FaGithub, FaLinkedinIn } from 'react-icons/fa';
@@ -56,16 +54,6 @@ export const Navigation = ({ toggleOpen }) => {
   const handleLogin = () => {
     loginContext.setOpenLogin(true);
     toggleOpen();
-  };
-
-  const oldHandleLogout = async () => {
-    toggleOpen();
-    try {
-      await logout();
-      userContext.setUser(null);
-    } catch (error) {
-      console.error('logout error: ', error);
-    }
   };
 
   const handleLogout = async () => {

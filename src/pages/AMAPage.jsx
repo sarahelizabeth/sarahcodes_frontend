@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useContext, createContext, useMemo } from 'react';
-import { API } from '../utils/api';
 import supabase from '../utils/supabaseClient';
-import { getQuestions } from '../utils/appwriteClient';
 import { UserContext, LoginContext, RegisterContext } from '../App';
 import { QuestionForm } from '../components/blog/QuestionForm';
 import { Questions } from '../components/blog/Questions';
@@ -10,7 +8,7 @@ import { ContentError } from '../components/ContentError';
 export const QuestionsContext = createContext(null);
 
 export const AMAPage = () => {
-  const userContext = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const loginContext = useContext(LoginContext);
   const registerContext = useContext(RegisterContext);
 
@@ -24,7 +22,6 @@ export const AMAPage = () => {
       const { data, error } = await supabase
         .from('questions')
         .select(`*, author:users(first_name, last_name), comments(*, author:users(first_name, last_name)), answer:answers(body, created_at)`);
-      console.log(data);
       setQuestions(data);
 
       if (error) {
@@ -43,7 +40,7 @@ export const AMAPage = () => {
             <h1 id='ask' className='knewave text-white text-center text-2xl md:text-5xl pb-1 md:pb-2'>
               Ask Me Anything!
             </h1>
-            {userContext.user == null ? (
+            {user == null ? (
               <>
                 <p className='py-2 text-center'>Sign up or log in to ask me a question or leave a comment!</p>
                 <div className='flex justify-center gap-6 my-5 pb-3 md:pb-0'>

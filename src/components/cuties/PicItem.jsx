@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { BsChatRightHeart } from 'react-icons/bs';
+import { useNameAbbreviation } from '../../utils/useFormatting';
 
 export const PicItem = ({ picData }) => {
   const [age, setAge] = useState(0);
-  const lastInitial = picData?.owner?.last_name.charAt(0);
-  const owner_name = picData?.owner?.first_name + ' ' + lastInitial;
 
   const getAge = (birthday) => {
     var birthdayFormatted = new Date(birthday);
@@ -33,7 +32,7 @@ export const PicItem = ({ picData }) => {
           {picData.birthday ? <span className='text-xs'>, age {age.toString()}</span> : null}
         </p>
         <p className='flex items-center'>
-          <BsChatRightHeart /> <span className='pl-2'>{owner_name}</span>
+          <BsChatRightHeart /> <span className='pl-2'>{useNameAbbreviation(picData.owner)}</span>
         </p>
       </div>
     </div>

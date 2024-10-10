@@ -1,7 +1,5 @@
 import React, { useContext, useState, useRef } from 'react';
 import { Modal, Form, Schema } from 'rsuite';
-import { API } from '../../utils/api';
-import { register } from '../../utils/appwriteClient';
 import supabase from '../../utils/supabaseClient';
 import Cookies from 'js-cookie';
 import { UserContext, LoginContext, RegisterContext } from '../../App';
@@ -40,58 +38,6 @@ export const Register = ({ isOpen, handleClose }) => {
     localStorage.setItem('user', JSON.stringify(response.user));
   };
 
-  const oldHandleSubmit = () => {
-    if (!form.current.check()) {
-      console.error('Form Error');
-      return;
-    }
-
-    formValue['last_name'] = 'null';
-
-    API.post(`api/auth/register/`, formValue)
-      .then((res) => {
-        console.log(res.data);
-        const response = res.data;
-        return response.user;
-      })
-      .then((res) => {
-        console.log(res);
-        const user = {
-          email: res.email,
-          password: formValue.password1,
-        };
-        // abstract away this function and fucking figure out
-        // how to do fucking promise calls!!!!!!
-        API.post(`api/auth/login/`, user)
-          .then((res) => {
-            console.log(res.data);
-            setCookies(res.data);
-            userContext.setUser(res.data);
-            handleClose();
-          })
-          .catch((error) => {
-            console.error('login error: ', error);
-            setShowError(true);
-            return error;
-          });
-      })
-      .catch((error) => {
-        console.error('register error: ', error);
-      });
-  };
-
-  const appwriteHandleSubmit = async () => {
-    try {
-      const response = await register(formValue.email, formValue.password1, formValue.first_name, formValue.last_name);
-      console.log(response);
-      userContext.setUser(response);
-      handleClose();
-    } catch (error) {
-      console.error('register error: ', error);
-      setShowError(true);
-    }
-  };
-
   const handleSubmit = async () => {
     const { data, error } = await supabase.auth.signUp({
       email: formValue.email,
@@ -105,6 +51,7 @@ export const Register = ({ isOpen, handleClose }) => {
     });
     console.log(data, error);
     userContext.setUser(data);
+    // localStorage.setItem('session', JSON.stringify(data));
     handleClose();
   };
 

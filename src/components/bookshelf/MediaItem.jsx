@@ -1,6 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { API } from '../../utils/api';
-import { addView } from '../../utils/appwriteClient';
 import supabase from '../../utils/supabaseClient';
 import { Button, useToaster } from 'rsuite';
 import { UserContext } from '../../App';
@@ -19,49 +17,6 @@ export const MediaItem = ({ item, action }) => {
   const [open, setOpen] = useState(false);
 
   const toaster = useToaster();
-
-  const oldHandleLike = (item) => {
-    if (user === null) {
-      handleShowWarning();
-      return;
-    }
-
-    if (hasLiked) {
-      console.log('delete like');
-      // bring up a confirm screen? we don't want to keep sending api calls\
-      // if they hit the like button over and over
-      // setHasLiked(false);
-      return;
-    }
-
-    const likeValue = {
-      author: user.pk,
-      media: item.pk,
-    };
-    API.post(`/api/bookshelf/likes/`, likeValue)
-      .then((res) => {
-        console.log(res.data);
-        setHasLiked(true);
-      })
-      .catch((error) => console.error('item like error: ', error));
-  };
-
-  const appwriteHandleLike = async(item) => {
-    if (user === null) {
-      handleShowWarning();
-      return;
-    }
-    const response = await addView(item, user.$id);
-    console.log(response);
-    const updatedBookshelf = bookshelf.map((item) => {
-      if (item.$id === response.$id) {
-        return response;
-      }
-      return item;
-    });
-    setBookshelf(updatedBookshelf);
-    setHasLiked(true);
-  };
 
   const handleLike = async (item) => {
     if (user) {

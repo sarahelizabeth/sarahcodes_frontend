@@ -2,7 +2,6 @@ import React, { useState, useEffect, useMemo, createContext } from 'react';
 import { createBrowserRouter, RouterProvider, Link } from 'react-router-dom';
 import 'rsuite/dist/rsuite.min.css';
 import './App.css';
-import { getUser, getBookshelf } from './utils/appwriteClient';
 import supabase from './utils/supabaseClient';
 
 import { NavSidebar } from './components/NavSidebar';

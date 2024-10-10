@@ -13,9 +13,7 @@ import { UserContext } from '../../App';
 
 export const Questions = () => {
   const { questions, setQuestions } = useContext(QuestionsContext);
-  console.log(questions);
-  const userContext = useContext(UserContext);
-  // const containerRef = useRef(null);
+  const { user } = useContext(UserContext);
   const [showForm, setShowForm] = useState(-1);
   const [showComments, setShowComments] = useState(-1);
   const toaster = useToaster();
@@ -28,7 +26,7 @@ export const Questions = () => {
   };
 
   const handleShowForm = (index) => {
-    if (userContext.user === null) {
+    if (user === null) {
       handleShowWarning();
       return;
     }
@@ -85,7 +83,7 @@ export const Questions = () => {
                   </div>
                 ))}
               {showForm === index && (
-                <CommentForm questionId={question.id} userId={userContext.user.id} submitComment={() => handleSubmitComment(index)} />
+                <CommentForm questionId={question.id} userId={user.id} submitComment={() => handleSubmitComment(index)} />
               )}
             </div>
             {/* <CommentBlock

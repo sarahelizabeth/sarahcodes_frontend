@@ -1,8 +1,6 @@
 import React, { useContext, useRef, useState } from 'react';
 import { Form, Modal, Schema, DatePicker, RadioGroup, Radio, Divider } from 'rsuite';
 import { motion } from 'framer-motion';
-import { API } from '../../utils/api';
-import { createPet } from '../../utils/appwriteClient';
 import supabase from '../../utils/supabaseClient';
 import { PiUploadSimpleBold } from 'react-icons/pi';
 import { UploadButton } from './UploadButton';
@@ -86,60 +84,11 @@ export const AddPetPicModal = ({ isOpen, handleClose }) => {
     setPreviewImage(URL.createObjectURL(file));
   };
 
-  const oldHandleSubmit = () => {
-    if (!form.current.check() || species.length === 0) {
-      console.error('Form Error');
-      return;
-    }
-
-    if (formValue.birthday) {
-      const date = format(formValue.birthday, 'yyyy-MM-dd');
-      formValue.birthday = date;
-    }
-    formValue.owner = user.pk;
-    formValue.pet_type = species;
-    formValue.image = image;
-
-    API.post(`/api/pets/pics/`, formValue, {
-      headers: { 'content-type': 'multipart/form-data' },
-    })
-      .then((res) => {
-        picsContext.setPics([...picsContext.pics, res.data])
-        handleClose();
-      })
-      .catch((error) => console.error('create pet error: ', error));
-  };
-
-  const appwriteHandleSubmit = async () => {
-    if (!form.current.check() || species.length === 0) {
-      console.error('Form Error');
-      return;
-    }
-
-    if (formValue.birthday) {
-      const date = format(formValue.birthday, 'yyyy-MM-dd');
-      formValue.birthday = date;
-    }
-
-    formValue.pet_type = species;
-
-    try {
-      const newPet = await createPet(formValue, user.id, image);
-
-      console.log(newPet);
-      setPics([...pics, newPet]);
-      handleClose();
-    } catch (error) {
-      console.error('create pet error: ', error);
-    }
-  };
-
   const uploadImage = async () => {
-    console.log(image)
     const timestamp = +new Date();
     const uploadName = `${timestamp}-${image.name}`;
     const { data: uploadData, error } = await supabase.storage.from('pets').upload(uploadName, image);
-    console.log(uploadData);
+
     if (error) {
       console.error('upload error: ', error);
       return;
@@ -165,9 +114,9 @@ export const AddPetPicModal = ({ isOpen, handleClose }) => {
     formValue.owner = user.id;
 
     const { data, error } = await supabase.from('pets').insert([formValue]).select();
-    console.log(data);
     const picData = data[0];
     picData.owner = user;
+    
     setPics([...pics, picData]);
     handleClose();
   };

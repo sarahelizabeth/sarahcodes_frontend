@@ -66,7 +66,6 @@ export const MainPage = () => {
     const getProjects = async () => {
       const { data, error } = await supabase.from('projects').select('*');
       setProjects(data);
-      console.log(data);
     };
     getProjects();
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 export const AnswerItem = ({ answer }) => {
   const dateFormatted = new Date(answer.created_at).toLocaleDateString();

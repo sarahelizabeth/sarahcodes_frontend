@@ -16,7 +16,6 @@ export const BookshelfPage = () => {
         .from('bookshelf')
         .select(`*, views(user:users(id))`);
       bookshelfContext.setBookshelf(data);
-      console.log(data);
     };
     getBookshelf();
     setSelected(location.pathname);

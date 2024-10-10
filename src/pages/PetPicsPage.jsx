@@ -1,7 +1,5 @@
 import React, { useContext, useEffect, useMemo, useState, createContext } from 'react';
 import { UserContext } from '../App';
-import { API } from '../utils/api';
-import { getPets } from '../utils/appwriteClient';
 import supabase from '../utils/supabaseClient';
 import { useToaster } from 'rsuite';
 import { AddPetPicModal } from '../components/cuties/AddPetPicModal';
@@ -55,11 +53,13 @@ export const PetPicsPage = ({ handlePageChange }) => {
       const { data, error } = await supabase
         .from('pets')
         .select(`*, owner:users(first_name, last_name)`);
-      console.log(data);
-      setPics(data);
+      
       if (error) {
+        console.error(error);
         setContentError(true);
+        return;
       }
+      setPics(data);
     };
     getPets();
   }, []);
