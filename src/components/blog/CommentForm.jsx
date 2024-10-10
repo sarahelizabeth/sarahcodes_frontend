@@ -1,10 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Input } from 'rsuite';
 import { API } from '../../utils/api';
 import { createComment } from '../../utils/appwriteClient';
+import supabase from '../../utils/supabaseClient';
+import { QuestionsContext } from '../../pages/AMAPage';
+import { UserContext } from '../../App';
 
 export const CommentForm = ({ questionId, userId, submitComment }) => {
   const [input, setInput] = useState('');
+  const { questions, setQuestions } = useContext(QuestionsContext);
+  const { user } = useContext(UserContext);
 
   const oldHandleSubmit = () => {
     if (input == '') {
@@ -14,7 +19,7 @@ export const CommentForm = ({ questionId, userId, submitComment }) => {
 
     const commentValue = {
       body: input,
-      author: userContext.user.pk,
+      author: userContext.user.id,
       question: questionId,
     };
 
@@ -29,7 +34,7 @@ export const CommentForm = ({ questionId, userId, submitComment }) => {
       });
   };
 
-  const handleSubmit = async () => {
+  const appwriteHandleSubmit = async () => {
     if (input == '') {
       console.error('Input error');
       return;
@@ -38,6 +43,33 @@ export const CommentForm = ({ questionId, userId, submitComment }) => {
     const response = await createComment(input, userId, questionId);
     console.log(response);
     setInput('');
+    submitComment();
+  };
+
+  const handleSubmit = async () => {
+    if (input == '') {
+      console.error('Input error');
+      return;
+    }
+
+    const { data, error } = await supabase
+      .from('comments')
+      .insert([{ body: input, author: user.id, question: questionId }])
+      .select();
+    console.log(data);
+
+    const commentData = data[0];
+    commentData.author = user;
+
+    const updatedQuestions = questions.map((question) => {
+      if (question.id === questionId) {
+        return { ...question, comments: [...question.comments, commentData] };
+      }
+      return question;
+    });
+    
+    setInput('');
+    setQuestions(updatedQuestions);
     submitComment();
   };
 

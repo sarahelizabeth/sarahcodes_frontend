@@ -2,6 +2,7 @@ import React, { useContext, useState, useRef } from 'react';
 import { Modal, Form, Schema } from 'rsuite';
 import { API } from '../../utils/api';
 import { register } from '../../utils/appwriteClient';
+import supabase from '../../utils/supabaseClient';
 import Cookies from 'js-cookie';
 import { UserContext, LoginContext, RegisterContext } from '../../App';
 
@@ -9,8 +10,6 @@ export const Register = ({ isOpen, handleClose }) => {
   const form = useRef();
   const userContext = useContext(UserContext);
   const [showError, setShowError] = useState(false);
-  // const loginContext = useContext(LoginContext);
-  // const registerContext = useContext(RegisterContext);
   const [formValue, setFormValue] = useState({
     first_name: '',
     last_name: '',
@@ -81,7 +80,7 @@ export const Register = ({ isOpen, handleClose }) => {
       });
   };
 
-  const handleSubmit = async () => {
+  const appwriteHandleSubmit = async () => {
     try {
       const response = await register(formValue.email, formValue.password1, formValue.first_name, formValue.last_name);
       console.log(response);
@@ -91,6 +90,22 @@ export const Register = ({ isOpen, handleClose }) => {
       console.error('register error: ', error);
       setShowError(true);
     }
+  };
+
+  const handleSubmit = async () => {
+    const { data, error } = await supabase.auth.signUp({
+      email: formValue.email,
+      password: formValue.password1,
+      options: {
+        data: {
+          first_name: formValue.first_name,
+          last_name: formValue.last_name,
+        },
+      },
+    });
+    console.log(data, error);
+    userContext.setUser(data);
+    handleClose();
   };
 
   return (

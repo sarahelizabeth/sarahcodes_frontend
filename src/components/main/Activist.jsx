@@ -1,13 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { API } from '../../utils/api';
-import { useFetch } from '../../utils/useFetch';
-import { getProjects } from '../../utils/appwriteClient';
+import React, { useContext } from 'react';
+import { ProjectsContext } from '../../pages/MainPage';
 import ProjectList from './ProjectList';
 import { ContentError } from '../ContentError';
 
 export const Activist = () => {
-    const { data: projects, loading, refetch, error: contentError } = useFetch(() => getProjects('activist'));
-
+  const { projects } = useContext(ProjectsContext);
+  const activistProjects = projects.filter((project) => project.project_type === 'activist');
 
   return (
     <>
@@ -20,8 +18,7 @@ export const Activist = () => {
         </p>
       </div>
       <h6 className='mb-3 dosis font-extrabold text-lg'>PROJECTS</h6>
-      <ProjectList projects={projects} />
-      {contentError || (projects.length < 1 && <ContentError />)}
+      {activistProjects.length < 1 ? <ContentError /> : <ProjectList projects={activistProjects} />}
     </>
   );
 };

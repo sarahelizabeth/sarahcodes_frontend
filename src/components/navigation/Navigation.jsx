@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { UserContext, ContactContext, LoginContext, RegisterContext } from '../../App';
 import { API } from '../../utils/api';
 import { logout } from '../../utils/appwriteClient';
+import supabase from '../../utils/supabaseClient';
 import Cookies from 'js-cookie';
 import { FaGithub, FaLinkedinIn } from 'react-icons/fa';
 
@@ -57,7 +58,7 @@ export const Navigation = ({ toggleOpen }) => {
     toggleOpen();
   };
 
-  const handleLogout = async () => {
+  const oldHandleLogout = async () => {
     toggleOpen();
     try {
       await logout();
@@ -65,6 +66,14 @@ export const Navigation = ({ toggleOpen }) => {
     } catch (error) {
       console.error('logout error: ', error);
     }
+  };
+
+  const handleLogout = async () => {
+    const { data, error } = await supabase.auth.signOut();
+    console.log(data, error);
+    localStorage.removeItem('session');
+    userContext.setUser(null);
+    toggleOpen();
   };
 
   const navigation = [

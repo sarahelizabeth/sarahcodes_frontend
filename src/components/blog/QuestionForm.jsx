@@ -1,19 +1,21 @@
 import React, { useContext, useEffect, useState } from 'react';
+import supabase from '../../utils/supabaseClient';
 import { UserContext } from '../../App';
+import { QuestionsContext } from '../../pages/AMAPage';
 import { Input } from 'rsuite';
 import { API } from '../../utils/api';
 import { createQuestion } from '../../utils/appwriteClient';
 
-export const QuestionForm = ({ submitQuestion }) => {
-  const userContext = useContext(UserContext);
+export const QuestionForm = () => {
+  // const userContext = useContext(UserContext);
+  const { user } = useContext(UserContext);
+  const { questions, setQuestions } = useContext(QuestionsContext);
   const [input, setInput] = useState('');
   const [rows, setRows] = useState(4);
 
   useEffect(() => {
     const windowWidth = window.innerWidth;
-    if (windowWidth <= 438) {
-      setRows(2);
-    }
+    if (windowWidth <= 438) setRows(2);
   }, []);
 
   const oldHandleSubmit = () => {
@@ -38,7 +40,7 @@ export const QuestionForm = ({ submitQuestion }) => {
       });
   };
 
-  const handleSubmit = async () => {
+  const appwriteHandleSubmit = async () => {
     if (input == '') {
       console.error('Input error');
       return;
@@ -52,6 +54,21 @@ export const QuestionForm = ({ submitQuestion }) => {
     } catch (error) {
       console.error('question error: ', error);
     }
+  };
+
+  const handleSubmit = async () => {
+    console.log(user);
+    const { data, error } = await supabase
+      .from('questions')
+      .insert([{ body: input, author: user.id }])
+      .select();
+    console.log(data);
+    setInput('');
+    const questionData = data[0];
+    questionData.author = user;
+    questionData.answer = null;
+    const updatedQuestions = [...questions, questionData];
+    setQuestions(updatedQuestions);
   };
 
   return (

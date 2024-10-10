@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useContext, createContext } from 'react';
+import React, { useState, useEffect, useContext, createContext, useMemo } from 'react';
 import { API } from '../utils/api';
+import supabase from '../utils/supabaseClient';
 import { getQuestions } from '../utils/appwriteClient';
 import { UserContext, LoginContext, RegisterContext } from '../App';
 import { QuestionForm } from '../components/blog/QuestionForm';
@@ -12,40 +13,30 @@ export const AMAPage = () => {
   const userContext = useContext(UserContext);
   const loginContext = useContext(LoginContext);
   const registerContext = useContext(RegisterContext);
-  // replace with useMemo!!??
+
   const [questions, setQuestions] = useState([]);
-  const [questionSubmitted, setQuestionSubmitted] = useState(false);
-  const [commentSubmitted, setCommentSubmitted] = useState(false);
+  const questionsContext = useMemo(() => ({ questions, setQuestions }), [questions]);
+
   const [contentError, setContentError] = useState(false);
 
-  const handleSuccess = () => {
-    setQuestionSubmitted(!questionSubmitted);
-  };
-
   useEffect(() => {
-    const fetchQuestions = async () => {
-      try {
-        const response = await getQuestions();
-        console.log(response);
-        setQuestions(response);
-      } catch (error) {
-        console.error('list questions error: ', error);
+    const getQuestions = async () => {
+      const { data, error } = await supabase
+        .from('questions')
+        .select(`*, author:users(first_name, last_name), comments(*, author:users(first_name, last_name)), answer:answers(body, created_at)`);
+      console.log(data);
+      setQuestions(data);
+
+      if (error) {
+        console.error(error);
         setContentError(true);
       }
     };
-    fetchQuestions();
-      // .then((response) => {
-      //   const questionData = response.data;
-      //   setQuestions(questionData);
-      // })
-      // .catch((error) => {
-      //   console.error('list questions error: ', error);
-      //   setContentError(true);
-      // });
-  }, [questionSubmitted, commentSubmitted]);
+    getQuestions();
+  }, []);
 
   return (
-    <>
+    <QuestionsContext.Provider value={questionsContext}>
       <section className='w-screen h-screen grid grid-rows-7 md:grid-cols-2'>
         <div className='w-full h-full md:h-screen row-span-3 centered flex-row md:flex-col sticky top-0 overflow-hidden bg-black text-white'>
           <div className='w-4/5 md:w-3/4 lg:w-2/3 p-1'>
@@ -75,18 +66,16 @@ export const AMAPage = () => {
                 <p className='mt-1 md:mt-5 mb-3 md:px-2 lg:px-10 text-center lg:text-justify text-xs'>
                   Enter your query below and you will receive an email as soon as I answer it!
                 </p>
-                <QuestionForm submitQuestion={handleSuccess} />
+                <QuestionForm />
               </>
             )}
           </div>
         </div>
         <div className='w-full h-full md:h-screen row-span-4 overflow-y-scroll p-8 md:p-20'>
-          <QuestionsContext.Provider value={questions}>
-            <Questions submitComment={() => setCommentSubmitted(!commentSubmitted)} />
-          </QuestionsContext.Provider>
+          <Questions />
           {contentError || (questions.length < 1 && <ContentError />)}
         </div>
       </section>
-    </>
+    </QuestionsContext.Provider>
   );
 };

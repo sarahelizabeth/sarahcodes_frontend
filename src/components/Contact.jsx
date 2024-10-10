@@ -10,12 +10,14 @@ import { IconTooltip } from './IconTooltip';
 import { GrMailOption } from 'react-icons/gr';
 import { VscMail } from 'react-icons/vsc';
 import { IoIosMail } from 'react-icons/io';
+import FormHelpText from 'rsuite/esm/FormHelpText';
+import supabase from '../utils/supabaseClient';
 
 
 const Textarea = React.forwardRef((props, ref) => <Input {...props} as='textarea' ref={ref} />);
 
 export const Contact = ({ isOpen, handleClose }) => {
-  const userContext = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const form = useRef();
   const initialState = {
     name: '',
@@ -25,10 +27,10 @@ export const Contact = ({ isOpen, handleClose }) => {
   const [formValue, setFormValue] = useState(initialState);
 
   useEffect(() => {
-    if (userContext.user !== null) {
+    if (user !== null) {
       setFormValue({
-        name: userContext.user.first_name,
-        email: userContext.user.email,
+        name: user.first_name,
+        email: user.email,
         message: '',
       });
     } else {
@@ -57,9 +59,20 @@ export const Contact = ({ isOpen, handleClose }) => {
       .catch((error) => console.error('contact error: ', error));
   };
 
-  const handleSubmit = async() => {
+  const appwriteHandleSubmit = async() => {
     const newContactItem = await createContactItem(formValue.message, formValue.email, formValue.name);
     console.log(newContactItem);
+    handleClose();
+  };
+
+  const handleSubmit = async () => {
+    console.log(formValue);
+    let contactData = formValue;
+    if (user) {
+      contactData = { ...formValue, user: user.id };
+    }
+    const { data, error } = await supabase.from('contacts').insert([contactData]);
+    console.log(data);
     handleClose();
   };
 

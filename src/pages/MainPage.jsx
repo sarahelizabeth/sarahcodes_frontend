@@ -1,6 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { createContext, useContext, useMemo, useEffect, useRef, useState } from 'react';
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import { PiDownloadSimpleBold } from 'react-icons/pi';
+import supabase from '../utils/supabaseClient';
+
+export const ProjectsContext = createContext();
 
 export const MainPage = () => {
   const [navHeights, setNavHeights] = useState({
@@ -17,6 +20,8 @@ export const MainPage = () => {
   const mentorRef = useRef(null);
   const activistRef = useRef(null);
   const [selected, setSelected] = useState(null);
+  const [projects, setProjects] = useState([]);
+  const projectsContext = useMemo(() => ({ projects, setProjects }), [projects]);
 
   const handleResumeDownload = () => {
     fetch('Sarah_Murray_CV_2024.pdf').then((response) => {
@@ -58,6 +63,13 @@ export const MainPage = () => {
   };
 
   useEffect(() => {
+    const getProjects = async () => {
+      const { data, error } = await supabase.from('projects').select('*');
+      setProjects(data);
+      console.log(data);
+    };
+    getProjects();
+
     setSelected(location.pathname);
     setDimensions();
     window.addEventListener('resize', setDimensions);
@@ -122,7 +134,9 @@ export const MainPage = () => {
         </button>
       </div>
       <div className='w-full h-full md:h-screen row-span-3 overflow-y-scroll p-6 md:p-20'>
-        <Outlet />
+        <ProjectsContext.Provider value={projectsContext}>
+          <Outlet />
+        </ProjectsContext.Provider>
       </div>
     </section>
   );

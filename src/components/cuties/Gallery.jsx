@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { PicsContext } from '../../pages/PetPicsPage';
 
 export const Gallery = () => {
-  const picsContext = useContext(PicsContext);
+  const { pics } = useContext(PicsContext);
   const [currentPic, setCurrentPic] = useState(null);
   const [open, setOpen] = useState(false);
 
@@ -21,7 +21,7 @@ export const Gallery = () => {
 
   return (
     <div className='gallery-container'>
-      {picsContext.pics.map((item, index) => (
+      {pics.map((item, index) => (
         <figure className='gallery-img-container' key={index}>
           <motion.button
             onClick={() => handleOpenPicModal(item)}

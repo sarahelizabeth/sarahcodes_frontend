@@ -12,7 +12,7 @@ const ProjectList = ({ projects }) => {
         <div key={index}>
           <div className='grid grid-cols-4 mb-6'>
             <div className='relative' onMouseOver={() => setHover(index)} onMouseLeave={() => setHover(null)}>
-              <img className='object-cover' src={project.logo} />
+              <img className='object-cover' src={`${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/projects/logos${project.logoURL}`} />
               {hover == index && (
                 <button onClick={() => setOpen(index)} className='project-btn absolute top-0 left-0 w-full h-full'>
                   <span className='text-black font-bold'>View More</span>
@@ -41,7 +41,7 @@ const ProjectList = ({ projects }) => {
               </div>
             </div>
           </div>
-          <ProjectModal project={project} isOpen={open === index} handleClose={() => setOpen(null)} />
+          {open === index && <ProjectModal project={project} isOpen={open === index} handleClose={() => setOpen(null)} />}
           <Divider />
         </div>
       ))}
