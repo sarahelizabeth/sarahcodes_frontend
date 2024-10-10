@@ -1,9 +1,7 @@
 import React, { useState, useRef, useContext } from 'react';
 import { UserContext } from '../../App';
 import { Modal, Form, Schema } from 'rsuite';
-import Cookies from 'js-cookie';
-import { API } from '../../utils/api';
-import { login } from '../../utils/appwriteClient';
+import supabase from '../../utils/supabaseClient';
 
 export const Login = ({ isOpen, handleClose }) => {
   const userContext = useContext(UserContext);
@@ -21,45 +19,15 @@ export const Login = ({ isOpen, handleClose }) => {
     password: StringType().isRequired('Password is required.'),
   });
 
-  const oldHandleSubmit = async () => {
-    if (!form.current.check()) {
-      console.error('Form Error');
-      return;
-    }
-
-    const userInput = {
+  const handleSubmit = async () => {
+    const { data, error } = await supabase.auth.signInWithPassword({
       email: formValue.email,
       password: formValue.password,
-    };
-
-    API.post(`api/auth/login/`, userInput)
-      .then((res) => {
-        const oneHour = 1 / 24;
-        Cookies.set('access_token', res.data.access, { expires: 7 });
-        Cookies.set('refresh_token', res.data.refresh, { expires: oneHour });
-        localStorage.setItem('user', JSON.stringify(res.data.user));
-        userContext.setUser(res.data.user);
-        handleClose();
-      })
-      .catch((error) => {
-        console.error('login error: ', error);
-        if (error.status === 400) {
-          console.log(error.response.data.non_field_errors[0]);
-          setShowError(true);
-        };
-      });
-  };
-
-  const handleSubmit = async () => {
-    try {
-      const currentUser = await login(formValue.email, formValue.password);
-      console.log(currentUser);
-      userContext.setUser(currentUser);
-      handleClose();
-    } catch (error) {
-      console.error('login error: ', error);
-      setShowError(true);
-    }
+    });
+    console.log(data, error);
+    userContext.setUser(data);
+    localStorage.setItem('session', JSON.stringify(data));
+    handleClose();
   };
 
   return (

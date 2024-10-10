@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { API } from '../../utils/api';
+import React from 'react';
 import { Button, Modal } from 'rsuite';
 import { LiaExternalLinkSquareAltSolid } from 'react-icons/lia';
 
@@ -11,7 +10,7 @@ const ProjectModal = ({ project, isOpen, handleClose }) => {
       </Modal.Header>
       <Modal.Body>
         <div className='flex flex-row gap-2 overflow-x-scroll h-64'>
-          {project.images?.map((i, index) => (
+          {project.imageURLs?.map((i, index) => (
             <img key={index} id={index} src={i} />
           ))}
         </div>

@@ -1,12 +1,23 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
+import { BookshelfContext } from '../App';
+import supabase from '../utils/supabaseClient';
 
 export const BookshelfPage = () => {
   const [selected, setSelected] = useState(null);
 
   let location = useLocation();
 
+  const bookshelfContext = useContext(BookshelfContext);
+
   useEffect(() => {
+    const getBookshelf = async () => {
+      const { data, error } = await supabase
+        .from('bookshelf')
+        .select(`*, views(user:users(id))`);
+      bookshelfContext.setBookshelf(data);
+    };
+    getBookshelf();
     setSelected(location.pathname);
   }, [location]);
 

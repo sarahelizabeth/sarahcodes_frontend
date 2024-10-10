@@ -3,24 +3,20 @@ import { Modal, Button } from 'rsuite';
 import { LiaExternalLinkSquareAltSolid } from 'react-icons/lia';
 
 export const MediaModal = ({ media, isOpen, handleClose }) => {
-  console.log(media)
-  const [description, setDescription] = useState(media.description);
+  const image = `${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/projects/bookshelf/${media.imageURL}`;
 
-  
   return (
     <Modal overflow={true} open={isOpen} onClose={handleClose}>
       <Modal.Header>
         <h3 className='rubik font-bold'>{media.title}</h3>
       </Modal.Header>
       <Modal.Body>
-        {media.media_type === 'video' ? (
-          <iframe src={media.link} width='560' height='400'></iframe>
-        ) : media.media_type === 'article' ? (
-            <p className='description-mask text-justify whitespace-pre-wrap'>{media.description}</p>
+        {media.media_type === 'article' ? (
+          <p className='description-mask text-justify whitespace-pre-wrap'>{media.description}</p>
         ) : (
           <div className='wrap-text-container'>
             <div className='float-left pr-3 pb-3'>
-              <img src={media.image} className='max-w-36' />
+              <img src={image} className='max-w-36' />
             </div>
             <p className='text-justify'>{media.description}</p>
           </div>

@@ -9,11 +9,12 @@ import { TbTrashX, TbTrash } from 'react-icons/tb';
 import { ImCancelCircle } from 'react-icons/im';
 import { IoMdCheckmarkCircleOutline } from 'react-icons/io';
 import format from 'date-fns/format';
+import { useDateFormat, useTimeFormat, useAge, useNameAbbreviation, useBirthdayFormat, useDateTimeFormat } from '../../utils/useFormatting';
 
 export const PicModal = ({ picData, isOpen, handleClose }) => {
   const [modalPic, setModalPic] = useState(picData);
-  const userContext = useContext(UserContext);
-  const picsContext = useContext(PicsContext);
+  const { user } = useContext(UserContext);
+  const { pics, setPics } = useContext(PicsContext);
   const form = useRef();
   const toaster = useToaster();
 
@@ -61,8 +62,8 @@ export const PicModal = ({ picData, isOpen, handleClose }) => {
       headers: { 'content-type': 'multipart/form-data' },
     })
       .then((res) => {
-        let picsWithoutNew = picsContext.pics.filter((i) => i.id !== picData.id);
-        picsContext.setPics([...picsWithoutNew, merged])
+        let picsWithoutNew = pics.filter((i) => i.id !== picData.id);
+        setPics([...picsWithoutNew, merged])
       })
       .catch((error) => console.error('update pet error: ', error));
     setIsEditing(false);
@@ -120,7 +121,7 @@ export const PicModal = ({ picData, isOpen, handleClose }) => {
       </Modal.Header>
       <Modal.Body>
         <div className='md:grid md:grid-cols-3 gap-2'>
-          <img className='md:col-span-2' src={picData.image} />
+          <img className='md:col-span-2' src={`${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/pets/${picData.imageURL}`} />
           {isEditing ? (
             <div className='md:col-span-1'>
               <Form
@@ -188,7 +189,7 @@ export const PicModal = ({ picData, isOpen, handleClose }) => {
               <div className='mt-4 md:mt-0 md:col-span-1'>
                 <div className='mb-3'>
                   <label className='uppercase text-[0.69rem] font-extrabold'>Submitted by</label>
-                  <p>{modalPic.owner_name}</p>
+                  <p>{useNameAbbreviation(modalPic.owner)}</p>
                 </div>
                 {modalPic.breed.length > 0 ? (
                   <div className='mb-3'>
@@ -201,18 +202,18 @@ export const PicModal = ({ picData, isOpen, handleClose }) => {
                 {modalPic.birthday ? (
                   <div className='mb-3'>
                     <label className='uppercase text-[0.69rem] font-extrabold'>Birthday</label>
-                    <p>{modalPic.birthdayFormatted}</p>
+                    <p>{useBirthdayFormat(modalPic.birthday)}</p>
                   </div>
                 ) : (
                   ''
                 )}
                 <div className='mb-3'>
                   <label className='uppercase text-[0.69rem] font-extrabold'>Uploaded on</label>
-                  <p>{modalPic.createdAtFormatted}</p>
+                  <p>{useDateTimeFormat(modalPic.created_at)}</p>
                 </div>
-                {/* {userContext.user && (
+                {/* {user && (
                   <>
-                    {userContext.user.$id === modalPic.owner.$id && (
+                    {user.$id === modalPic.owner.$id && (
                       <button
                         onClick={() => setIsEditing(true)}
                         className='button-shadow-black font-bold text-xs py-1 px-2 mt-4 flex items-center float-right'

@@ -1,33 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Input } from 'rsuite';
-import { API } from '../../utils/api';
-import { createComment } from '../../utils/appwriteClient';
+import supabase from '../../utils/supabaseClient';
+import { QuestionsContext } from '../../pages/AMAPage';
+import { UserContext } from '../../App';
 
 export const CommentForm = ({ questionId, userId, submitComment }) => {
   const [input, setInput] = useState('');
-
-  const oldHandleSubmit = () => {
-    if (input == '') {
-      console.error('Input error');
-      return;
-    }
-
-    const commentValue = {
-      body: input,
-      author: userContext.user.pk,
-      question: questionId,
-    };
-
-    API.post(`api/blog/comments/`, commentValue)
-      .then((res) => {
-        console.log(res.data);
-        setInput('');
-        submitComment();
-      })
-      .catch((error) => {
-        console.error('comment error: ', error);
-      });
-  };
+  const { questions, setQuestions } = useContext(QuestionsContext);
+  const { user } = useContext(UserContext);
 
   const handleSubmit = async () => {
     if (input == '') {
@@ -35,9 +15,33 @@ export const CommentForm = ({ questionId, userId, submitComment }) => {
       return;
     }
 
-    const response = await createComment(input, userId, questionId);
-    console.log(response);
+    const { data, error } = await supabase
+      .from('comments')
+      .insert([{ body: input, author: user.id, question: questionId }])
+      .select();
+    console.log(data);
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    const commentData = data[0];
+    commentData.author = user;
+
+    const updatedQuestions = questions.map((question) => {
+      if (question.id === questionId) {
+        let commentsArray = [];
+        if (question?.comments?.length > 0) {
+          commentsArray = question.comments;
+        }
+        commentsArray.push(commentData);
+        return { ...question, comments: commentsArray };
+      }
+      return question;
+    });
+
     setInput('');
+    setQuestions(updatedQuestions);
     submitComment();
   };
 

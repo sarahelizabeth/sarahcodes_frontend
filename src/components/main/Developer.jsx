@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext } from 'react';
 import ProjectList from './ProjectList';
-import { useFetch } from '../../utils/useFetch';
-import { getProjects } from '../../utils/appwriteClient';
 
 import { FaAws, FaDocker, FaGithub, FaHtml5, FaNode, FaPython, FaReact, FaSass, FaVuejs } from 'react-icons/fa';
 import { SiDjango, SiTailwindcss, SiNextdotjs, SiTypescript, SiVite } from 'react-icons/si';
@@ -9,9 +7,11 @@ import { DiPostgresql } from 'react-icons/di';
 
 import { IconTooltip } from '../IconTooltip';
 import { ContentError } from '../ContentError';
+import { ProjectsContext } from '../../pages/MainPage';
 
 export const Developer = () => {
-  const { data: projects, loading, refetch, error } = useFetch(() => getProjects('developer'));
+  const { projects } = useContext(ProjectsContext);
+  const developerProjects = projects.filter((project) => project.project_type === 'developer');
 
   return (
     <>
@@ -44,7 +44,7 @@ export const Developer = () => {
         </div>
       </div>
       <h6 className='mb-3 dosis font-extrabold text-lg'>PROJECTS</h6>
-      {error || projects.length < 1 ? <ContentError /> : <ProjectList projects={projects} />}
+      {developerProjects.length < 1 ? <ContentError /> : <ProjectList projects={developerProjects} />}
     </>
   );
 };

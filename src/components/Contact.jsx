@@ -1,8 +1,6 @@
 import React, { useState, useRef, useContext, useEffect } from 'react';
 import { Form, Modal, Input, Schema, Divider } from 'rsuite';
 import { UserContext } from '../App';
-import { API } from '../utils/api';
-import { createContactItem } from '../utils/appwriteClient';
 import { motion } from 'framer-motion';
 import { FaGithub, FaLinkedinIn } from 'react-icons/fa';
 import { SiBuymeacoffee } from 'react-icons/si';
@@ -10,12 +8,14 @@ import { IconTooltip } from './IconTooltip';
 import { GrMailOption } from 'react-icons/gr';
 import { VscMail } from 'react-icons/vsc';
 import { IoIosMail } from 'react-icons/io';
+import FormHelpText from 'rsuite/esm/FormHelpText';
+import supabase from '../utils/supabaseClient';
 
 
 const Textarea = React.forwardRef((props, ref) => <Input {...props} as='textarea' ref={ref} />);
 
 export const Contact = ({ isOpen, handleClose }) => {
-  const userContext = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const form = useRef();
   const initialState = {
     name: '',
@@ -25,10 +25,10 @@ export const Contact = ({ isOpen, handleClose }) => {
   const [formValue, setFormValue] = useState(initialState);
 
   useEffect(() => {
-    if (userContext.user !== null) {
+    if (user !== null) {
       setFormValue({
-        name: userContext.user.first_name,
-        email: userContext.user.email,
+        name: user.first_name,
+        email: user.email,
         message: '',
       });
     } else {
@@ -43,23 +43,12 @@ export const Contact = ({ isOpen, handleClose }) => {
     message: StringType().isRequired('Message is required.'),
   });
 
-  const oldHandleSubmit = () => {
-    if (!form.current.check()) {
-      console.error('Form Error');
-      return;
+  const handleSubmit = async () => {
+    let contactData = formValue;
+    if (user) {
+      contactData = { ...formValue, user: user.id };
     }
-
-    API.post(`/api/portfolio/contact/`, formValue)
-      .then((res) => {
-        console.log(res.data);
-        handleClose();
-      })
-      .catch((error) => console.error('contact error: ', error));
-  };
-
-  const handleSubmit = async() => {
-    const newContactItem = await createContactItem(formValue.message, formValue.email, formValue.name);
-    console.log(newContactItem);
+    const { data, error } = await supabase.from('contacts').insert([contactData]);
     handleClose();
   };
 
@@ -82,7 +71,7 @@ export const Contact = ({ isOpen, handleClose }) => {
 
           <Form.Group controlId='message'>
             <Form.ControlLabel>Message</Form.ControlLabel>
-            <Form.Control rows={5} name='message' accepter={Textarea} />
+            <Form.Control rows={3} name='message' accepter={Textarea} />
           </Form.Group>
 
           <button
@@ -93,8 +82,10 @@ export const Contact = ({ isOpen, handleClose }) => {
             Submit
           </button>
         </Form>
-        <Divider>OR CHECK OUT MY OTHER STUFF</Divider>
-        <div className='flex justify-center gap-5 pt-3 '>
+        <Divider>
+          <span className='text-xs'>OR CHECK OUT MY OTHER STUFF</span>
+        </Divider>
+        <div className='justify-center gap-5 pt-3 hidden'>
           <motion.a
             href='https://github.com/sarahelizabeth?tab=repositories'
             target='_blank'
@@ -130,6 +121,55 @@ export const Contact = ({ isOpen, handleClose }) => {
           >
             <IconTooltip icon={<IoIosMail size={44} />} text='Email me! hello@sarahcodes.xyz' placement='top' />
           </motion.a>
+        </div>
+        <div className='grid grid-cols-2 gap-5'>
+          <div className='border-2 border-black py-3 md:mx-4'>
+            <motion.a
+              className='flex items-center justify-center gap-3 hover:text-black focus:text-black hover:no-underline'
+              href='https://github.com/sarahelizabeth'
+              target='_blank'
+              whileHover={{ scale: 1.2 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <FaGithub size={20} />
+              <span className='silkscreen text-xs'>GITHUB</span>
+            </motion.a>
+          </div>
+          <div className='border-2 border-black py-3 md:mx-4'>
+            <motion.a
+              className='flex items-center justify-center gap-3 hover:text-black focus:text-black hover:no-underline'
+              href='https://www.linkedin.com/in/semurray1/'
+              target='_blank'
+              whileHover={{ scale: 1.2 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <FaLinkedinIn size={20} />
+              <span className='silkscreen text-xs'>LINKEDIN</span>
+            </motion.a>
+          </div>
+          <div className='border-2 border-black py-3 md:mx-4'>
+            <motion.a
+              className='flex items-center justify-center gap-3 hover:text-black focus:text-black hover:no-underline'
+              href='mailto:hello@sarahcodes.xyz?cc=sarahemurray@proton.me&subject=Hello!%20from%20Sarah%20Codes%20Good'
+              whileHover={{ scale: 1.2 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <IoIosMail size={20} />
+              <span className='silkscreen text-xs'>EMAIL ME</span>
+            </motion.a>
+          </div>
+          <div className='border-2 border-black py-3 md:mx-4'>
+            <motion.a
+              className='flex items-center justify-center gap-3 hover:text-black focus:text-black hover:no-underline'
+              href='https://buymeacoffee.com/sarahcodesgood'
+              target='_blank'
+              whileHover={{ scale: 1.2 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <SiBuymeacoffee size={20} />
+              <span className='silkscreen text-xs'>BUY ME A COFFEE</span>
+            </motion.a>
+          </div>
         </div>
       </Modal.Body>
     </Modal>

@@ -1,57 +1,33 @@
 import React, { useContext, useEffect, useState } from 'react';
+import supabase from '../../utils/supabaseClient';
 import { UserContext } from '../../App';
+import { QuestionsContext } from '../../pages/AMAPage';
 import { Input } from 'rsuite';
-import { API } from '../../utils/api';
-import { createQuestion } from '../../utils/appwriteClient';
 
-export const QuestionForm = ({ submitQuestion }) => {
-  const userContext = useContext(UserContext);
+export const QuestionForm = () => {
+  const { user } = useContext(UserContext);
+  const { questions, setQuestions } = useContext(QuestionsContext);
   const [input, setInput] = useState('');
   const [rows, setRows] = useState(4);
 
   useEffect(() => {
     const windowWidth = window.innerWidth;
-    if (windowWidth <= 438) {
-      setRows(2);
-    }
+    if (windowWidth <= 438) setRows(2);
   }, []);
 
-  const oldHandleSubmit = () => {
-    if (input == '') {
-      console.error('Input error');
-      return;
-    }
-
-    const questionValue = {
-      body: input,
-      author: userContext.user.pk,
-    };
-
-    API.post(`api/blog/questions/`, questionValue)
-      .then((res) => {
-        console.log(res.data);
-        setInput('');
-        submitQuestion();
-      })
-      .catch((error) => {
-        console.error('question error: ', error);
-      });
-  };
-
   const handleSubmit = async () => {
-    if (input == '') {
-      console.error('Input error');
-      return;
-    }
-
-    try {
-      const response = await createQuestion(input, userContext.user.$id);
-      console.log(response);
-      setInput('');
-      submitQuestion();
-    } catch (error) {
-      console.error('question error: ', error);
-    }
+    console.log(user);
+    const { data, error } = await supabase
+      .from('questions')
+      .insert([{ body: input, author: user.id }])
+      .select();
+    console.log(data);
+    setInput('');
+    const questionData = data[0];
+    questionData.author = user;
+    questionData.answer = null;
+    const updatedQuestions = [...questions, questionData];
+    setQuestions(updatedQuestions);
   };
 
   return (

@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { API } from '../../utils/api';
-import { useFetch } from '../../utils/useFetch';
-import { getProjects } from '../../utils/appwriteClient';
+import React, { useContext } from 'react';
+import { ProjectsContext } from '../../pages/MainPage';
 import MentorList from './MentorList';
 import { ContentError } from '../ContentError';
+import ProjectList from './ProjectList';
 
 export const Mentor = () => {
-  const { data: projects, loading, refetch, error: contentError } = useFetch(() => getProjects('mentor'));
+  const { projects, setProjects } = useContext(ProjectsContext);
+  const mentorProjects = projects.filter((project) => project.project_type === 'mentor');
 
   return (
     <>
@@ -19,8 +19,7 @@ export const Mentor = () => {
         </p>
       </div>
       <h6 className='mb-3 dosis font-extrabold text-lg'>EXPERIENCES</h6>
-      <MentorList projects={projects} />
-      {contentError || (projects.length < 1 && <ContentError />)}
+      {mentorProjects.length < 1 ? <ContentError /> : <MentorList projects={mentorProjects} />}
     </>
   );
 };

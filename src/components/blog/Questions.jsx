@@ -11,10 +11,9 @@ import { MdOutlineInsertComment } from 'react-icons/md';
 import { motion, AnimatePresence } from 'framer-motion';
 import { UserContext } from '../../App';
 
-export const Questions = ({ submitComment }) => {
-  const questions = useContext(QuestionsContext);
-  const userContext = useContext(UserContext);
-  // const containerRef = useRef(null);
+export const Questions = () => {
+  const { questions, setQuestions } = useContext(QuestionsContext);
+  const { user } = useContext(UserContext);
   const [showForm, setShowForm] = useState(-1);
   const [showComments, setShowComments] = useState(-1);
   const toaster = useToaster();
@@ -27,7 +26,7 @@ export const Questions = ({ submitComment }) => {
   };
 
   const handleShowForm = (index) => {
-    if (userContext.user === null) {
+    if (user === null) {
       handleShowWarning();
       return;
     }
@@ -38,7 +37,6 @@ export const Questions = ({ submitComment }) => {
 
   const handleSubmitComment = (index) => {
     setShowForm(-1);
-    submitComment();
     setShowComments(index);
   };
 
@@ -85,7 +83,7 @@ export const Questions = ({ submitComment }) => {
                   </div>
                 ))}
               {showForm === index && (
-                <CommentForm questionId={question.$id} userId={userContext.user.$id} submitComment={() => handleSubmitComment(index)} />
+                <CommentForm questionId={question.id} userId={user.id} submitComment={() => handleSubmitComment(index)} />
               )}
             </div>
             {/* <CommentBlock

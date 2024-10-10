@@ -1,8 +1,7 @@
 import React, { useContext, useRef, useState } from 'react';
 import { Form, Modal, Schema, DatePicker, RadioGroup, Radio, Divider } from 'rsuite';
 import { motion } from 'framer-motion';
-import { API } from '../../utils/api';
-import { createPet } from '../../utils/appwriteClient';
+import supabase from '../../utils/supabaseClient';
 import { PiUploadSimpleBold } from 'react-icons/pi';
 import { UploadButton } from './UploadButton';
 import { IconTooltip } from '../IconTooltip';
@@ -54,8 +53,8 @@ const speciesList = [
 ];
 
 export const AddPetPicModal = ({ isOpen, handleClose }) => {
-  const userContext = useContext(UserContext);
-  const picsContext = useContext(PicsContext);
+  const { user } = useContext(UserContext);
+  const { pics, setPics } = useContext(PicsContext);
   const [formValue, setFormValue] = useState({
     pet_type: null,
     name: '',
@@ -85,28 +84,16 @@ export const AddPetPicModal = ({ isOpen, handleClose }) => {
     setPreviewImage(URL.createObjectURL(file));
   };
 
-  const oldHandleSubmit = () => {
-    if (!form.current.check() || species.length === 0) {
-      console.error('Form Error');
+  const uploadImage = async () => {
+    const timestamp = +new Date();
+    const uploadName = `${timestamp}-${image.name}`;
+    const { data: uploadData, error } = await supabase.storage.from('pets').upload(uploadName, image);
+
+    if (error) {
+      console.error('upload error: ', error);
       return;
     }
-
-    if (formValue.birthday) {
-      const date = format(formValue.birthday, 'yyyy-MM-dd');
-      formValue.birthday = date;
-    }
-    formValue.owner = userContext.user.pk;
-    formValue.pet_type = species;
-    formValue.image = image;
-
-    API.post(`/api/pets/pics/`, formValue, {
-      headers: { 'content-type': 'multipart/form-data' },
-    })
-      .then((res) => {
-        picsContext.setPics([...picsContext.pics, res.data])
-        handleClose();
-      })
-      .catch((error) => console.error('create pet error: ', error));
+    return uploadData;
   };
 
   const handleSubmit = async () => {
@@ -115,22 +102,23 @@ export const AddPetPicModal = ({ isOpen, handleClose }) => {
       return;
     }
 
+    const imageData = await uploadImage();
+    formValue.imageURL = imageData.path;
+
     if (formValue.birthday) {
       const date = format(formValue.birthday, 'yyyy-MM-dd');
       formValue.birthday = date;
     }
 
     formValue.pet_type = species;
+    formValue.owner = user.id;
 
-    try {
-      const newPet = await createPet(formValue, userContext.user.$id, image);
-
-      console.log(newPet);
-      picsContext.setPics([...picsContext.pics, newPet]);
-      handleClose();
-    } catch (error) {
-      console.error('create pet error: ', error);
-    }
+    const { data, error } = await supabase.from('pets').insert([formValue]).select();
+    const picData = data[0];
+    picData.owner = user;
+    
+    setPics([...pics, picData]);
+    handleClose();
   };
 
   return (

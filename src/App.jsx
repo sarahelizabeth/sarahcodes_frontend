@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo, createContext } from 'react';
 import { createBrowserRouter, RouterProvider, Link } from 'react-router-dom';
 import 'rsuite/dist/rsuite.min.css';
 import './App.css';
-import { getUser, getBookshelf } from './utils/appwriteClient';
+import supabase from './utils/supabaseClient';
 
 import { NavSidebar } from './components/NavSidebar';
 import { Contact } from './components/Contact';
@@ -107,28 +107,22 @@ function App() {
 
   useEffect(() => {
     const session = JSON.parse(localStorage.getItem('session'));
-    const getCurrent = async () => {
-      const currentUser = await getUser();
-      setUser(currentUser);
-      console.log(currentUser);
-      return currentUser;
-    };
-    
-    if (session) {
-      setUser(getCurrent());
-      
-      console.log(user);
-    } else {
-      setUser(null);
-    }
 
-    const getAllMedia = async () => {
-      const bookshelf = await getBookshelf();
-      setBookshelf(bookshelf);
-      return bookshelf;
+    const getUser = async (id) => {
+      const { data, error } = await supabase.from('users').select().eq('id', id);
+      console.log(data);
+      return data[0];
     };
 
-    getAllMedia();
+    const getSession = async () => {
+      const { data, error } = await supabase.auth.getSession();
+      console.log(data);
+      const currentUser = data.session?.user;
+      const userData = await getUser(currentUser.id);
+      setUser(userData);
+    };
+
+    getSession();
   }, []);
 
   const [openRegister, setOpenRegister] = useState(false);

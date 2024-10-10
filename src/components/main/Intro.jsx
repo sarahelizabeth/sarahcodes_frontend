@@ -9,12 +9,12 @@ export const Intro = () => {
           Hi! I’m Sarah, and I invite you to poke around my super awesome website. Explore my portfolio, read about my
           daring exploits, learn about the causes & organizations that are important to me, check out my favorite books
           & movies, or ask me a question!
-          {/* Or you can just look at pictures of my kitty, which, honestly, is probably the
-          best use of your time. */}
+          <br /><br />
+          Or you can just look at pictures of my kitty, which, honestly, is probably the best use of your time.
         </p>
-        <p className='text-xs'>
-          <span className='dosis font-semibold underline text-xs pr-2'>COMING SOON!</span>A whole entire page of
-          pictures of my kitty!!!
+        <p className='text-xs mt-4'>
+          <span className='dosis font-semibold underline text-xs pr-2'>COMING SOON</span>OAuth sign in capabilities &
+          more!
         </p>
       </div>
     </div>

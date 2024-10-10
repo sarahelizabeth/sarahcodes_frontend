@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useMemo, useState, createContext } from 'react';
 import { UserContext } from '../App';
-import { API } from '../utils/api';
-import { getPets } from '../utils/appwriteClient';
+import supabase from '../utils/supabaseClient';
 import { useToaster } from 'rsuite';
 import { AddPetPicModal } from '../components/cuties/AddPetPicModal';
 import { Gallery } from '../components/cuties/Gallery';
@@ -10,7 +9,7 @@ import { ContentError } from '../components/ContentError';
 export const PicsContext = createContext(null);
 
 export const PetPicsPage = ({ handlePageChange }) => {
-  const userContext = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const toaster = useToaster();
 
   const [pics, setPics] = useState([]);
@@ -20,7 +19,7 @@ export const PetPicsPage = ({ handlePageChange }) => {
   const [contentError, setContentError] = useState(false);
 
   const handleSubmit = () => {
-    if (!userContext.user) {
+    if (!user) {
       handleShowWarning();
       return;
     }
@@ -50,15 +49,19 @@ export const PetPicsPage = ({ handlePageChange }) => {
   useEffect(() => {
     handlePageChange();
 
-    const getAllPets = async () => {
-      try {
-        const allPets = await getPets();
-        setPics(allPets);
-      } catch (error) {
+    const getPets = async () => {
+      const { data, error } = await supabase
+        .from('pets')
+        .select(`*, owner:users(first_name, last_name)`);
+      
+      if (error) {
         console.error(error);
+        setContentError(true);
+        return;
       }
+      setPics(data);
     };
-    getAllPets();
+    getPets();
   }, []);
 
   return (

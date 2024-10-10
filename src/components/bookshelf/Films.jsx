@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { API } from '../../utils/api';
+import React, { useContext } from 'react';
 import { MediaItem } from './MediaItem';
 import { Divider } from 'rsuite';
 import { FaImdb } from 'react-icons/fa';

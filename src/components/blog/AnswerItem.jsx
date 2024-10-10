@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { API } from '../../utils/api';
+import React from 'react';
 
 export const AnswerItem = ({ answer }) => {
-  const dateFormatted = new Date(answer.$createdAt).toLocaleDateString();
-  const timeFormatted = new Date(answer.$createdAt).toLocaleTimeString();
+  const dateFormatted = new Date(answer.created_at).toLocaleDateString();
+  const timeFormatted = new Date(answer.created_at).toLocaleTimeString();
 
   return (
     <div className='mt-4'>

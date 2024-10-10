@@ -21,7 +21,7 @@ const MentorList = ({ projects }) => {
         <div key={index}>
           <div className='flex mb-6'>
             <div className='img-container w-32 h-32 pt-1'>
-              <img className='h-full max-w-fit object-cover' src={project.logo} />
+              <img className='h-full max-w-fit object-cover' src={`${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/projects/logos${project.logoURL}`} />
             </div>
             <div className='pl-4 flex flex-col'>
               <p className='underline'>{project.title}</p>
