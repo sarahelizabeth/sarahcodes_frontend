@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
+import supabase from '../../utils/supabaseClient';
 import { Modal, useToaster } from 'rsuite';
 import { SpeciesIcon } from './SpeciesIcon';
 import { UserContext } from '../../App';
 import { PicsContext } from '../../pages/PetPicsPage';
-import supabase from '../../utils/supabaseClient';
 import { FaEdit } from 'react-icons/fa';
 import { FaHeart, FaRegHeart } from 'react-icons/fa6';
 import { MdErrorOutline } from 'react-icons/md';
@@ -81,14 +81,13 @@ export const PicModal = ({ picData, isOpen, handleClose }) => {
   };
 
   useEffect(() => {
-    console.log(picData);
-    setLikes(picData.likes.length);
+    setLikes(picData?.likes?.length);
     if (user) {
-      const isLiked = picData.likes.some((like) => like.user.id === user.id);
+      const isLiked = picData?.likes?.some((like) => like.user.id === user.id);
       setIsLiked(isLiked);
     }
     if (picData.birthday) setDefaultBirthday(new Date(picData.birthday));
-  }, []);
+  }, [isOpen]);
 
   return (
     <Modal overflow={false} size='lg' open={isOpen} onClose={handleClose} className='jetbrains-mono'>
@@ -102,12 +101,27 @@ export const PicModal = ({ picData, isOpen, handleClose }) => {
       </Modal.Header>
       <Modal.Body>
         <div className='md:grid md:grid-cols-3 gap-2'>
-          <img className='md:col-span-2' src={`${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/pets/${picData.imageURL}`} />
+          <img
+            className='md:col-span-2'
+            src={`${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/pets/${picData.imageURL}`}
+          />
           {isEditing ? (
-            <PicEditForm picData={picData} defaultBirthday={defaultBirthday} handleSuccess={handleEditSuccess} handleError={() => handleShowToaster('error')} handleCancel={() => setIsEditing(false)} />
+            <PicEditForm
+              picData={picData}
+              defaultBirthday={defaultBirthday}
+              handleSuccess={handleEditSuccess}
+              handleError={() => handleShowToaster('error')}
+              handleCancel={() => setIsEditing(false)}
+            />
           ) : (
             <>
               <div className='mt-4 md:mt-0 md:col-span-1'>
+                {modalPic.caption && (
+                  <fieldset className='border-2 border-black mb-4 pt-1 pb-2 px-3'>
+                  <legend className='uppercase text-[0.69rem] font-extrabold px-2 ml-4'>Caption</legend>
+                  <p className='font-base montserrat'>{modalPic.caption}</p>
+                </fieldset>
+                )}
                 <div className='flex justify-between'>
                   <div className='mb-3'>
                     <label className='uppercase text-[0.69rem] font-extrabold'>Submitted by</label>
@@ -115,7 +129,11 @@ export const PicModal = ({ picData, isOpen, handleClose }) => {
                   </div>
                   <div className='flex items-center gap-2 text-right'>
                     <p>{likes} likes</p>
-                    {isLiked ? <FaHeart size={24} onClick={handleLike} className='text-red-500' /> : <FaRegHeart size={24} onClick={handleLike} className='md:cursor-pointer' />}
+                    {isLiked ? (
+                      <FaHeart size={24} onClick={handleLike} className='text-red-500' />
+                    ) : (
+                      <FaRegHeart size={24} onClick={handleLike} className='md:cursor-pointer' />
+                    )}
                   </div>
                 </div>
                 {modalPic.breed.length > 0 && (

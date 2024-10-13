@@ -80,9 +80,11 @@ export const MediaItem = ({ item, action }) => {
             {item.title}
           </a>
         </div>
-        <p className='pt-1 mb-2'>
-          {'>'} {item.creator}
-        </p>
+        {(item?.creator && item?.creator?.length > 0) && (
+          <p className='pt-1 mb-2'>
+            {'>'} {item.creator}
+          </p>
+        )}
         <div className='flex justify-between gap-2 items-center'>
           {hasLiked ? (
             <>

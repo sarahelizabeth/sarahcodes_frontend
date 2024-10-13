@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { Form, Modal, Schema, DatePicker, RadioGroup, Radio, Divider, Checkbox, Whisper, Tooltip, Input } from 'rsuite';
+import { Form, Modal, Schema, DatePicker, RadioGroup, Radio, Divider, Checkbox, Whisper, Tooltip, Input, Loader } from 'rsuite';
 import { motion } from 'framer-motion';
 import supabase from '../../utils/supabaseClient';
 import { PiUploadSimpleBold } from 'react-icons/pi';
@@ -59,8 +59,8 @@ export const AddPetPicModal = ({ isOpen, handleClose }) => {
     pet_type: null,
     name: '',
     breed: '',
-    birthday: null,
   });
+  const [birthday, setBirthday] = useState(new Date());
   const [selected, setSelected] = useState('');
   const [species, setSpecies] = useState('');
   const [image, setImage] = useState(null);
@@ -70,6 +70,7 @@ export const AddPetPicModal = ({ isOpen, handleClose }) => {
   const [captionCount, setCaptionCount] = useState(0);
   const [captionError, setCaptionError] = useState(false);
   const [showError, setShowError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   
   const form = useRef();
   const whisperRef = useRef();
@@ -86,7 +87,7 @@ export const AddPetPicModal = ({ isOpen, handleClose }) => {
     </Radio>
   );
 
-  const DatePickerComponent = () => <DatePicker oneTap placement='topStart' />;
+  // const DatePickerComponent = () => <DatePicker oneTap value={birthday} placement='topStart' onChange={(value) => setBirthday(value)} />;
 
   const handleImageChange = (file) => {
     setImage(file);
@@ -115,6 +116,7 @@ export const AddPetPicModal = ({ isOpen, handleClose }) => {
   }, [caption]);
 
   const handleSubmit = async () => {
+    console.log(birthday)
     if (species.length === 0) {
       whisperRef.current.open();
       return;
@@ -129,6 +131,8 @@ export const AddPetPicModal = ({ isOpen, handleClose }) => {
       setCaptionError(true);
       return;
     }
+
+    setIsLoading(true);
 
     const imageData = await uploadImage();
     formValue.imageURL = imageData.path;
@@ -201,28 +205,24 @@ export const AddPetPicModal = ({ isOpen, handleClose }) => {
             </Whisper>
             {selected.length > 0 && <p className='md:hidden text-grey-dark text-xs italic'>Selected: {selected}</p>}
           </Form.Group>
-
           <Form.Group controlId='name'>
             <Form.ControlLabel>Name</Form.ControlLabel>
             <Form.Control name='name' />
           </Form.Group>
-
           <Form.Group controlId='breed'>
             <Form.ControlLabel>
               Breed <span className='text-xs italic text-gray-500'>(optional)</span>
             </Form.ControlLabel>
             <Form.Control name='breed' />
           </Form.Group>
-
-          <Form.Group controlId='birthday'>
+          {/* <Form.Group controlId='birthday'>
             <Form.ControlLabel>
               Birthday <span className='text-xs italic text-gray-500'>(optional)</span>
             </Form.ControlLabel>
             <Form.Control name='birthday' accepter={DatePickerComponent} />
-          </Form.Group>
-
+          </Form.Group> */}
+          <DatePicker oneTap value={birthday} placement='topStart' onChange={(value) => setBirthday(value)} />;
           <UploadButton handleImage={handleImageChange} />
-
           {image && (
             <>
               <div className='flex justify-center content-center flex-col items-center w-full'>
@@ -246,25 +246,26 @@ export const AddPetPicModal = ({ isOpen, handleClose }) => {
               {showAddCaption && (
                 <div className='w-full'>
                   <Input value={caption} onChange={(value) => setCaption(value)} as='textarea' rows={2} />
-                  <p className={`text-right ${captionCount > 300 ? 'text-red-500' : ''} ${captionError ? 'font-black' : 'font-light'}`}>
+                  <p
+                    className={`text-right ${captionCount > 300 ? 'text-red-500' : ''} ${
+                      captionError ? 'font-black' : 'font-light'
+                    }`}
+                  >
                     {captionCount}/300 characters
                   </p>
                 </div>
               )}
             </>
           )}
-
           <Divider />
-
           {showError && <p className='text-red-500'>Error submitting your pet pic. Please close and try again.</p>}
-
           <button
             className='text-center flex justify-center align-end button-shadow-black uppercase mt-2 place-self-center hover:font-bold disabled:border-1 disabled:border-gray-400 disabled:text-gray-400'
-            disabled={!image}
+            disabled={!image || isLoading}
             onClick={handleSubmit}
             type='submit'
           >
-            <PiUploadSimpleBold size={18} />
+            {isLoading ? <Loader /> : <PiUploadSimpleBold size={18} />}
             <span className='pl-2'>SUBMIT</span>
           </button>
         </Form>

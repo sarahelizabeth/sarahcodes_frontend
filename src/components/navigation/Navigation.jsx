@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 import { motion } from 'framer-motion';
 import { UserContext, ContactContext, LoginContext, RegisterContext } from '../../App';
 import supabase from '../../utils/supabaseClient';
-import Cookies from 'js-cookie';
 import { FaGithub, FaLinkedinIn } from 'react-icons/fa';
 
 const ulVariants = {
@@ -39,7 +38,7 @@ export const Navigation = ({ toggleOpen }) => {
   const contactContext = useContext(ContactContext);
   const loginContext = useContext(LoginContext);
   const registerContext = useContext(RegisterContext);
-  const userContext = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
 
   const handleContact = () => {
     contactContext.setOpenContact(true);
@@ -59,8 +58,8 @@ export const Navigation = ({ toggleOpen }) => {
   const handleLogout = async () => {
     const { data, error } = await supabase.auth.signOut();
     console.log(data, error);
-    localStorage.removeItem('session');
-    userContext.setUser(null);
+    // localStorage.removeItem('session');
+    setUser(null);
     toggleOpen();
   };
 
@@ -92,7 +91,7 @@ export const Navigation = ({ toggleOpen }) => {
           </a>
         </motion.li>
       ))}
-      {userContext.user ? (
+      {user ? (
         <motion.li variants={liVariants} whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
           <button className='text-black hover:underline hover:font-bold' onClick={handleLogout}>
             Logout
@@ -100,7 +99,6 @@ export const Navigation = ({ toggleOpen }) => {
         </motion.li>
       ) : (
         <>
-          
           <motion.li variants={liVariants} whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
             <button className='text-black hover:underline hover:font-bold' onClick={handleLogin}>
               Log In
