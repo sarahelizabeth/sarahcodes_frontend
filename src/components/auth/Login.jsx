@@ -20,6 +20,10 @@ export const Login = ({ isOpen, handleClose }) => {
   });
 
   const handleSubmit = async () => {
+    if (!form.current.check()) {
+      return;
+    }
+
     const { data, error } = await supabase.auth.signInWithPassword({
       email: formValue.email,
       password: formValue.password,

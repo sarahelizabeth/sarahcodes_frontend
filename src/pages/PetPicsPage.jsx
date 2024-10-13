@@ -19,10 +19,10 @@ export const PetPicsPage = ({ handlePageChange }) => {
   const [contentError, setContentError] = useState(false);
 
   const handleSubmit = () => {
-    if (!user) {
-      handleShowWarning();
-      return;
-    }
+    // if (!user) {
+    //   handleShowWarning();
+    //   return;
+    // }
     setOpen(true);
   };
 
@@ -39,7 +39,7 @@ export const PetPicsPage = ({ handlePageChange }) => {
   };
 
   const warning = (
-    <div className='w-300 h-100 border-2 border-white text-white bg-black px-3 py-2 mt-4 toaster-shadow-white'>
+    <div className='w-300 h-100 border-2 border-black text-black bg-white px-3 py-2 mt-4 toaster-shadow-black'>
       <p className='jetbrains-mono'>
         Please log in or sign up to post <br></br> a pic of your cutie!
       </p>
@@ -52,7 +52,7 @@ export const PetPicsPage = ({ handlePageChange }) => {
     const getPets = async () => {
       const { data, error } = await supabase
         .from('pets')
-        .select(`*, owner:users(first_name, last_name)`);
+        .select(`*, owner:users(id, first_name, last_name), likes(*, user:users(id))`);
       
       if (error) {
         console.error(error);

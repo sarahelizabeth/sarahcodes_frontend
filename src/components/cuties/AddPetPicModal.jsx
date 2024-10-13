@@ -1,5 +1,5 @@
-import React, { useContext, useRef, useState } from 'react';
-import { Form, Modal, Schema, DatePicker, RadioGroup, Radio, Divider } from 'rsuite';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import { Form, Modal, Schema, DatePicker, RadioGroup, Radio, Divider, Checkbox, Whisper, Tooltip, Input } from 'rsuite';
 import { motion } from 'framer-motion';
 import supabase from '../../utils/supabaseClient';
 import { PiUploadSimpleBold } from 'react-icons/pi';
@@ -65,8 +65,15 @@ export const AddPetPicModal = ({ isOpen, handleClose }) => {
   const [species, setSpecies] = useState('');
   const [image, setImage] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
-
+  const [showAddCaption, setShowAddCaption] = useState(false);
+  const [caption, setCaption] = useState('');
+  const [captionCount, setCaptionCount] = useState(0);
+  const [captionError, setCaptionError] = useState(false);
+  const [showError, setShowError] = useState(false);
+  
   const form = useRef();
+  const whisperRef = useRef();
+
   const { StringType } = Schema.Types;
   const model = Schema.Model({
     name: StringType().isRequired('Name is required.').maxLength(100, 'The maximum number of characters is 100.'),
@@ -78,6 +85,8 @@ export const AddPetPicModal = ({ isOpen, handleClose }) => {
       <IconTooltip icon={icon} text={label} placement='bottom' />
     </Radio>
   );
+
+  const DatePickerComponent = () => <DatePicker oneTap placement='topStart' />;
 
   const handleImageChange = (file) => {
     setImage(file);
@@ -96,9 +105,28 @@ export const AddPetPicModal = ({ isOpen, handleClose }) => {
     return uploadData;
   };
 
+  useEffect(() => {
+    let count = caption.length;
+    setCaptionCount(count);
+
+    if (count <= 300) {
+      setCaptionError(false);
+    }
+  }, [caption]);
+
   const handleSubmit = async () => {
-    if (!form.current.check() || species.length === 0) {
+    if (species.length === 0) {
+      whisperRef.current.open();
+      return;
+    }
+
+    if (!form.current.check()) {
       console.error('Form Error');
+      return;
+    }
+
+    if (captionCount > 300) {
+      setCaptionError(true);
       return;
     }
 
@@ -109,14 +137,24 @@ export const AddPetPicModal = ({ isOpen, handleClose }) => {
       const date = format(formValue.birthday, 'yyyy-MM-dd');
       formValue.birthday = date;
     }
+    if (caption) {
+      formValue.caption = caption;
+    }
 
     formValue.pet_type = species;
     formValue.owner = user.id;
 
     const { data, error } = await supabase.from('pets').insert([formValue]).select();
+
+    if (error) {
+      console.error('insert pet error: ', error);
+      setShowError(true);
+      return;
+    }
+
     const picData = data[0];
     picData.owner = user;
-    
+
     setPics([...pics, picData]);
     handleClose();
   };
@@ -126,12 +164,7 @@ export const AddPetPicModal = ({ isOpen, handleClose }) => {
       <Modal.Header>
         <h4 className='font-bold text-2xl dosis font-extrabold'>Add a Pic of Your Cutie!</h4>
       </Modal.Header>
-      <motion.div
-        initial={{ y: 10, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        exit={{ y: -10, opacity: 0 }}
-        transition={{ duration: 0.2 }}
-      >
+      <Modal.Body>
         <Form
           ref={form}
           model={model}
@@ -140,24 +173,32 @@ export const AddPetPicModal = ({ isOpen, handleClose }) => {
           className='flex flex-col items-center'
         >
           <Form.Group>
-            <label
-              className='block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2'
-              htmlFor='radio-group-inline-picker'
+            <Whisper
+              placement='bottomStart'
+              trigger='none'
+              ref={whisperRef}
+              className='bg-white'
+              speaker={<Tooltip>Select which species your pet is!</Tooltip>}
             >
-              Species
-            </label>
-            <RadioGroup
-              name='radio-group-inline-picker'
-              inline
-              appearance='picker'
-              className='items-center'
-              value={species}
-              onChange={setSpecies}
-            >
-              {speciesList.map((item, index) => (
-                <RadioItem type={item.type} label={item.label} icon={item.icon} key={index} />
-              ))}
-            </RadioGroup>
+              <label
+                className='block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2'
+                htmlFor='radio-group-inline-picker'
+              >
+                Species
+              </label>
+              <RadioGroup
+                name='radio-group-inline-picker'
+                inline
+                appearance='picker'
+                className='items-center'
+                value={species}
+                onChange={setSpecies}
+              >
+                {speciesList.map((item, index) => (
+                  <RadioItem type={item.type} label={item.label} icon={item.icon} key={index} />
+                ))}
+              </RadioGroup>
+            </Whisper>
             {selected.length > 0 && <p className='md:hidden text-grey-dark text-xs italic'>Selected: {selected}</p>}
           </Form.Group>
 
@@ -167,31 +208,55 @@ export const AddPetPicModal = ({ isOpen, handleClose }) => {
           </Form.Group>
 
           <Form.Group controlId='breed'>
-            <Form.ControlLabel>Breed</Form.ControlLabel>
+            <Form.ControlLabel>
+              Breed <span className='text-xs italic text-gray-500'>(optional)</span>
+            </Form.ControlLabel>
             <Form.Control name='breed' />
           </Form.Group>
 
           <Form.Group controlId='birthday'>
-            <Form.ControlLabel>Birthday</Form.ControlLabel>
-            <Form.Control name='birthday' accepter={DatePicker} />
+            <Form.ControlLabel>
+              Birthday <span className='text-xs italic text-gray-500'>(optional)</span>
+            </Form.ControlLabel>
+            <Form.Control name='birthday' accepter={DatePickerComponent} />
           </Form.Group>
 
           <UploadButton handleImage={handleImageChange} />
 
           {image && (
-            <div className='flex justify-center items-center w-full'>
-              <img src={previewImage} className='h-32 w-fit p-3' />
-              <p className='text-xs'>
-                {'('}
-                <span>
-                  <button onClick={() => setImage(null)}>remove</button>
-                </span>
-                {')'}
-              </p>
-            </div>
+            <>
+              <div className='flex justify-center content-center flex-col items-center w-full'>
+                <img src={previewImage} className='h-32 w-fit m-3' />
+                <p className='text-xs'>
+                  {'('}
+                  <span>
+                    <button onClick={() => setImage(null)}>remove</button>
+                  </span>
+                  {')'}
+                </p>
+              </div>
+              <div className='flex justify-center text-center items-center'>
+                <p>Do you want to add a caption?</p>
+                <Checkbox
+                  value={showAddCaption}
+                  checked={showAddCaption}
+                  onChange={() => setShowAddCaption(!showAddCaption)}
+                />
+              </div>
+              {showAddCaption && (
+                <div className='w-full'>
+                  <Input value={caption} onChange={(value) => setCaption(value)} as='textarea' rows={2} />
+                  <p className={`text-right ${captionCount > 300 ? 'text-red-500' : ''} ${captionError ? 'font-black' : 'font-light'}`}>
+                    {captionCount}/300 characters
+                  </p>
+                </div>
+              )}
+            </>
           )}
 
           <Divider />
+
+          {showError && <p className='text-red-500'>Error submitting your pet pic. Please close and try again.</p>}
 
           <button
             className='text-center flex justify-center align-end button-shadow-black uppercase mt-2 place-self-center hover:font-bold disabled:border-1 disabled:border-gray-400 disabled:text-gray-400'
@@ -203,7 +268,7 @@ export const AddPetPicModal = ({ isOpen, handleClose }) => {
             <span className='pl-2'>SUBMIT</span>
           </button>
         </Form>
-      </motion.div>
+      </Modal.Body>
     </Modal>
   );
 };

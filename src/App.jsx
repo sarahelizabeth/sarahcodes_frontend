@@ -117,9 +117,11 @@ function App() {
     const getSession = async () => {
       const { data, error } = await supabase.auth.getSession();
       console.log(data);
-      const currentUser = data.session?.user;
-      const userData = await getUser(currentUser.id);
-      setUser(userData);
+      if (data.session) {
+        const currentUser = data.session?.user;
+        const userData = await getUser(currentUser.id);
+        setUser(userData);
+      }
     };
 
     getSession();

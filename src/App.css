@@ -140,7 +140,14 @@
   -webkit-box-shadow: 4px 4px 0px 0px white !important;
   -moz-box-shadow: 4px 4px 0px 0px white !important;
   box-shadow: 4px 4px 0px 0px white !important;
-  outline: 2px solid black !important;
+  /* outline: 2px solid black !important; */
+}
+
+.toaster-shadow-black {
+  -webkit-box-shadow: 4px 4px 0px 0px black !important;
+  -moz-box-shadow: 4px 4px 0px 0px black !important;
+  box-shadow: 4px 4px 0px 0px black !important;
+  /* outline: 2px solid white !important; */
 }
 
 .stack-grid > span {

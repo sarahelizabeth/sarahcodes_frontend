@@ -42,9 +42,9 @@ export const MainPage = () => {
     if (window.innerWidth <= 768) {
       setNavHeights({
         nav: navRef.current.clientHeight,
-        developerTop: '25%',
-        mentorTop: '25%',
-        activistTop: '25%',
+        developerTop: navRef.current.clientHeight,
+        mentorTop: navRef.current.clientHeight,
+        activistTop: navRef.current.clientHeight,
         developerLeft: developerRef.current.offsetLeft + 35,
         mentorLeft: mentorRef.current.offsetLeft + 7,
         activistLeft: activistRef.current.offsetLeft + 16,
