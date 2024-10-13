@@ -31,7 +31,7 @@ export const Intro = () => {
         </p>
       </div>
       <button
-        className='button-shadow-black flex border-2 border-black text-black px-4 py-2 uppercase mt-12 mb-4 hover:font-bold z-20'
+        className='md:hidden button-shadow-black flex border-2 border-black text-black px-4 py-2 uppercase mt-12 mb-4 hover:font-bold z-20'
         onClick={handleResumeDownload}
         type='submit'
       >
