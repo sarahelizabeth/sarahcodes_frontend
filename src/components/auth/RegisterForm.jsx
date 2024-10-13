@@ -28,28 +28,25 @@ export const RegisterForm = ({ handleSuccess }) => {
   });
 
   const handleSubmit = async () => {
-    // if (!form.current.check()) {
-    //   return;
-    // }
+    if (!form.current.check()) {
+      return;
+    }
 
-    // const { data, error } = await supabase.auth.signUp({
-    //   email: formValue.email,
-    //   password: formValue.password1,
-    //   options: {
-    //     data: {
-    //       first_name: formValue.first_name,
-    //       last_name: formValue.last_name,
-    //     },
-    //   },
-    // });
-    // console.log(data, error);
-
-    // if (error) {
-    //   console.error('register error: ', error);
-    //   setShowError(true);
-    //   return;
-    // }
-
+    const { data, error } = await supabase.auth.signUp({
+      email: formValue.email,
+      password: formValue.password1,
+      options: {
+        data: {
+          first_name: formValue.first_name,
+          last_name: formValue.last_name,
+        },
+      },
+    });
+    if (error) {
+      console.error('register error: ', error);
+      setShowError(true);
+      return;
+    }
     handleSuccess();
   };
 

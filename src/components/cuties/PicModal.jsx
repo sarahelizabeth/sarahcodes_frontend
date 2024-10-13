@@ -115,7 +115,7 @@ export const PicModal = ({ picData, isOpen, handleClose }) => {
                   </div>
                   <div className='flex items-center gap-2 text-right'>
                     <p>{likes} likes</p>
-                    {isLiked ? <FaHeart size={24} onClick={handleLike} className='text-red-500' /> : <FaRegHeart size={24} onClick={handleLike} className='cursor-pointer' />}
+                    {isLiked ? <FaHeart size={24} onClick={handleLike} className='text-red-500' /> : <FaRegHeart size={24} onClick={handleLike} className='md:cursor-pointer' />}
                   </div>
                 </div>
                 {modalPic.breed.length > 0 && (

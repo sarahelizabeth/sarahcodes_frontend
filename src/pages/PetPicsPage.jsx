@@ -19,10 +19,10 @@ export const PetPicsPage = ({ handlePageChange }) => {
   const [contentError, setContentError] = useState(false);
 
   const handleSubmit = () => {
-    // if (!user) {
-    //   handleShowWarning();
-    //   return;
-    // }
+    if (!user) {
+      handleShowWarning();
+      return;
+    }
     setOpen(true);
   };
 
