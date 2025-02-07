@@ -4,7 +4,7 @@ import { UserContext } from '../App';
 import { motion } from 'framer-motion';
 import { FaGithub, FaLinkedinIn } from 'react-icons/fa';
 import { SiBuymeacoffee } from 'react-icons/si';
-import { IconTooltip } from './IconTooltip';
+import { IconTooltip } from './ui/IconTooltip';
 import { GrMailOption } from 'react-icons/gr';
 import { VscMail } from 'react-icons/vsc';
 import { IoIosMail } from 'react-icons/io';

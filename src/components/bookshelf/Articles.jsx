@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { MediaItem } from './MediaItem';
 import { Divider } from 'rsuite';
-import { ContentError } from '../ContentError';
+import { ContentError } from '../ui/ContentError';
 import { BookshelfContext } from '../../App';
 
 export const Articles = () => {

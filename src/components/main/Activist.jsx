@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { ProjectsContext } from '../../pages/MainPage';
 import ProjectList from './ProjectList';
-import { ContentError } from '../ContentError';
+import { ContentError } from '../ui/ContentError';
 
 export const Activist = () => {
   const { projects } = useContext(ProjectsContext);

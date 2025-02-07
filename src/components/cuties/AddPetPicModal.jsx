@@ -3,8 +3,8 @@ import { Form, Modal, Schema, DatePicker, RadioGroup, Radio, Divider, Checkbox, 
 import { motion } from 'framer-motion';
 import supabase from '../../utils/supabaseClient';
 import { PiUploadSimpleBold } from 'react-icons/pi';
-import { UploadButton } from './UploadButton';
-import { IconTooltip } from '../IconTooltip';
+import { UploadButton } from '../ui/UploadButton';
+import { IconTooltip } from '../ui/IconTooltip';
 import { FaCat, FaKiwiBird, FaDragon } from 'react-icons/fa';
 import { FaDog } from 'react-icons/fa6';
 import { IoFishSharp } from 'react-icons/io5';

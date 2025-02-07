@@ -4,7 +4,7 @@ import supabase from '../utils/supabaseClient';
 import { useToaster } from 'rsuite';
 import { AddPetPicModal } from '../components/cuties/AddPetPicModal';
 import { Gallery } from '../components/cuties/Gallery';
-import { ContentError } from '../components/ContentError';
+import { ContentError } from '../components/ui/ContentError';
 
 export const PicsContext = createContext(null);
 

@@ -1,13 +1,9 @@
 import React, { useContext } from 'react';
 import ProjectList from './ProjectList';
-
-import { FaAws, FaDocker, FaGithub, FaHtml5, FaNode, FaPython, FaReact, FaSass, FaVuejs } from 'react-icons/fa';
-import { SiDjango, SiTailwindcss, SiNextdotjs, SiTypescript, SiVite } from 'react-icons/si';
-import { DiPostgresql } from 'react-icons/di';
-
-import { IconTooltip } from '../IconTooltip';
-import { ContentError } from '../ContentError';
+import { IconTooltip } from '../ui/IconTooltip';
+import { ContentError } from '../ui/ContentError';
 import { ProjectsContext } from '../../pages/MainPage';
+import StackList from './StackList';
 
 export const Developer = () => {
   const { projects } = useContext(ProjectsContext);
@@ -25,23 +21,7 @@ export const Developer = () => {
       </div>
       <div className='mb-8'>
         <h6 className='mb-3 dosis font-extrabold text-lg'>STACK</h6>
-        <div className='stack-grid grid grid-cols-5 w-full gap-2'>
-          <IconTooltip placement='topStart' text='React' icon={<FaReact size={35} />} />
-          <IconTooltip placement='top' text='VueJS' icon={<FaVuejs size={35} />} />
-          <IconTooltip placement='top' text='Django' icon={<SiDjango size={35} />} />
-          <IconTooltip placement='top' text='PostgreSQL' icon={<DiPostgresql size={35} />} />
-          <IconTooltip placement='topEnd' text='TypeScript' icon={<SiTypescript size={32} />} />
-          <IconTooltip placement='top' text='Python' icon={<FaPython size={35} />} />
-          <IconTooltip placement='top' text='HTML' icon={<FaHtml5 size={35} />} />
-          <IconTooltip placement='top' text='Sass' icon={<FaSass size={35} />} />
-          <IconTooltip placement='top' text='Tailwind CSS' icon={<SiTailwindcss size={35} />} />
-          <IconTooltip placement='top' text='AWS' icon={<FaAws size={38} />} />
-          <IconTooltip placement='bottomStart' text='Docker' icon={<FaDocker size={35} />} />
-          <IconTooltip placement='bottom' text='Github' icon={<FaGithub size={35} />} />
-          <IconTooltip placement='bottom' text='Next.js' icon={<SiNextdotjs size={35} />} />
-          <IconTooltip placement='bottom' text='Node.js' icon={<FaNode size={35} />} />
-          <IconTooltip placement='bottomEnd' text='Vite' icon={<SiVite size={35} />} />
-        </div>
+        <StackList size={35} />
       </div>
       <h6 className='mb-3 dosis font-extrabold text-lg'>PROJECTS</h6>
       {developerProjects.length < 1 ? <ContentError /> : <ProjectList projects={developerProjects} />}

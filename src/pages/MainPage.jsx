@@ -24,13 +24,13 @@ export const MainPage = () => {
   const projectsContext = useMemo(() => ({ projects, setProjects }), [projects]);
 
   const handleResumeDownload = () => {
-    fetch('Sarah_Murray_CV_2024.pdf').then((response) => {
+    fetch('Sarah_Murray_CV_2025.pdf').then((response) => {
       response.blob().then((blob) => {
         const fileURL = window.URL.createObjectURL(blob);
 
         let alink = document.createElement('a');
         alink.href = fileURL;
-        alink.download = 'Sarah_Murray_CV_2024.pdf';
+        alink.download = 'Sarah_Murray_CV_2025.pdf';
         alink.click();
       });
     });

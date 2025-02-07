@@ -3,7 +3,7 @@ import supabase from '../utils/supabaseClient';
 import { UserContext, LoginContext, RegisterContext } from '../App';
 import { QuestionForm } from '../components/blog/QuestionForm';
 import { Questions } from '../components/blog/Questions';
-import { ContentError } from '../components/ContentError';
+import { ContentError } from '../components/ui/ContentError';
 
 export const QuestionsContext = createContext(null);
 

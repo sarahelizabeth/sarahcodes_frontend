@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { ProjectsContext } from '../../pages/MainPage';
 import MentorList from './MentorList';
-import { ContentError } from '../ContentError';
+import { ContentError } from '../ui/ContentError';
 import ProjectList from './ProjectList';
 
 export const Mentor = () => {
