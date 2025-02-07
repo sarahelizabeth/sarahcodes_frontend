@@ -4,7 +4,7 @@ import 'rsuite/dist/rsuite.min.css';
 import './App.css';
 import supabase from './utils/supabaseClient';
 
-import { NavSidebar } from './components/NavSidebar';
+import { Sidebar } from './components/navigation/Sidebar';
 import { Contact } from './components/Contact';
 import { Login } from './components/auth/Login';
 import { Register } from './components/auth/Register';
@@ -137,26 +137,49 @@ function App() {
     setOpenContact(false);
   };
 
+  const [showSidebar, setShowSidebar] = useState(false);
+  const toggleSidebar = () => {
+    setShowSidebar(!showSidebar);
+  };
+  const closeSidebar = () => {
+    if (showSidebar) {
+      setShowSidebar(false);
+    }
+  };
+
   return (
     <UserContext.Provider value={userContext}>
       <RegisterContext.Provider value={{ openRegister, setOpenRegister }}>
         <LoginContext.Provider value={{ openLogin, setOpenLogin }}>
           <ContactContext.Provider value={{ openContact, setOpenContact }}>
-            <NavSidebar />
+            <Sidebar toggleSidebar={toggleSidebar} showSidebar={showSidebar} />
             <div
-              className={`${isPetPage ? 'w-full fixed z-10 top-0 flex items-center justify-end md:justify-center bg-black pb-4 pt-2' : 'w-full fixed z-10 top-0 pt-1 flex items-center justify-end md:justify-center'}`}
+              className={`w-full h-full top-0 left-0 overflow-x-hidden fixed ease-in-out duration-300 ${
+                showSidebar ? 'translate-x-10 ' : 'translate-x-0'
+              }`}
+              onClick={closeSidebar}
             >
-              <a href='/' className='main-link top-4 md:top-1 text-center w-2/3 md:pl-6'>
-                {' '}
-                <h5 className='major-mono-display text-[2.5rem] leading-[2.7rem] md:text-5xl md:pl-0 pt-1 md:pt-3'>
-                  <span className='text-white'>sARAH</span>{' '}
-                  <span className={`${isPetPage ? 'text-white' : 'text-white md:text-black md:bg-white'}`}>MuRRAy</span>
-                </h5>{' '}
-              </a>
+              <div
+                className={`${
+                  isPetPage
+                    ? 'w-full fixed z-10 top-0 flex items-center justify-end md:justify-center bg-black pb-4 pt-2'
+                    : 'w-full fixed z-10 top-0 pt-1 flex items-center justify-end md:justify-center overflow-x-hidden'
+                }`}
+              >
+                <a href='/' className='main-link top-4 md:top-1 text-center w-2/3 md:pl-6'>
+                  {' '}
+                  <h5 className='major-mono-display text-[2.5rem] leading-[2.7rem] md:text-5xl md:pl-0 pt-1 md:pt-3'>
+                    <span className='text-white'>sARAH</span>{' '}
+                    <span className={`${isPetPage ? 'text-white' : 'text-white md:text-black md:bg-white'}`}>
+                      MuRRAy
+                    </span>
+                  </h5>{' '}
+                </a>
+              </div>
+              <BookshelfContext.Provider value={bookshelfContext}>
+                <RouterProvider router={router} />
+              </BookshelfContext.Provider>
             </div>
-            <BookshelfContext.Provider value={bookshelfContext}>
-              <RouterProvider router={router} />
-            </BookshelfContext.Provider>
           </ContactContext.Provider>
         </LoginContext.Provider>
       </RegisterContext.Provider>
